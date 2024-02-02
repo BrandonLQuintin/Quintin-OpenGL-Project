@@ -39,6 +39,9 @@
 			<Add library="gdi32" />
 			<Add directory="C:/GLFW/lib" />
 		</Linker>
+		<Unit filename="glad.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="globals.cpp" />
 		<Unit filename="globals.h" />
 		<Unit filename="main.cpp" />
