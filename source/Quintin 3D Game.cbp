@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Quintin 3D Game" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/OpenGL Test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/OpenGL Test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="C:/GLFW/include" />
+		</Compiler>
+		<Linker>
+			<Add library="C:/GLFW/lib/libglfw3.a" />
+			<Add library="C:/GLFW/lib/libglfw3dll.a" />
+			<Add library="C:/Windows/System32/opengl32.dll" />
+			<Add library="gdi32" />
+			<Add directory="C:/GLFW/lib" />
+		</Linker>
+		<Unit filename="globals.cpp" />
+		<Unit filename="globals.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="opengl/camera_variables.cpp" />
+		<Unit filename="opengl/camera_variables.h" />
+		<Unit filename="opengl/textures.cpp" />
+		<Unit filename="opengl/textures.h" />
+		<Unit filename="opengl/window_functions.cpp" />
+		<Unit filename="opengl/window_functions.h" />
+		<Unit filename="shaders/shader.fs" />
+		<Unit filename="shaders/shader.vs" />
+		<Unit filename="shapes/shapes.cpp" />
+		<Unit filename="shapes/shapes.h" />
+		<Extensions>
+			<AutoVersioning>
+				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="1" date_declarations="1" use_define="0" update_manifest="0" do_auto_increment="0" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="" />
+			</AutoVersioning>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
