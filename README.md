@@ -1,6 +1,4 @@
 # Quintin-Professional-Programming-Project
- 
-Sorry, I don't know how to use CMake yet.
 
 This is a Code::Blocks project, in order to run it on windows:
 1. You have to put "LIBRARIES" on your C:/ Drive
