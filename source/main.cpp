@@ -69,22 +69,21 @@ int main(){
 
     // initialize 25 boxes
     shape boxes[25];
-    int boxesArrSize = sizeof(boxes) / sizeof(boxes[0]);
-    for (int i = 0; i < boxesArrSize; i++){
+    int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
+    for (int i = 0; i < boxesArraySize; i++){
         boxes[i].modelMatrix = glm::translate(boxes[i].modelMatrix, initialBoxPositions[i]);
     }
 
     // initialize 1 floor
     shape floors[1];
     floors[0].type = 2;
-    int floorsArrSize = sizeof(floors) / sizeof(floors[0]);
+    int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
     floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -1.0f, 0.0f));
     floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f, 0.0f, 15.0f));
 
     // initialize 1 pyramid
-
     shape pyramids[1];
-    int pyramidsArrSize = sizeof(pyramids) / sizeof(pyramids[0]);
+    int pyramidsArraySize = sizeof(pyramids) / sizeof(pyramids[0]);
     pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, 0.0f, -3.0f));
 
 
@@ -107,18 +106,18 @@ int main(){
 
         // ----- DRAW OBJECTS ------
 
-        for (int i = 0; i < boxesArrSize; i++){
+        for (int i = 0; i < boxesArraySize; i++){
             glBindVertexArray(boxVAO);
             mainShader.setMat4("model", boxes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-        for (int i = 0; i < floorsArrSize; i++){
+        for (int i = 0; i < floorsArraySize; i++){
             glBindVertexArray(floorVAO);
             mainShader.setMat4("model", floors[i].modelMatrix);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, floorEBO);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
-        for (int i = 0; i < pyramidsArrSize; i++){
+        for (int i = 0; i < pyramidsArraySize; i++){
             glBindVertexArray(pyramidVAO);
             mainShader.setMat4("model", pyramids[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 100);
