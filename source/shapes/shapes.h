@@ -9,11 +9,12 @@ struct shape {
 };
 
 extern float boxVertices[];
-extern float boxVerticesByteSize;
+extern unsigned int boxVerticesByteSize;
 
 extern float floorVertices[];
-extern float floorVerticesByteSize;
+extern unsigned int floorVerticesByteSize;
 
 extern std::vector<glm::vec3> initialBoxPositions;
 
 void generateSurroundingPositions(std::vector<glm::vec3> &inputVector, int boxCount);
+void generateBoxVAO(unsigned int &VAO, unsigned int &VBO, unsigned int boxVerticesByteSize, float boxVertices[]);
