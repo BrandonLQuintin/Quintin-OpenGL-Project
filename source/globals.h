@@ -6,6 +6,8 @@
 
 // game settings
 const bool CONTROLS_ENABLED = true;
+const float PI = 3.14159265359;
+const unsigned int POLY_RESOLUTION = 35;
 
 // screen settings
 const unsigned int SCREEN_WIDTH = 1280;

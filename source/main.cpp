@@ -32,7 +32,17 @@ int main(){
     glEnable(GL_DEPTH_TEST);
     Shader mainShader("shaders/shader.vs", "shaders/shader.fs");
 
+    // initialize sphere vertices
+
+    std::vector<float> sphereShapeVertices;
+    generateSphere(3.0f, POLY_RESOLUTION, sphereShapeVertices);
+    float sphereVertices[sphereShapeVertices.size()];
+    std::copy(sphereShapeVertices.begin(), sphereShapeVertices.end(), sphereVertices);
+    unsigned int sphereVerticesByteSize = sizeof(sphereVertices);
+    unsigned int sphereVerticesArraySize = sizeof(sphereVertices) / sizeof(sphereVertices[0]);
+
     // ----- OBJECTS VERTICES BUFFERS ------
+
     unsigned int boxVAO, boxVBO;
     generateVAO(boxVAO, boxVBO, boxVerticesByteSize, boxVertices);
 
@@ -41,6 +51,11 @@ int main(){
 
     unsigned int pyramidVAO, pyramidVBO;
     generateVAO(pyramidVAO, pyramidVBO, pyramidVerticesByteSize, pyramidVertices);
+
+    unsigned int sphereVAO, sphereVBO;
+    generateVAO(sphereVAO, sphereVBO, sphereVerticesByteSize, sphereVertices);
+
+
 
     // ----- TEXTURES -----
     unsigned int texture1, texture2;
@@ -59,20 +74,17 @@ int main(){
 
     // ----- INITIALIZE OBJECTS -----
 
-    // initialize various box positions
-    generateSurroundingPositions(initialBoxPositions, 25);
-    float s = 10.0f;
-    glm::vec3 scaleFactor(s, s, s);
-    for (int i = 0; i < initialBoxPositions.size(); i++){
-        initialBoxPositions[i] = initialBoxPositions[i] * scaleFactor;
+    // initialize various sphere locations
+    generateSurroundingPositions(initialSpherePositions, 25);
+    for (int i = 0; i < initialSpherePositions.size(); i++){
+        initialSpherePositions[i] = initialSpherePositions[i] * glm::vec3(30.0f, 30.0f, 30.0f);
     }
 
-    // initialize 25 boxes
-    shape boxes[25];
+    // initialize 1 box
+    shape boxes[1];
+    boxes[0].type = 4;
     int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
-    for (int i = 0; i < boxesArraySize; i++){
-        boxes[i].modelMatrix = glm::translate(boxes[i].modelMatrix, initialBoxPositions[i]);
-    }
+    boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, -0.5f, -3.0f));
 
     // initialize 1 floor
     shape floors[1];
@@ -83,9 +95,16 @@ int main(){
 
     // initialize 1 pyramid
     shape pyramids[1];
+    pyramids[0].type = 3;
     int pyramidsArraySize = sizeof(pyramids) / sizeof(pyramids[0]);
-    pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, 0.0f, -3.0f));
+    pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, -1.0f, -3.0f));
 
+    // initialize 25 spheres
+    shape spheres[25];
+    int spheresArraySize = sizeof(spheres) / sizeof(spheres[0]);
+    for (int i = 0; i < spheresArraySize; i++){
+        spheres[i].modelMatrix = glm::translate(spheres[i].modelMatrix, initialSpherePositions[i]);
+    }
 
     // ----- MAIN PROGRAM -----
 
@@ -114,14 +133,20 @@ int main(){
         for (int i = 0; i < floorsArraySize; i++){
             glBindVertexArray(floorVAO);
             mainShader.setMat4("model", floors[i].modelMatrix);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, floorEBO);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
         for (int i = 0; i < pyramidsArraySize; i++){
             glBindVertexArray(pyramidVAO);
             mainShader.setMat4("model", pyramids[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLES, 0, 100);
+            glDrawArrays(GL_TRIANGLES, 0, 18);
         }
+
+        for (int i = 0; i < spheresArraySize; i++){
+            glBindVertexArray(sphereVAO);
+            mainShader.setMat4("model", spheres[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, sphereVerticesArraySize);
+        }
+
 
 
         // ----- END OF PROGRAM -----
