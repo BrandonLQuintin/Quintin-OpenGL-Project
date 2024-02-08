@@ -34,10 +34,13 @@ int main(){
 
     // ----- OBJECTS VERTICES BUFFERS ------
     unsigned int boxVAO, boxVBO;
-    generateBoxVAO(boxVAO, boxVBO, boxVerticesByteSize, boxVertices);
+    generateVAO(boxVAO, boxVBO, boxVerticesByteSize, boxVertices);
 
     unsigned int floorVAO, floorVBO, floorEBO;
     generateFloorVAO(floorVAO, floorVBO, floorEBO, floorVerticesByteSize, floorVertices);
+
+    unsigned int pyramidVAO, pyramidVBO;
+    generateVAO(pyramidVAO, pyramidVBO, pyramidVerticesByteSize, pyramidVertices);
 
     // ----- TEXTURES -----
     unsigned int texture1, texture2;
@@ -78,6 +81,12 @@ int main(){
     floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -1.0f, 0.0f));
     floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f, 0.0f, 15.0f));
 
+    // initialize 1 pyramid
+
+    shape pyramids[1];
+    int pyramidsArrSize = sizeof(pyramids) / sizeof(pyramids[0]);
+    pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, 0.0f, -3.0f));
+
 
     // ----- MAIN PROGRAM -----
 
@@ -108,6 +117,11 @@ int main(){
             mainShader.setMat4("model", floors[i].modelMatrix);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, floorEBO);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        }
+        for (int i = 0; i < pyramidsArrSize; i++){
+            glBindVertexArray(pyramidVAO);
+            mainShader.setMat4("model", pyramids[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 100);
         }
 
 

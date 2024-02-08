@@ -49,6 +49,34 @@ float boxVertices[] = {
 
 unsigned int boxVerticesByteSize = sizeof(boxVertices);
 
+float pyramidVertices[] = {
+    -0.5f, 0.0f, -0.5f, 0.0f, 0.0f,
+    0.5f, 0.0f, -0.5f, 1.0f, 0.0f,
+    -0.5f, 0.0f, 0.5f, 0.0f, 1.0f,
+
+    0.5f, 0.0f, -0.5f, 1.0f, 0.0f,
+    0.5f, 0.0f, 0.5f, 1.0f, 1.0f,
+    -0.5f, 0.0f, 0.5f, 0.0f, 1.0f,
+
+    0.0f, 1.0f, 0.0f, 0.5f, 0.5f,
+    -0.5f, 0.0f, -0.5f, 0.0f, 1.0f,
+    0.5f, 0.0f, -0.5f, 1.0f, 1.0f,
+
+    0.0f, 1.0f, 0.0f, 0.5f, 0.5f,
+    0.5f, 0.0f, -0.5f, 0.0f, 1.0f,
+    0.5f, 0.0f, 0.5f, 1.0f, 1.0f,
+
+    0.0f, 1.0f, 0.0f, 0.5f, 0.5f,
+    0.5f, 0.0f, 0.5f, 0.0f, 1.0f,
+    -0.5f, 0.0f, 0.5f, 1.0f, 1.0f,
+
+    0.0f, 1.0f, 0.0f, 0.5f, 0.5f,
+    -0.5f, 0.0f, 0.5f, 0.0f, 1.0f,
+    -0.5f, 0.0f, -0.5f, 1.0f, 1.0f
+};
+
+unsigned int pyramidVerticesByteSize = sizeof(pyramidVertices);
+
 float floorVertices[] = {
     -0.5f, 0.0f, 0.5f, 0.0f, 1.0f, // top left
     -0.5f, 0.0f, -0.5f, 0.0f, 0.0f, // bottom left
@@ -76,7 +104,7 @@ void generateSurroundingPositions(std::vector<glm::vec3> &inputVector, int boxCo
     }
 }
 
-void generateBoxVAO(unsigned int &VAO, unsigned int &VBO, unsigned int boxVerticesByteSize, float boxVertices[]){
+void generateVAO(unsigned int &VAO, unsigned int &VBO, unsigned int boxVerticesByteSize, float boxVertices[]){
     // ----- BOX VERTICES BUFFERS ------
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
