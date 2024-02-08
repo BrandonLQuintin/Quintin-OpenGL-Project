@@ -20,7 +20,7 @@
 // variables
 #include "globals.h"
 #include "opengl/camera_variables.h"
-#include "shapes/shapes.h" // stores both shape vertices AND object coordinates
+#include "shapes/shapes.h" // stores both shape vertices AND initial object coordinates
 
 // functions
 #include "opengl/window_functions.h"
@@ -32,15 +32,21 @@ int main(){
     glEnable(GL_DEPTH_TEST);
     Shader mainShader("shaders/shader.vs", "shaders/shader.fs");
 
-    // scale box vertices position
-    generateBoxPositions(boxPositions, 25);
-
-
+    // initialize box positions
+    generateSurroundingPositions(initialBoxPositions, 25);
     float s = 10.0f;
     glm::vec3 scaleFactor(s, s, s);
-    for (int i = 0; i < boxPositions.size(); i++){
-        boxPositions[i] = boxPositions[i] * scaleFactor;
+    for (int i = 0; i < initialBoxPositions.size(); i++){
+        initialBoxPositions[i] = initialBoxPositions[i] * scaleFactor;
     }
+
+    // initialize 25 boxes
+    shape boxes[25];
+    int boxesArrSize = sizeof(boxes) / sizeof(boxes[1]);
+    for (int i = 0; i < boxesArrSize; i++){
+        boxes[i].modelMatrix = glm::translate(boxes[i].modelMatrix, initialBoxPositions[i]);
+    }
+
 
     // ----- BOX VERTICES BUFFERS ------
 
@@ -83,11 +89,6 @@ int main(){
         lastFrame = currentFrame;
         processInput(window);
 
-        direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-        direction.y = sin(glm::radians(pitch));
-        direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-
-
         glClearColor(0.16f, 0.80f, 1.00f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -95,15 +96,9 @@ int main(){
         mainShader.setMat4("view", view);
         mainShader.setMat4("projection", projection);
 
-        for (unsigned int i = 0; i < boxPositions.size(); i++)
-        {
-            // calculate the model matrix for each object and pass it to shader before drawing
-            glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-            model = glm::translate(model, boxPositions[i]);
-            float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            mainShader.setMat4("model", model);
 
+        for (int i = 0; i < boxesArrSize; i++){
+            mainShader.setMat4("model", boxes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 

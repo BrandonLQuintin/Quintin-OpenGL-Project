@@ -48,9 +48,18 @@ float boxVertices[] = {
 
 float boxVerticesByteSize = sizeof(boxVertices);
 
-std::vector<glm::vec3> boxPositions;
+float floorVertices[] = {
+    -0.5f, 0.0f, 0.5f, 0.0f, 1.0f, // top left
+    -0.5f, 0.0f, -0.5f, 0.0f, 0.0f, // bottom left
+    0.5f, 0.0f, -0.5f, 1.0f, 0.0f, // bottom right
+    0.5f, 0.0f, 0.5f, 1.0f, 1.0f // top right
+};
 
-void generateBoxPositions(std::vector<glm::vec3> &inputVector, int boxCount){
+float floorVerticesByteSize = sizeof(floorVertices);
+
+std::vector<glm::vec3> initialBoxPositions;
+
+void generateSurroundingPositions(std::vector<glm::vec3> &inputVector, int boxCount){
     for (int i = 0; i < boxCount; i++){
             float angle = (360 / boxCount) * i;
             float x = glm::cos(glm::radians(angle));
