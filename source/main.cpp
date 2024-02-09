@@ -49,6 +49,14 @@ int main(){
     unsigned int coneVerticesByteSize = sizeof(coneVertices);
     unsigned int coneVerticesArraySize = sizeof(coneVertices) / sizeof(coneVertices[0]);
 
+    // initialize tube vertices
+    std::vector<float> tubeShapeVertices;
+    generateTubeVertices(0.5f, 1.0f, POLY_RESOLUTION, tubeShapeVertices);
+    float tubeVertices[tubeShapeVertices.size()];
+    std::copy(tubeShapeVertices.begin(), tubeShapeVertices.end(), tubeVertices);
+    unsigned int tubeVerticesByteSize = sizeof(tubeVertices);
+    unsigned int tubeVerticesArraySize = sizeof(tubeVertices) / sizeof(tubeVertices[0]);
+
 
     // ----- OBJECTS VERTICES BUFFERS ------
 
@@ -66,6 +74,9 @@ int main(){
 
     unsigned int coneVAO, coneVBO;
     generateVAO(coneVAO, coneVBO, coneVerticesByteSize, coneVertices);
+
+    unsigned int tubeVAO, tubeVBO;
+    generateVAO(tubeVAO, tubeVBO, tubeVerticesByteSize, tubeVertices);
 
 
 
@@ -102,7 +113,7 @@ int main(){
     shape floors[1];
     floors[0].type = 2;
     int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
-    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -1.0f, 0.0f));
+    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -3.0f, 0.0f));
     floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f, 0.0f, 15.0f));
 
     // initialize 1 pyramid
@@ -124,6 +135,12 @@ int main(){
     int conesArraySize = sizeof(cones) / sizeof(cones[0]);
     cones[0].type = 5;
     cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, -1.0f, -3.0f));
+
+    // initialize 1 tube
+    shape tubes[1];
+    int tubesArraySize = sizeof(tubes) / sizeof(tubes[0]);
+    tubes[0].type = 6;
+    tubes[0].modelMatrix = glm::translate(tubes[0].modelMatrix, glm::vec3(-2.0f, -1.0f, -3.0f));
 
     // ----- MAIN PROGRAM -----
 
@@ -170,6 +187,12 @@ int main(){
             glBindVertexArray(coneVAO);
             mainShader.setMat4("model", cones[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, coneVerticesArraySize);
+        }
+
+        for (int i = 0; i < tubesArraySize; i++){
+            glBindVertexArray(tubeVAO);
+            mainShader.setMat4("model", tubes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, tubeVerticesArraySize);
         }
 
 
