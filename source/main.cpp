@@ -41,6 +41,15 @@ int main(){
     unsigned int sphereVerticesByteSize = sizeof(sphereVertices);
     unsigned int sphereVerticesArraySize = sizeof(sphereVertices) / sizeof(sphereVertices[0]);
 
+    // initialize cone vertices
+    std::vector<float> coneShapeVertices;
+    generateCone(0.5f, 1.0f, POLY_RESOLUTION, coneShapeVertices);
+    float coneVertices[coneShapeVertices.size()];
+    std::copy(coneShapeVertices.begin(), coneShapeVertices.end(), coneVertices);
+    unsigned int coneVerticesByteSize = sizeof(coneVertices);
+    unsigned int coneVerticesArraySize = sizeof(coneVertices) / sizeof(coneVertices[0]);
+
+
     // ----- OBJECTS VERTICES BUFFERS ------
 
     unsigned int boxVAO, boxVBO;
@@ -54,6 +63,9 @@ int main(){
 
     unsigned int sphereVAO, sphereVBO;
     generateVAO(sphereVAO, sphereVBO, sphereVerticesByteSize, sphereVertices);
+
+    unsigned int coneVAO, coneVBO;
+    generateVAO(coneVAO, coneVBO, coneVerticesByteSize, coneVertices);
 
 
 
@@ -82,7 +94,7 @@ int main(){
 
     // initialize 1 box
     shape boxes[1];
-    boxes[0].type = 4;
+    boxes[0].type = 1;
     int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
     boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, -0.5f, -3.0f));
 
@@ -103,8 +115,15 @@ int main(){
     shape spheres[25];
     int spheresArraySize = sizeof(spheres) / sizeof(spheres[0]);
     for (int i = 0; i < spheresArraySize; i++){
+        spheres[i].type = 4;
         spheres[i].modelMatrix = glm::translate(spheres[i].modelMatrix, initialSpherePositions[i]);
     }
+
+    // initialize 1 cone
+    shape cones[1];
+    int conesArraySize = sizeof(cones) / sizeof(cones[0]);
+    cones[0].type = 5;
+    cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, -1.0f, -3.0f));
 
     // ----- MAIN PROGRAM -----
 
@@ -145,6 +164,12 @@ int main(){
             glBindVertexArray(sphereVAO);
             mainShader.setMat4("model", spheres[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, sphereVerticesArraySize);
+        }
+
+        for (int i = 0; i < conesArraySize; i++){
+            glBindVertexArray(coneVAO);
+            mainShader.setMat4("model", cones[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, coneVerticesArraySize);
         }
 
 

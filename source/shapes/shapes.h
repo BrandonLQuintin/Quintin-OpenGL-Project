@@ -6,7 +6,7 @@
 struct shape {
     glm::mat4 modelMatrix = glm::mat4(1.0f); // initialized to an identity matrix
     // UNUSED FOR NOW
-    unsigned int type = 0; // 1 = box, 2 = floor, 3 = pyramid
+    unsigned int type = 0; // 1 = box, 2 = floor, 3 = pyramid, 4 = spheres
 
 };
 
@@ -26,3 +26,4 @@ void generateSurroundingPositions(std::vector<glm::vec3> &inputVector, int boxCo
 void generateVAO(unsigned int &VAO, unsigned int &VBO, unsigned int boxVerticesByteSize, float boxVertices[]);
 void generateFloorVAO(unsigned int &VAO, unsigned int &VBO, unsigned int &EBO, unsigned int floorVerticesByteSize, float floorVertices[]);
 void generateSphere(float radius, int numSegments, std::vector<float>& sphereVertices);
+void generateCone(float radius, float height, int numSegments, std::vector<float>& data);
