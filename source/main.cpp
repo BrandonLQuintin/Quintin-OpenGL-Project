@@ -33,7 +33,6 @@ int main(){
     Shader mainShader("shaders/shader.vs", "shaders/shader.fs");
 
     // initialize sphere vertices
-
     std::vector<float> sphereShapeVertices;
     generateSphere(3.0f, POLY_RESOLUTION, sphereShapeVertices);
     float sphereVertices[sphereShapeVertices.size()];
@@ -82,8 +81,8 @@ int main(){
 
     // ----- TEXTURES -----
     unsigned int texture1, texture2;
-    loadTexture(texture1, "../resources/textures/crate.png");
-    loadTexture(texture2, "../resources/textures/crate.png");
+    loadTexture(texture1, "../resources/textures/blockTextureAtlas.png");
+    loadTexture(texture2, "../resources/textures/textureAtlas.png");
     mainShader.use();
     mainShader.setInt("texture1", 0);
     mainShader.setInt("texture2", 1);
@@ -95,6 +94,18 @@ int main(){
 
     mainShader.setMat4("view", view);
 
+    // first atlas values
+    std::vector<float> boxAtlasUV(4);
+    assignTextureUV(boxAtlasUV, 0, 0);
+
+    std::vector<float> cobbleAtlasUV(4);
+    assignTextureUV(cobbleAtlasUV, 1, 0);
+
+    // second atlas values
+    std::vector<float> oceroAtlasUV(4);
+    assignTextureUV(oceroAtlasUV, 0, 0);
+
+
     // ----- INITIALIZE OBJECTS -----
 
     // initialize various sphere locations
@@ -103,18 +114,19 @@ int main(){
         initialSpherePositions[i] = initialSpherePositions[i] * glm::vec3(30.0f, 30.0f, 30.0f);
     }
 
-    // initialize 1 box
-    shape boxes[1];
+    // initialize 2 boxes
+    shape boxes[2];
     boxes[0].type = 1;
     int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
     boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, -0.5f, -3.0f));
+    boxes[1].modelMatrix = glm::translate(boxes[1].modelMatrix, glm::vec3(1.0f, 0.5f, -3.0f));
 
     // initialize 1 floor
     shape floors[1];
     floors[0].type = 2;
     int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
     floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -3.0f, 0.0f));
-    floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f, 0.0f, 15.0f));
+    floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f, 0.0f, -15.0f));
 
     // initialize 1 pyramid
     shape pyramids[1];
@@ -162,34 +174,54 @@ int main(){
         // ----- DRAW OBJECTS ------
 
         for (int i = 0; i < boxesArraySize; i++){
+            setTextureUV(mainShader, boxAtlasUV, true);
+
+            if (i == 1){
+                setTextureUV(mainShader, oceroAtlasUV, false);
+            }
+
+
             glBindVertexArray(boxVAO);
             mainShader.setMat4("model", boxes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
+
         for (int i = 0; i < floorsArraySize; i++){
+            setTextureUV(mainShader, cobbleAtlasUV, true);
+
+
             glBindVertexArray(floorVAO);
             mainShader.setMat4("model", floors[i].modelMatrix);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
+
         for (int i = 0; i < pyramidsArraySize; i++){
+            setTextureUV(mainShader, boxAtlasUV, true);
+
             glBindVertexArray(pyramidVAO);
             mainShader.setMat4("model", pyramids[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 18);
         }
 
         for (int i = 0; i < spheresArraySize; i++){
+            setTextureUV(mainShader, boxAtlasUV, true);
+
             glBindVertexArray(sphereVAO);
             mainShader.setMat4("model", spheres[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, sphereVerticesArraySize);
         }
 
         for (int i = 0; i < conesArraySize; i++){
+            setTextureUV(mainShader, boxAtlasUV, true);
+
             glBindVertexArray(coneVAO);
             mainShader.setMat4("model", cones[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, coneVerticesArraySize);
         }
 
         for (int i = 0; i < tubesArraySize; i++){
+            setTextureUV(mainShader, boxAtlasUV, true);
+
             glBindVertexArray(tubeVAO);
             mainShader.setMat4("model", tubes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, tubeVerticesArraySize);

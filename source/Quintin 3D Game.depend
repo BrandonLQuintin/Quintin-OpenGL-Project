@@ -16,7 +16,7 @@
 	<inttypes.h>
 	<stdint.h>
 
-1707441562 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
+1707956356 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
 	<iostream>
 	<vector>
 	<glad/glad.h>
@@ -1037,10 +1037,10 @@
 	<cstdarg>
 	<cstdio>
 
-1707417437 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.cpp
+1707841879 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.cpp
 	"globals.h"
 
-1707440474 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.h
+1707954739 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -1060,13 +1060,13 @@
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
 
-1707418636 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\window_functions.cpp
+1707954716 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 	"../globals.h"
 	"camera_variables.h"
 
-1707442769 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.cpp
+1707957281 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.cpp
 	"shapes.h"
 	"../globals.h"
 	<glm/glm.hpp>
@@ -1078,13 +1078,15 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1706827923 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.cpp
+1707955972 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.cpp
 	"textures.h"
 	<iostream>
 
-1706825062 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.h
+1707955852 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.h
 	<glad/glad.h>
 	<stb_image.h>
+	<vector>
+	<shader_m.h>
 
 1706826447 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\camera_scroll.cpp
 	"camera_scroll.h"
