@@ -75,19 +75,19 @@ int main(){
 
     // initialize tube vertices
     std::vector<float> tubeShapeVertices;
-    generateTubeVertices(0.5f, 1.0f, POLY_RESOLUTION, tubeShapeVertices);
+    generateCylinderVertices(0.5f, 1.0f, POLY_RESOLUTION, tubeShapeVertices);
     float tubeVertices[tubeShapeVertices.size()];
     std::copy(tubeShapeVertices.begin(), tubeShapeVertices.end(), tubeVertices);
     unsigned int tubeVerticesByteSize = sizeof(tubeVertices);
     unsigned int tubeVerticesArraySize = sizeof(tubeVertices) / sizeof(tubeVertices[0]);
 
     // initialize phong tube vertices
-    std::vector<float> phongTubeShapeVertices;
-    generatePhongTubeVertices(0.5f, 1.0f, POLY_RESOLUTION, phongTubeShapeVertices);
-    float phongTubeVertices[phongTubeShapeVertices.size()];
-    std::copy(phongTubeShapeVertices.begin(), phongTubeShapeVertices.end(), phongTubeVertices);
-    unsigned int phongTubeVerticesByteSize = sizeof(phongTubeVertices);
-    unsigned int phongTubeVerticesArraySize = sizeof(phongTubeVertices) / sizeof(phongTubeVertices[0]);
+    std::vector<float> phongCylinderShapeVertices;
+    generatePhongCylinderVertices(0.5f, 1.0f, POLY_RESOLUTION, phongCylinderShapeVertices);
+    float phongCylinderVertices[phongCylinderShapeVertices.size()];
+    std::copy(phongCylinderShapeVertices.begin(), phongCylinderShapeVertices.end(), phongCylinderVertices);
+    unsigned int phongCylinderVerticesByteSize = sizeof(phongCylinderVertices);
+    unsigned int phongCylinderVerticesArraySize = sizeof(phongCylinderVertices) / sizeof(phongCylinderVertices[0]);
 
 
     // ----- OBJECTS VERTICES BUFFERS ------
@@ -127,8 +127,8 @@ int main(){
     unsigned int phongSphereVAO, phongSphereVBO;
     generatePhongVAO(phongSphereVAO, phongSphereVBO, phongSphereVerticesByteSize, phongSphereVertices);
 
-    unsigned int phongTubeVAO, phongTubeVBO;
-    generatePhongVAO(phongTubeVAO, phongTubeVBO, phongTubeVerticesByteSize, phongTubeVertices);
+    unsigned int phongCylinderVAO, phongCylinderVBO;
+    generatePhongVAO(phongCylinderVAO, phongCylinderVBO, phongCylinderVerticesByteSize, phongCylinderVertices);
 
 
 
@@ -291,12 +291,12 @@ int main(){
 
         for (int i = 0; i < tubesArraySize; i++){
             phongShader.use();
-            glBindVertexArray(phongTubeVAO);
+            glBindVertexArray(phongCylinderVAO);
 
             setTextureUV(phongShader, boxAtlasUV, true);
 
             phongShader.setMat4("model", tubes[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongTubeVerticesArraySize);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
         }
 
 

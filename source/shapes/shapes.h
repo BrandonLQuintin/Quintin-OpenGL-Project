@@ -39,5 +39,5 @@ void generateSphere(float radius, int numSegments, std::vector<float>& sphereVer
 void generatePhongSphere(float radius, int numSegments, std::vector<float>& sphereVertices);
 void generateCone(float radius, float height, int numSegments, std::vector<float>& data);
 void generatePhongCone(float radius, float height, int numSegments, std::vector<float>& data);
-void generateTubeVertices(float radius, float height, int numSegments, std::vector<float>& vertices);
-void generatePhongTubeVertices(float radius, float height, int numSegments, std::vector<float>& vertices);
+void generateCylinderVertices(float radius, float height, int numSegments, std::vector<float>& vertices);
+void generatePhongCylinderVertices(float radius, float height, int numSegments, std::vector<float>& vertices);
