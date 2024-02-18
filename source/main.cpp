@@ -24,13 +24,22 @@
 
 // functions
 #include "opengl/window_functions.h"
+#include "opengl/shader_functions.h"
 #include "opengl/textures.h"
+
 
 int main(){
 
     GLFWwindow* window = createWindow();
     glEnable(GL_DEPTH_TEST);
-    Shader mainShader("shaders/shader.vs", "shaders/shader.fs");
+    Shader mainShader("shaders/basic_shader.vs", "shaders/basic_shader.fs");
+    Shader phongShader("shaders/phong_lighting.vs", "shaders/phong_lighting.fs");
+
+    phongShader.use();
+    phongShader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
+    phongShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+    phongShader.setVec3("lightPos", glm::vec3(100.0f, 100.0f, 100.0f));
+
 
     // initialize sphere vertices
     std::vector<float> sphereShapeVertices;
@@ -40,6 +49,14 @@ int main(){
     unsigned int sphereVerticesByteSize = sizeof(sphereVertices);
     unsigned int sphereVerticesArraySize = sizeof(sphereVertices) / sizeof(sphereVertices[0]);
 
+    // initialize phong sphere vertices
+    std::vector<float> phongSphereShapeVertices;
+    generatePhongSphere(3.0f, POLY_RESOLUTION, phongSphereShapeVertices);
+    float phongSphereVertices[phongSphereShapeVertices.size()];
+    std::copy(phongSphereShapeVertices.begin(), phongSphereShapeVertices.end(), phongSphereVertices);
+    unsigned int phongSphereVerticesByteSize = sizeof(phongSphereVertices);
+    unsigned int phongSphereVerticesArraySize = sizeof(phongSphereVertices) / sizeof(phongSphereVertices[0]);
+
     // initialize cone vertices
     std::vector<float> coneShapeVertices;
     generateCone(0.5f, 1.0f, POLY_RESOLUTION, coneShapeVertices);
@@ -48,6 +65,14 @@ int main(){
     unsigned int coneVerticesByteSize = sizeof(coneVertices);
     unsigned int coneVerticesArraySize = sizeof(coneVertices) / sizeof(coneVertices[0]);
 
+    // initialize phong cone vertices
+    std::vector<float> phongConeShapeVertices;
+    generatePhongCone(0.5f, 1.0f, POLY_RESOLUTION, phongConeShapeVertices);
+    float phongConeVertices[phongConeShapeVertices.size()];
+    std::copy(phongConeShapeVertices.begin(), phongConeShapeVertices.end(), phongConeVertices);
+    unsigned int phongConeVerticesByteSize = sizeof(phongConeVertices);
+    unsigned int phongConeVerticesArraySize = sizeof(phongConeVertices) / sizeof(phongConeVertices[0]);
+
     // initialize tube vertices
     std::vector<float> tubeShapeVertices;
     generateTubeVertices(0.5f, 1.0f, POLY_RESOLUTION, tubeShapeVertices);
@@ -55,6 +80,14 @@ int main(){
     std::copy(tubeShapeVertices.begin(), tubeShapeVertices.end(), tubeVertices);
     unsigned int tubeVerticesByteSize = sizeof(tubeVertices);
     unsigned int tubeVerticesArraySize = sizeof(tubeVertices) / sizeof(tubeVertices[0]);
+
+    // initialize phong tube vertices
+    std::vector<float> phongTubeShapeVertices;
+    generatePhongTubeVertices(0.5f, 1.0f, POLY_RESOLUTION, phongTubeShapeVertices);
+    float phongTubeVertices[phongTubeShapeVertices.size()];
+    std::copy(phongTubeShapeVertices.begin(), phongTubeShapeVertices.end(), phongTubeVertices);
+    unsigned int phongTubeVerticesByteSize = sizeof(phongTubeVertices);
+    unsigned int phongTubeVerticesArraySize = sizeof(phongTubeVertices) / sizeof(phongTubeVertices[0]);
 
 
     // ----- OBJECTS VERTICES BUFFERS ------
@@ -77,22 +110,45 @@ int main(){
     unsigned int tubeVAO, tubeVBO;
     generateVAO(tubeVAO, tubeVBO, tubeVerticesByteSize, tubeVertices);
 
+    // VAO with phong shader
+
+    unsigned int phongBoxVAO, phongBoxVBO;
+    generatePhongVAO(phongBoxVAO, phongBoxVBO, phongBoxVerticesByteSize, phongBoxVertices);
+
+    unsigned int phongFloorVAO, phongFloorVBO;
+    generatePhongVAO(phongFloorVAO, phongFloorVBO, phongFloorVerticesByteSize, phongFloorVertices);
+
+    unsigned int phongPyramidVAO, phongPyramidVBO;
+    generatePhongVAO(phongPyramidVAO, phongPyramidVBO, phongPyramidVerticesByteSize, phongPyramidVertices);
+
+    unsigned int phongConeVAO, phongConeVBO;
+    generatePhongVAO(phongConeVAO, phongConeVBO, phongConeVerticesByteSize, phongConeVertices);
+
+    unsigned int phongSphereVAO, phongSphereVBO;
+    generatePhongVAO(phongSphereVAO, phongSphereVBO, phongSphereVerticesByteSize, phongSphereVertices);
+
+    unsigned int phongTubeVAO, phongTubeVBO;
+    generatePhongVAO(phongTubeVAO, phongTubeVBO, phongTubeVerticesByteSize, phongTubeVertices);
+
 
 
     // ----- TEXTURES -----
     unsigned int texture1, texture2;
-    loadTexture(texture1, "../resources/textures/blockTextureAtlas.png");
-    loadTexture(texture2, "../resources/textures/textureAtlas.png");
+    loadTexture(texture1, "resources/textures/blockTextureAtlas.png");
+    loadTexture(texture2, "resources/textures/textureAtlas.png");
     mainShader.use();
     mainShader.setInt("texture1", 0);
     mainShader.setInt("texture2", 1);
+    phongShader.use();
+    phongShader.setInt("texture1", 0);
+    phongShader.setInt("texture2", 1);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture1);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
 
-    mainShader.setMat4("view", view);
+
 
     // first atlas values
     std::vector<float> boxAtlasUV(4);
@@ -114,27 +170,27 @@ int main(){
         initialSpherePositions[i] = initialSpherePositions[i] * glm::vec3(30.0f, 30.0f, 30.0f);
     }
 
-    // initialize 2 boxes
+    // 2 boxes
     shape boxes[2];
     boxes[0].type = 1;
     int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
     boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, -0.5f, -3.0f));
     boxes[1].modelMatrix = glm::translate(boxes[1].modelMatrix, glm::vec3(1.0f, 0.5f, -3.0f));
 
-    // initialize 1 floor
+    // 1 floor
     shape floors[1];
     floors[0].type = 2;
     int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
-    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -3.0f, 0.0f));
-    floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f, 0.0f, -15.0f));
+    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -2.0f, 0.0f));
+    floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f));
 
-    // initialize 1 pyramid
+    // 1 pyramid
     shape pyramids[1];
     pyramids[0].type = 3;
     int pyramidsArraySize = sizeof(pyramids) / sizeof(pyramids[0]);
     pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, -1.0f, -3.0f));
 
-    // initialize 25 spheres
+    // 25 spheres
     shape spheres[25];
     int spheresArraySize = sizeof(spheres) / sizeof(spheres[0]);
     for (int i = 0; i < spheresArraySize; i++){
@@ -142,13 +198,13 @@ int main(){
         spheres[i].modelMatrix = glm::translate(spheres[i].modelMatrix, initialSpherePositions[i]);
     }
 
-    // initialize 1 cone
+    // 1 cone
     shape cones[1];
     int conesArraySize = sizeof(cones) / sizeof(cones[0]);
     cones[0].type = 5;
     cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, -1.0f, -3.0f));
 
-    // initialize 1 tube
+    // 1 tube
     shape tubes[1];
     int tubesArraySize = sizeof(tubes) / sizeof(tubes[0]);
     tubes[0].type = 6;
@@ -156,8 +212,8 @@ int main(){
 
     // ----- MAIN PROGRAM -----
 
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)){
+
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -167,64 +223,80 @@ int main(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
+        mainShader.use();
         mainShader.setMat4("view", view);
         mainShader.setMat4("projection", projection);
+
+        phongShader.use();
+        phongShader.setMat4("projection", projection);
+        phongShader.setMat4("view", view);
+        phongShader.setVec3("viewPos", cameraPos);
 
 
         // ----- DRAW OBJECTS ------
 
         for (int i = 0; i < boxesArraySize; i++){
-            setTextureUV(mainShader, boxAtlasUV, true);
+            phongShader.use();
+            glBindVertexArray(phongBoxVAO);
 
+            setTextureUV(phongShader, boxAtlasUV, true);
             if (i == 1){
-                setTextureUV(mainShader, oceroAtlasUV, false);
+                setTextureUV(phongShader, oceroAtlasUV, false);
             }
 
-
-            glBindVertexArray(boxVAO);
-            mainShader.setMat4("model", boxes[i].modelMatrix);
+            phongShader.setMat4("model", boxes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
         for (int i = 0; i < floorsArraySize; i++){
-            setTextureUV(mainShader, cobbleAtlasUV, true);
+            phongShader.use();
+            glBindVertexArray(phongFloorVAO);
 
+            setTextureUV(phongShader, cobbleAtlasUV, true);
 
-            glBindVertexArray(floorVAO);
-            mainShader.setMat4("model", floors[i].modelMatrix);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            phongShader.setMat4("model", floors[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
         for (int i = 0; i < pyramidsArraySize; i++){
-            setTextureUV(mainShader, boxAtlasUV, true);
+            phongShader.use();
+            glBindVertexArray(phongPyramidVAO);
 
-            glBindVertexArray(pyramidVAO);
-            mainShader.setMat4("model", pyramids[i].modelMatrix);
+            setTextureUV(phongShader, boxAtlasUV, true);
+
+            phongShader.setMat4("model", pyramids[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 18);
         }
 
         for (int i = 0; i < spheresArraySize; i++){
-            setTextureUV(mainShader, boxAtlasUV, true);
+            phongShader.use();
+            glBindVertexArray(phongSphereVAO);
 
-            glBindVertexArray(sphereVAO);
-            mainShader.setMat4("model", spheres[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, sphereVerticesArraySize);
+            setTextureUV(phongShader, boxAtlasUV, true);
+
+            phongShader.setMat4("model", spheres[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongSphereVerticesArraySize);
         }
 
         for (int i = 0; i < conesArraySize; i++){
-            setTextureUV(mainShader, boxAtlasUV, true);
+            phongShader.use();
+            glBindVertexArray(phongConeVAO);
 
-            glBindVertexArray(coneVAO);
-            mainShader.setMat4("model", cones[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, coneVerticesArraySize);
+            setTextureUV(phongShader, boxAtlasUV, true);
+
+            phongShader.setMat4("model", cones[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongConeVerticesArraySize);
         }
 
         for (int i = 0; i < tubesArraySize; i++){
-            setTextureUV(mainShader, boxAtlasUV, true);
+            phongShader.use();
+            glBindVertexArray(phongTubeVAO);
 
-            glBindVertexArray(tubeVAO);
-            mainShader.setMat4("model", tubes[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, tubeVerticesArraySize);
+            setTextureUV(phongShader, boxAtlasUV, true);
+
+            phongShader.setMat4("model", tubes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongTubeVerticesArraySize);
         }
 
 
@@ -234,6 +306,7 @@ int main(){
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
     glfwTerminate();
     return 0;
 

@@ -16,7 +16,7 @@
 	<inttypes.h>
 	<stdint.h>
 
-1707956356 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
+1708219107 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
 	<iostream>
 	<vector>
 	<glad/glad.h>
@@ -30,6 +30,7 @@
 	"opengl/camera_variables.h"
 	"shapes/shapes.h"
 	"opengl/window_functions.h"
+	"opengl/shader_functions.h"
 	"opengl/textures.h"
 
 1705962736 c:\glfw\include\glfw\glfw3.h
@@ -1040,7 +1041,7 @@
 1707841879 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.cpp
 	"globals.h"
 
-1707954739 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.h
+1708215577 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -1066,14 +1067,14 @@
 	"../globals.h"
 	"camera_variables.h"
 
-1707957281 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.cpp
+1708219427 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.cpp
 	"shapes.h"
 	"../globals.h"
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glad/glad.h>
 
-1707441860 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.h
+1708213987 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
@@ -1093,4 +1094,14 @@
 
 1706304623 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\camera_scroll.h
 	<glfw/glfw3.h>
+
+1708209195 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\shader_functions.cpp
+	"shader_functions.h"
+
+1708209025 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\shader_functions.h
+	<shader_m.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/gtx/string_cast.hpp>
 
