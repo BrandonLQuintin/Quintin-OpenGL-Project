@@ -21,10 +21,10 @@ GLFWwindow* createWindow(){
         glfwTerminate();
     }
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     if (CONTROLS_ENABLED){
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetCursorPosCallback(window, mouse_callback);
+        glfwSetCursorPosCallback(window, mouseCallback);
     }
 
     // glad: load all OpenGL function pointers
@@ -58,7 +58,7 @@ void processInput(GLFWwindow* window){
 
 }
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+void mouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
     if (CONTROLS_ENABLED){
 
@@ -94,6 +94,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height){
+void framebufferSizeCallback(GLFWwindow* window, int width, int height){
+    projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
     glViewport(0, 0, width, height);
 }

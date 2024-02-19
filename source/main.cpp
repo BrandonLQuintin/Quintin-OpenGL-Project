@@ -213,7 +213,6 @@ int main(){
     // ----- MAIN PROGRAM -----
 
     while (!glfwWindowShouldClose(window)){
-
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;

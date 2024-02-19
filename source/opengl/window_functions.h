@@ -4,8 +4,8 @@
 
 extern bool firstMouse;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 
 GLFWwindow* createWindow();

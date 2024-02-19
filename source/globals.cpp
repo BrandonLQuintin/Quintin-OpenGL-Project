@@ -8,6 +8,6 @@ float lastFrame = 0.0f;
 float lastX = 0;
 float lastY = 0;
 
-glm::vec3 direction; // used for camera rotation
+glm::vec3 direction; // used for camera rotation (in mouseCallback)
 float yaw = -90.0f;
 float pitch = 0.0f;
