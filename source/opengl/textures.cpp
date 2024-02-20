@@ -27,9 +27,11 @@ void loadTexture(unsigned int &textureInt, const char* imagePath) {
     stbi_image_free(data);
 }
 
-void assignTextureUV(std::vector<float> &textureAtlasUV, unsigned int x, unsigned int y){
+std::vector<float> returnTextureUV(unsigned int x, unsigned int y){
     // assuming the texture is a 16x16 grid.
     // if selecting grid (1, 1), type in (0, 0) instead.
+    std::vector<float> outputUV(4);
+
     unsigned int gridSize = 16;
     float gridlength = 1.0f / gridSize;
 
@@ -39,10 +41,12 @@ void assignTextureUV(std::vector<float> &textureAtlasUV, unsigned int x, unsigne
     float uStart = x * gridlength;
     float uEnd = uStart + gridlength;
 
-    textureAtlasUV[0] = uStart;
-    textureAtlasUV[1] = uEnd;
-    textureAtlasUV[2] = vStart;
-    textureAtlasUV[3] = vEnd;
+    outputUV[0] = uStart;
+    outputUV[1] = uEnd;
+    outputUV[2] = vStart;
+    outputUV[3] = vEnd;
+
+    return outputUV;
 }
 
 void setTextureUV(Shader &shader, std::vector<float> &atlasUV, bool isFirstAtlas){

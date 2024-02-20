@@ -4,6 +4,22 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 
+float textVertices[] = {
+    // xyz, tex coords
+     0.025f/2,  0.025f, 0.0f,     1.0f, 1.0f,
+     0.025f/2, -0.025f, 0.0f,     1.0f, 0.0f,
+    -0.025f/2, -0.025f, 0.0f,     0.0f, 0.0f,
+    -0.025f/2,  0.025f, 0.0f,     0.0f, 1.0f
+};
+
+unsigned int textIndices[] = {
+    0, 1, 3,
+    1, 2, 3
+};
+
+unsigned int textVerticesByteSize = sizeof(textVertices);
+unsigned int textIndicesByteSize = sizeof(textIndices);
+
 float boxVertices[] = {
     // xyz, tex coords
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -245,17 +261,17 @@ void generatePhongVAO(unsigned int &VAO, unsigned int &VBO, unsigned int boxVert
     glEnableVertexAttribArray(2);
 }
 
-void generateFloorVAO(unsigned int &VAO, unsigned int &VBO, unsigned int &EBO, unsigned int floorVerticesByteSize, float floorVertices[]){
+void generateVAOandEBO(unsigned int &VAO, unsigned int &VBO, unsigned int &EBO, unsigned int verticesByteSize, unsigned int indicesByteSize, float vertices[], unsigned int indices[]){
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, floorVerticesByteSize, floorVertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, verticesByteSize, vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(floorIndices), floorIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesByteSize, indices, GL_STATIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);

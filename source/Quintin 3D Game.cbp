@@ -49,16 +49,20 @@
 		<Unit filename="opengl/camera_variables.h" />
 		<Unit filename="opengl/shader_functions.cpp" />
 		<Unit filename="opengl/shader_functions.h" />
+		<Unit filename="opengl/text_render.cpp" />
+		<Unit filename="opengl/text_render.h" />
 		<Unit filename="opengl/textures.cpp" />
 		<Unit filename="opengl/textures.h" />
 		<Unit filename="opengl/window_functions.cpp" />
 		<Unit filename="opengl/window_functions.h" />
 		<Unit filename="resources/textures/BlockTextureAtlas.png" />
-		<Unit filename="resources/textures/TextureAtlas.png" />
+		<Unit filename="resources/textures/TextAtlas.png" />
 		<Unit filename="shaders/basic_shader.fs" />
 		<Unit filename="shaders/basic_shader.vs" />
 		<Unit filename="shaders/phong_lighting.fs" />
 		<Unit filename="shaders/phong_lighting.vs" />
+		<Unit filename="shaders/text_shader.fs" />
+		<Unit filename="shaders/text_shader.vs" />
 		<Unit filename="shapes/shapes.cpp" />
 		<Unit filename="shapes/shapes.h" />
 		<Extensions>

@@ -16,8 +16,9 @@
 	<inttypes.h>
 	<stdint.h>
 
-1708362189 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
+1708385931 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
 	<iostream>
+	<string>
 	<vector>
 	<glad/glad.h>
 	<GLFW/glfw3.h>
@@ -32,6 +33,7 @@
 	"opengl/window_functions.h"
 	"opengl/shader_functions.h"
 	"opengl/textures.h"
+	"opengl/text_render.h"
 
 1705962736 c:\glfw\include\glfw\glfw3.h
 	<stddef.h>
@@ -1061,29 +1063,29 @@
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
 
-1708364343 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\window_functions.cpp
+1708383066 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 	"../globals.h"
 	"camera_variables.h"
 
-1708300100 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.cpp
+1708387017 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.cpp
 	"shapes.h"
 	"../globals.h"
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glad/glad.h>
 
-1708298914 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.h
+1708378019 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\shapes\shapes.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1708306791 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.cpp
+1708374738 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.cpp
 	"textures.h"
 	<iostream>
 
-1707955852 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.h
+1708374738 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\textures.h
 	<glad/glad.h>
 	<stb_image.h>
 	<vector>
@@ -1104,4 +1106,12 @@
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
+
+1708374169 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\text_render.h
+	<map>
+	<vector>
+	"textures.h"
+
+1708382507 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\text_render.cpp
+	"text_render.h"
 

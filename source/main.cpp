@@ -2,6 +2,7 @@
 #define GLFW_INCLUDE_NONE
 
 #include <iostream>
+#include <string>
 #include <vector>
 
 // opengl libraries
@@ -26,6 +27,7 @@
 #include "opengl/window_functions.h"
 #include "opengl/shader_functions.h"
 #include "opengl/textures.h"
+#include "opengl/text_render.h"
 
 
 int main(){
@@ -34,6 +36,7 @@ int main(){
     glEnable(GL_DEPTH_TEST);
     Shader mainShader("shaders/basic_shader.vs", "shaders/basic_shader.fs");
     Shader phongShader("shaders/phong_lighting.vs", "shaders/phong_lighting.fs");
+    Shader textShader("shaders/text_shader.vs", "shaders/text_shader.fs");
 
     phongShader.use();
     phongShader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
@@ -92,11 +95,11 @@ int main(){
 
     // ----- OBJECTS VERTICES BUFFERS ------
 
+    unsigned int textVAO, textVBO, textEBO;
+    generateVAOandEBO(textVAO, textVBO, textEBO, textVerticesByteSize, textIndicesByteSize, textVertices, textIndices);
+
     unsigned int boxVAO, boxVBO;
     generateVAO(boxVAO, boxVBO, boxVerticesByteSize, boxVertices);
-
-    unsigned int floorVAO, floorVBO, floorEBO;
-    generateFloorVAO(floorVAO, floorVBO, floorEBO, floorVerticesByteSize, floorVertices);
 
     unsigned int pyramidVAO, pyramidVBO;
     generateVAO(pyramidVAO, pyramidVBO, pyramidVerticesByteSize, pyramidVertices);
@@ -135,13 +138,18 @@ int main(){
     // ----- TEXTURES -----
     unsigned int texture1, texture2;
     loadTexture(texture1, "resources/textures/blockTextureAtlas.png");
-    loadTexture(texture2, "resources/textures/textureAtlas.png");
+    loadTexture(texture2, "resources/textures/textAtlas.png");
     mainShader.use();
     mainShader.setInt("texture1", 0);
     mainShader.setInt("texture2", 1);
+
     phongShader.use();
     phongShader.setInt("texture1", 0);
     phongShader.setInt("texture2", 1);
+
+    textShader.use();
+    textShader.setInt("texture1", 0);
+    textShader.setInt("texture2", 1);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture1);
@@ -150,16 +158,11 @@ int main(){
 
 
 
+
     // first atlas values
-    std::vector<float> boxAtlasUV(4);
-    assignTextureUV(boxAtlasUV, 0, 0);
-
-    std::vector<float> cobbleAtlasUV(4);
-    assignTextureUV(cobbleAtlasUV, 1, 0);
-
-    // second atlas values
-    std::vector<float> oceroAtlasUV(4);
-    assignTextureUV(oceroAtlasUV, 0, 0);
+    std::vector<float> boxAtlasUV = returnTextureUV(0, 0);
+    std::vector<float> cobbleAtlasUV = returnTextureUV(1, 0);
+    std::vector<float> oceroAtlasUV = returnTextureUV(2, 0);
 
 
     // ----- INITIALIZE OBJECTS -----
@@ -233,6 +236,7 @@ int main(){
         phongShader.setVec3("viewPos", cameraPos);
 
 
+
         // ----- DRAW OBJECTS ------
 
         for (int i = 0; i < boxesArraySize; i++){
@@ -241,7 +245,7 @@ int main(){
 
             setTextureUV(phongShader, boxAtlasUV, true);
             if (i == 1){
-                setTextureUV(phongShader, oceroAtlasUV, false);
+                setTextureUV(phongShader, oceroAtlasUV, true);
             }
 
             phongShader.setMat4("model", boxes[i].modelMatrix);
@@ -298,9 +302,52 @@ int main(){
             glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
         }
 
+        // ----- DRAW TEXT ------
+
+        textShader.use();
+        glBindVertexArray(textVAO);
+
+        float textXOffset = 0;
+        float textYOffset = 0;
+
+        // No error checking here!
+        std::string text =      "hello world! do you like my text renderer? no more need for a terminal!\\"
+                                "this took me 3 & 1/2 hours of work! :-)\\\\"
+                                "abcdefghijklmnopqrstuvwxyz.,?!:;()/\"-_=1234567890+*<>[]\'&\\\\"
+                                "camera coordinates: [" + std::to_string(   cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
+        for (char c: text){
+            textXOffset += 0.023f;
+            // render text shadow first
+
+            if (c != '\\'){
+                textShader.setBool("invertColor", false);
+                textShader.setFloat("textXOffset", textXOffset - 0.003f);
+                textShader.setFloat("textYOffset", textYOffset + 0.003f);
+                setTextureUV(textShader, characterUV[c], false);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+
+            // then render actual text
 
 
-        // ----- END OF PROGRAM -----
+            if (c == '\\'){
+                textXOffset = 0.0f;
+                textYOffset -= 0.1f;
+            }
+
+            if (textXOffset > 1.7f){
+                textXOffset = 0.0f;
+                textYOffset -= 0.1f;
+            }
+
+            if (c != '\\'){
+                textShader.setBool("invertColor", true);
+                textShader.setFloat("textXOffset", textXOffset);
+                textShader.setFloat("textYOffset", textYOffset);
+                setTextureUV(textShader, characterUV[c], false);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();

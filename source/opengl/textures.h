@@ -7,6 +7,6 @@
 
 void loadTexture(unsigned int &textureInt, const char* imagePath);
 
-void assignTextureUV(std::vector<float> &textureAtlasUV, unsigned int x, unsigned int y);
+std::vector<float> returnTextureUV(unsigned int x, unsigned int y);
 
 void setTextureUV(Shader &shader, std::vector<float> &atlasUV, bool isFirstAtlas);
