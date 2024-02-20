@@ -81,9 +81,9 @@ void renderText(Shader shader, unsigned int VAO, std::string input){
             }
             // render text shadow first
             if (c != '\\'){
-                shader.setBool("invertColor", false);
-                shader.setFloat("textXOffset", textXOffset - 0.003f);
-                shader.setFloat("textYOffset", textYOffset + 0.003f);
+                shader.setBool("invertColor", true);
+                shader.setFloat("textXOffset", textXOffset + 0.003f);
+                shader.setFloat("textYOffset", textYOffset - 0.003f);
                 setTextureUV(shader, characterUV[c], false);
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             }
@@ -93,7 +93,7 @@ void renderText(Shader shader, unsigned int VAO, std::string input){
                 textYOffset -= 0.1f;
             }
             if (c != '\\'){
-                shader.setBool("invertColor", true);
+                shader.setBool("invertColor", false);
                 shader.setFloat("textXOffset", textXOffset);
                 shader.setFloat("textYOffset", textYOffset);
                 setTextureUV(shader, characterUV[c], false);
