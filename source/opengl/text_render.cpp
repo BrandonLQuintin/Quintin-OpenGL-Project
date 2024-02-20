@@ -62,3 +62,42 @@ std::map<char, std::vector<float>> characterUV = {
     {'\'', returnTextureUV(6, 4)},
     {'&', returnTextureUV(7, 4)}
 };
+
+
+void renderText(Shader shader, unsigned int VAO, std::string input){
+        shader.use();
+        glBindVertexArray(VAO);
+
+        float textXOffset = 0;
+        float textYOffset = 0;
+
+        // No error checking here!
+
+        for (char c: input){
+            textXOffset += 0.023f;
+            if (textXOffset > 1.7f){
+                textXOffset = 0.023f;
+                textYOffset -= 0.1f;
+            }
+            // render text shadow first
+            if (c != '\\'){
+                shader.setBool("invertColor", false);
+                shader.setFloat("textXOffset", textXOffset - 0.003f);
+                shader.setFloat("textYOffset", textYOffset + 0.003f);
+                setTextureUV(shader, characterUV[c], false);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            // then render actual text
+            if (c == '\\'){
+                textXOffset = 0.0f;
+                textYOffset -= 0.1f;
+            }
+            if (c != '\\'){
+                shader.setBool("invertColor", true);
+                shader.setFloat("textXOffset", textXOffset);
+                shader.setFloat("textYOffset", textYOffset);
+                setTextureUV(shader, characterUV[c], false);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+        }
+};

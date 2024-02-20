@@ -29,7 +29,6 @@
 #include "opengl/textures.h"
 #include "opengl/text_render.h"
 
-
 int main(){
 
     GLFWwindow* window = createWindow();
@@ -304,51 +303,12 @@ int main(){
 
         // ----- DRAW TEXT ------
 
-        textShader.use();
-        glBindVertexArray(textVAO);
-
-        float textXOffset = 0;
-        float textYOffset = 0;
-
-        // No error checking here!
         std::string text =      "hello world! do you like my text renderer? no more need for a terminal!\\"
                                 "this took me 3 & 1/2 hours of work! :-)\\\\"
                                 "abcdefghijklmnopqrstuvwxyz.,?!:;()/\"-_=1234567890+*<>[]\'&\\\\"
-                                "camera coordinates: [" + std::to_string(   cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
-        for (char c: text){
-            textXOffset += 0.023f;
-            if (textXOffset > 1.7f){
-                textXOffset = 0.023f;
-                textYOffset -= 0.1f;
-            }
-            // render text shadow first
+                                "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
 
-            if (c != '\\'){
-                textShader.setBool("invertColor", false);
-                textShader.setFloat("textXOffset", textXOffset - 0.003f);
-                textShader.setFloat("textYOffset", textYOffset + 0.003f);
-                setTextureUV(textShader, characterUV[c], false);
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            }
-
-            // then render actual text
-
-
-            if (c == '\\'){
-                textXOffset = 0.0f;
-                textYOffset -= 0.1f;
-            }
-
-
-
-            if (c != '\\'){
-                textShader.setBool("invertColor", true);
-                textShader.setFloat("textXOffset", textXOffset);
-                textShader.setFloat("textYOffset", textYOffset);
-                setTextureUV(textShader, characterUV[c], false);
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            }
-        }
+        renderText(textShader, textVAO, text);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -358,5 +318,3 @@ int main(){
     return 0;
 
 }
-
-
