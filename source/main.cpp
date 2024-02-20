@@ -317,6 +317,10 @@ int main(){
                                 "camera coordinates: [" + std::to_string(   cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
         for (char c: text){
             textXOffset += 0.023f;
+            if (textXOffset > 1.7f){
+                textXOffset = 0.023f;
+                textYOffset -= 0.1f;
+            }
             // render text shadow first
 
             if (c != '\\'){
@@ -335,10 +339,7 @@ int main(){
                 textYOffset -= 0.1f;
             }
 
-            if (textXOffset > 1.7f){
-                textXOffset = 0.0f;
-                textYOffset -= 0.1f;
-            }
+
 
             if (c != '\\'){
                 textShader.setBool("invertColor", true);
