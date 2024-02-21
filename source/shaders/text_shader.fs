@@ -33,7 +33,7 @@ void main()
         texelColor.rgb = vec3(0.5f, 0.0f, 0.0f);
     }
     else {
-        texelColor.rgp = vec3(0.9f);
+        texelColor.rgb = vec3(0.9f);
     }
 
 	FragColor = texelColor;
