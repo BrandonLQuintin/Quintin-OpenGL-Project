@@ -307,9 +307,8 @@ int main(){
                                 "this took me 3 & 1/2 hours of work! :-)\\\\"
                                 "abcdefghijklmnopqrstuvwxyz.,?!:;()/\"-_=1234567890+*<>[]\'&\\\\"
                                 "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
-        glDisable(GL_DEPTH_TEST);
+
         renderText(textShader, textVAO, text);
-        glEnable(GL_DEPTH_TEST);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

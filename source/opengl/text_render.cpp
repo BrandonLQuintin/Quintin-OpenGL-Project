@@ -65,6 +65,7 @@ std::map<char, std::vector<float>> characterUV = {
 
 
 void renderText(Shader shader, unsigned int VAO, std::string input){
+        glDisable(GL_DEPTH_TEST);
         shader.use();
         glBindVertexArray(VAO);
 
@@ -100,4 +101,5 @@ void renderText(Shader shader, unsigned int VAO, std::string input){
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             }
         }
+        glEnable(GL_DEPTH_TEST);
 };
