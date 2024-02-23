@@ -33,6 +33,7 @@
 			<Add directory="C:/GLFW/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-static" />
 			<Add library="C:/GLFW/lib/libglfw3.a" />
 			<Add library="C:/GLFW/lib/libglfw3dll.a" />
 			<Add library="C:/Windows/System32/opengl32.dll" />
