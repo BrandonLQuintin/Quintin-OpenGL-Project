@@ -41,6 +41,7 @@ void processInput(GLFWwindow* window){
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
     if (CONTROLS_ENABLED){
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             cameraPos += cameraSpeed * cameraFront;
@@ -54,6 +55,25 @@ void processInput(GLFWwindow* window){
             cameraPos.y += (cameraSpeed);
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
             cameraPos.y -= (cameraSpeed);
+
+        if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) { // help from chatgpt
+            GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+            const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+            if (glfwGetWindowMonitor(window) == nullptr){
+                glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
+                projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, 100.0f);
+                glViewport(0, 0, (*mode).width, (*mode).height);
+            }
+            else{
+                glfwSetWindowMonitor(window, nullptr, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, GLFW_DONT_CARE);
+                projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+                glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            }
+            while (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS){
+                glfwPollEvents();
+            }
+        }
     }
 
 }

@@ -51,7 +51,7 @@ std::map<char, std::vector<float>> characterUV = {
     {'8', returnTextureUV(14, 2)},
     {'9', returnTextureUV(15, 2)},
     {'0', returnTextureUV(0, 3)},
-    {' ', returnTextureUV(15, 15)},
+    {' ', returnTextureUV(10, 10)},
 
     {'+', returnTextureUV(0, 4)},
     {'*', returnTextureUV(1, 4)},
