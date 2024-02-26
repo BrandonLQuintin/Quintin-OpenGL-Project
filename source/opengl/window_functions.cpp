@@ -115,6 +115,10 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos)
 }
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height){
+    if (height == 0 || width == 0) {
+        height = 1;
+        width = 1;
+    }
     projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
     glViewport(0, 0, width, height);
 }

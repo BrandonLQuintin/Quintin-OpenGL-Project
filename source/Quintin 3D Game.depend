@@ -1063,7 +1063,7 @@
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
 
-1708661833 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\window_functions.cpp
+1708981130 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 	"../globals.h"
@@ -1112,6 +1112,6 @@
 	<vector>
 	"textures.h"
 
-1708660151 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\text_render.cpp
+1708663559 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\opengl\text_render.cpp
 	"text_render.h"
 
