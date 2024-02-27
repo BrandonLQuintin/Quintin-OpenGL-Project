@@ -4,8 +4,9 @@
 
 # Quintin-Professional-Programming-Project
 
-Runs in the Code::Blocks IDE (MingW compiler) and on Windows:
-1. Open "source" folder -> then open "Quintin 3D Game.cbp"
+This only runs in the Code::Blocks IDE, in order to run it on windows:
+1. Place the "GLFW" folder on your C:/ Drive
+2. Open source -> then open "Quintin 3D Game.cbp"
 
 ## Credits
 
