@@ -30,15 +30,15 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="C:/GLFW/include" />
+			<Add directory="../GLFW/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-static" />
-			<Add library="C:/GLFW/lib/libglfw3.a" />
-			<Add library="C:/GLFW/lib/libglfw3dll.a" />
-			<Add library="C:/Windows/System32/opengl32.dll" />
+			<Add library="../GLFW/lib/libglfw3.a" />
+			<Add library="../GLFW/lib/libglfw3dll.a" />
+			<Add library="../../../../../../../../Windows/System32/opengl32.dll" />
 			<Add library="gdi32" />
-			<Add directory="C:/GLFW/lib" />
+			<Add directory="../GLFW/lib" />
 		</Linker>
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
