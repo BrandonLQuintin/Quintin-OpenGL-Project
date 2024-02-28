@@ -4,8 +4,12 @@
 
 # Quintin-Professional-Programming-Project
 
-Runs in the Code::Blocks IDE (MingW compiler) and on Windows:
-1. Open "source" folder -> then open "Quintin 3D Game.cbp"
+Runs in the Code::Blocks IDE (MingW 64 bit compiler) and on Windows:
+1. Go to file explorer and type %appdata%
+2. Go to Roaming -> CodeBlocks
+3. Copy default.conf to CodeBlocks folder
+4. Go back to your cloned reposity folder
+5. Go to "source" folder -> then open "Quintin 3D Game.cbp"
 
 ## Credits
 
