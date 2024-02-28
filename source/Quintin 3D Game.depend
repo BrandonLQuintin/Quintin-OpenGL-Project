@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1705972263 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\glad.c
+1709081061 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\glad.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -8,10 +8,10 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1706818831 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\glfw\include\glad\glad.h
+1709081061 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\glfw\include\glad\glad.h
 	<KHR/khrplatform.h>
 
-1687396040 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\glfw\include\khr\khrplatform.h
+1709081061 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\glfw\include\khr\khrplatform.h
 	<stdint.h>
 	<inttypes.h>
 	<stdint.h>
@@ -19,11 +19,12 @@
 1708661876 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.cpp
 	"globals.h"
 
-1708362438 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.h
+1709081331 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
+	<cmath>
 
 1537173151 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\glfw\include\glm\glm.hpp
 	"detail/_fixes.hpp"
@@ -981,7 +982,7 @@
 	<cstdarg>
 	<cstdio>
 
-1708551874 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
+1709080851 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin professional programming project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
