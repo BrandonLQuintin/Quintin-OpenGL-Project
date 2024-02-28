@@ -30,9 +30,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="../GLFW/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="../GLFW/lib/libglfw3.a" />
+					<Add library="../GLFW/lib/libglfw3dll.a" />
+					<Add library="../../../../../../../../Windows/System32/opengl32.dll" />
+					<Add library="gdi32" />
+					<Add directory="../GLFW/lib" />
 				</Linker>
 			</Target>
 		</Build>
