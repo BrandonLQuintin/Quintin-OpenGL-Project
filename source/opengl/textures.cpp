@@ -49,8 +49,8 @@ std::vector<float> returnTextureUV(unsigned int x, unsigned int y){
     return outputUV;
 }
 
-void setTextureUV(Shader &shader, std::vector<float> &atlasUV, bool isFirstAtlas){
-    if (isFirstAtlas){
+void setTextureUV(Shader &shader, std::vector<float> &atlasUV, bool isText){
+    if (!isText){
         shader.setBool("firstTextureAtlas", true);
     }
 

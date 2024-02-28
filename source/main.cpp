@@ -28,6 +28,7 @@
 #include "opengl/shader_functions.h"
 #include "opengl/textures.h"
 #include "opengl/text_render.h"
+#include "game/entity.h"
 
 int main(){
 
@@ -136,8 +137,8 @@ int main(){
 
     // ----- TEXTURES -----
     unsigned int texture1, texture2;
-    loadTexture(texture1, "resources/textures/blockTextureAtlas.png");
-    loadTexture(texture2, "resources/textures/textAtlas.png");
+    loadTexture(texture1, "resources/textures/TextureAtlas.png");
+    loadTexture(texture2, "resources/textures/TextAtlas.png");
     mainShader.use();
     mainShader.setInt("texture1", 0);
     mainShader.setInt("texture2", 1);
@@ -162,6 +163,7 @@ int main(){
     std::vector<float> boxAtlasUV = returnTextureUV(0, 0);
     std::vector<float> cobbleAtlasUV = returnTextureUV(1, 0);
     std::vector<float> oceroAtlasUV = returnTextureUV(2, 0);
+    std::vector<float> shadowAtlasUV = returnTextureUV(0, 2);
 
 
     // ----- INITIALIZE OBJECTS -----
@@ -176,21 +178,21 @@ int main(){
     shape boxes[2];
     boxes[0].type = 1;
     int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
-    boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, -0.5f, -3.0f));
+    boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, 1.5f, -3.0f));
     boxes[1].modelMatrix = glm::translate(boxes[1].modelMatrix, glm::vec3(1.0f, 0.5f, -3.0f));
 
     // 1 floor
     shape floors[1];
     floors[0].type = 2;
     int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
-    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, -2.0f, 0.0f));
+    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
     floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f));
 
     // 1 pyramid
     shape pyramids[1];
     pyramids[0].type = 3;
     int pyramidsArraySize = sizeof(pyramids) / sizeof(pyramids[0]);
-    pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, -1.0f, -3.0f));
+    pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, 0.0f, -3.0f));
 
     // 25 spheres
     shape spheres[25];
@@ -204,13 +206,19 @@ int main(){
     shape cones[1];
     int conesArraySize = sizeof(cones) / sizeof(cones[0]);
     cones[0].type = 5;
-    cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, -1.0f, -3.0f));
+    cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, 0.0f, -3.0f));
 
     // 1 tube
     shape tubes[1];
     int tubesArraySize = sizeof(tubes) / sizeof(tubes[0]);
     tubes[0].type = 6;
-    tubes[0].modelMatrix = glm::translate(tubes[0].modelMatrix, glm::vec3(-2.0f, -1.0f, -3.0f));
+    tubes[0].modelMatrix = glm::translate(tubes[0].modelMatrix, glm::vec3(-2.0f, 0.0f, -3.0f));
+
+    // 1 shadow
+    shape entityShadows[1];
+    int entityShadowsArraySize = sizeof(entityShadows) / sizeof(entityShadows[0]);
+    entityShadows[0].type = 7;
+    entityShadows[0].modelMatrix = glm::translate(entityShadows[0].modelMatrix, glm::vec3(cameraPos.x, 0.1f, cameraPos.z));
 
     // ----- MAIN PROGRAM -----
 
@@ -242,9 +250,9 @@ int main(){
             phongShader.use();
             glBindVertexArray(phongBoxVAO);
 
-            setTextureUV(phongShader, boxAtlasUV, true);
+            setTextureUV(phongShader, boxAtlasUV, false);
             if (i == 1){
-                setTextureUV(phongShader, oceroAtlasUV, true);
+                setTextureUV(phongShader, oceroAtlasUV, false);
             }
 
             phongShader.setMat4("model", boxes[i].modelMatrix);
@@ -255,7 +263,7 @@ int main(){
             phongShader.use();
             glBindVertexArray(phongFloorVAO);
 
-            setTextureUV(phongShader, cobbleAtlasUV, true);
+            setTextureUV(phongShader, cobbleAtlasUV, false);
 
             phongShader.setMat4("model", floors[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -265,7 +273,7 @@ int main(){
             phongShader.use();
             glBindVertexArray(phongPyramidVAO);
 
-            setTextureUV(phongShader, boxAtlasUV, true);
+            setTextureUV(phongShader, boxAtlasUV, false);
 
             phongShader.setMat4("model", pyramids[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 18);
@@ -275,7 +283,7 @@ int main(){
             phongShader.use();
             glBindVertexArray(phongSphereVAO);
 
-            setTextureUV(phongShader, boxAtlasUV, true);
+            setTextureUV(phongShader, boxAtlasUV, false);
 
             phongShader.setMat4("model", spheres[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, phongSphereVerticesArraySize);
@@ -285,7 +293,7 @@ int main(){
             phongShader.use();
             glBindVertexArray(phongConeVAO);
 
-            setTextureUV(phongShader, boxAtlasUV, true);
+            setTextureUV(phongShader, boxAtlasUV, false);
 
             phongShader.setMat4("model", cones[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, phongConeVerticesArraySize);
@@ -295,17 +303,28 @@ int main(){
             phongShader.use();
             glBindVertexArray(phongCylinderVAO);
 
-            setTextureUV(phongShader, boxAtlasUV, true);
+            setTextureUV(phongShader, boxAtlasUV, false);
 
             phongShader.setMat4("model", tubes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
         }
 
+        for (int i = 0; i < entityShadowsArraySize; i++){
+            phongShader.use();
+            glBindVertexArray(phongFloorVAO);
+
+            setTextureUV(phongShader, shadowAtlasUV, false);
+
+            float groundY = 0.01f;
+            setShadowLocation(entityShadows[0], groundY);
+
+            phongShader.setMat4("model", entityShadows[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+        }
+
         // ----- DRAW TEXT ------
 
-        std::string text =      "hello world! do you like my text renderer? no more need for a terminal!\\"
-                                "this took me 3 & 1/2 hours of work! :-)\\\\"
-                                "abcdefghijklmnopqrstuvwxyz.,?!:;()/\"-_=1234567890+*<>[]\'&\\\\"
+        std::string text =      "ocero 3d game beta v1.0.0\\"
                                 "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
 
         renderText(textShader, textVAO, text);
