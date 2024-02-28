@@ -13,6 +13,7 @@ const unsigned int POLY_RESOLUTION = 35;
 // screen settings
 const unsigned int SCREEN_WIDTH = 1280;
 const unsigned int SCREEN_HEIGHT = 720;
+const bool ENABLE_VSYNC = false;
 extern float fov;
 
 // timing
