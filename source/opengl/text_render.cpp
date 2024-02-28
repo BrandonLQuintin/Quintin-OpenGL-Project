@@ -85,7 +85,7 @@ void renderText(Shader shader, unsigned int VAO, std::string input){
                 shader.setBool("invertColor", true);
                 shader.setFloat("textXOffset", textXOffset + 0.003f);
                 shader.setFloat("textYOffset", textYOffset - 0.003f);
-                setTextureUV(shader, characterUV[c], false);
+                setTextureUV(shader, characterUV[c], true);
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             }
             // then render actual text
@@ -97,7 +97,7 @@ void renderText(Shader shader, unsigned int VAO, std::string input){
                 shader.setBool("invertColor", false);
                 shader.setFloat("textXOffset", textXOffset);
                 shader.setFloat("textYOffset", textYOffset);
-                setTextureUV(shader, characterUV[c], false);
+                setTextureUV(shader, characterUV[c], true);
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             }
         }

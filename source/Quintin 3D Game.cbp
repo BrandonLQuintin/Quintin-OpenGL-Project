@@ -16,6 +16,7 @@
 					<Add directory="../GLFW/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-static" />
 					<Add library="../GLFW/lib/libglfw3.a" />
 					<Add library="../GLFW/lib/libglfw3dll.a" />
 					<Add library="../../../../../../../../Windows/System32/opengl32.dll" />
@@ -48,6 +49,8 @@
 		<Linker>
 			<Add option="-static" />
 		</Linker>
+		<Unit filename="game/entity.cpp" />
+		<Unit filename="game/entity.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -64,8 +67,8 @@
 		<Unit filename="opengl/textures.h" />
 		<Unit filename="opengl/window_functions.cpp" />
 		<Unit filename="opengl/window_functions.h" />
-		<Unit filename="resources/textures/BlockTextureAtlas.png" />
 		<Unit filename="resources/textures/TextAtlas.png" />
+		<Unit filename="resources/textures/TextureAtlas.png" />
 		<Unit filename="shaders/basic_shader.fs" />
 		<Unit filename="shaders/basic_shader.vs" />
 		<Unit filename="shaders/phong_lighting.fs" />
