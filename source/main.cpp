@@ -323,9 +323,10 @@ int main(){
         }
 
         // ----- DRAW TEXT ------
-
+        int fps = 1.0f / deltaTime;
         std::string text =      "ocero 3d game beta v1.0.0\\"
-                                "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
+                                "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
+                                "framerate: " + std::to_string(fps) + " fps";
 
         renderText(textShader, textVAO, text);
 

@@ -32,6 +32,11 @@ GLFWwindow* createWindow(){
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
+
+    if (!ENABLE_VSYNC){
+        glfwSwapInterval(0); // uncapped framerate
+    }
+
     return window;
 
 }
