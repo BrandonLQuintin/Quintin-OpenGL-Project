@@ -36,6 +36,7 @@ extern unsigned int sphereVAO, sphereVBO;
 extern unsigned int coneVAO, coneVBO;
 extern unsigned int tubeVAO, tubeVBO;
 
+extern unsigned int phongBillboardVAO, phongBillboardVBO, phongBillboardEBO;
 extern unsigned int phongBoxVAO, phongBoxVBO;
 extern unsigned int phongFloorVAO, phongFloorVBO;
 extern unsigned int phongPyramidVAO, phongPyramidVBO;

@@ -64,10 +64,10 @@ std::map<char, std::vector<float>> characterUV = {
 };
 
 
-void renderText(Shader shader, unsigned int VAO, std::string input){
+void renderText(Shader shader, std::string input){
         glDisable(GL_DEPTH_TEST);
         shader.use();
-        glBindVertexArray(VAO);
+        glBindVertexArray(textVAO);
 
         float textXOffset = 0;
         float textYOffset = 0;

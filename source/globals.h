@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <cmath>
+#include <shader_m.h>
 
 // game settings
 const bool CONTROLS_ENABLED = true;
