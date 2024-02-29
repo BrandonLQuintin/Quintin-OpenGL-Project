@@ -2201,7 +2201,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1709158076 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1709224526 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2215,6 +2215,7 @@
 	"globals.h"
 	"opengl/camera_variables.h"
 	"shapes/shapes.h"
+	"shapes/initialize_shape_vertices.h"
 	"opengl/window_functions.h"
 	"opengl/shader_functions.h"
 	"opengl/textures.h"
@@ -2230,4 +2231,12 @@
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
+
+1709224381 c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.h
+	<vector>
+	"../globals.h"
+	"shapes.h"
+
+1709224402 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.cpp
+	"initialize_shape_vertices.h"
 

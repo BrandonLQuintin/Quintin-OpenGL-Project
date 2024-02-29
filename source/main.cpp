@@ -21,7 +21,8 @@
 // variables (may also contain functions)
 #include "globals.h"
 #include "opengl/camera_variables.h"
-#include "shapes/shapes.h" // stores both shape vertices AND initial object coordinates
+#include "shapes/shapes.h"
+#include "shapes/initialize_shape_vertices.h"
 
 // functions
 #include "opengl/window_functions.h"
@@ -43,97 +44,7 @@ int main(){
     phongShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
     phongShader.setVec3("lightPos", glm::vec3(100.0f, 100.0f, 100.0f));
 
-
-    // initialize sphere vertices
-    std::vector<float> sphereShapeVertices;
-    generateSphere(3.0f, POLY_RESOLUTION, sphereShapeVertices);
-    float sphereVertices[sphereShapeVertices.size()];
-    std::copy(sphereShapeVertices.begin(), sphereShapeVertices.end(), sphereVertices);
-    unsigned int sphereVerticesByteSize = sizeof(sphereVertices);
-    unsigned int sphereVerticesArraySize = sizeof(sphereVertices) / sizeof(sphereVertices[0]);
-
-    // initialize phong sphere vertices
-    std::vector<float> phongSphereShapeVertices;
-    generatePhongSphere(3.0f, POLY_RESOLUTION, phongSphereShapeVertices);
-    float phongSphereVertices[phongSphereShapeVertices.size()];
-    std::copy(phongSphereShapeVertices.begin(), phongSphereShapeVertices.end(), phongSphereVertices);
-    unsigned int phongSphereVerticesByteSize = sizeof(phongSphereVertices);
-    unsigned int phongSphereVerticesArraySize = sizeof(phongSphereVertices) / sizeof(phongSphereVertices[0]);
-
-    // initialize cone vertices
-    std::vector<float> coneShapeVertices;
-    generateCone(0.5f, 1.0f, POLY_RESOLUTION, coneShapeVertices);
-    float coneVertices[coneShapeVertices.size()];
-    std::copy(coneShapeVertices.begin(), coneShapeVertices.end(), coneVertices);
-    unsigned int coneVerticesByteSize = sizeof(coneVertices);
-    unsigned int coneVerticesArraySize = sizeof(coneVertices) / sizeof(coneVertices[0]);
-
-    // initialize phong cone vertices
-    std::vector<float> phongConeShapeVertices;
-    generatePhongCone(0.5f, 1.0f, POLY_RESOLUTION, phongConeShapeVertices);
-    float phongConeVertices[phongConeShapeVertices.size()];
-    std::copy(phongConeShapeVertices.begin(), phongConeShapeVertices.end(), phongConeVertices);
-    unsigned int phongConeVerticesByteSize = sizeof(phongConeVertices);
-    unsigned int phongConeVerticesArraySize = sizeof(phongConeVertices) / sizeof(phongConeVertices[0]);
-
-    // initialize tube vertices
-    std::vector<float> tubeShapeVertices;
-    generateCylinderVertices(0.5f, 1.0f, POLY_RESOLUTION, tubeShapeVertices);
-    float tubeVertices[tubeShapeVertices.size()];
-    std::copy(tubeShapeVertices.begin(), tubeShapeVertices.end(), tubeVertices);
-    unsigned int tubeVerticesByteSize = sizeof(tubeVertices);
-    unsigned int tubeVerticesArraySize = sizeof(tubeVertices) / sizeof(tubeVertices[0]);
-
-    // initialize phong tube vertices
-    std::vector<float> phongCylinderShapeVertices;
-    generatePhongCylinderVertices(0.5f, 1.0f, POLY_RESOLUTION, phongCylinderShapeVertices);
-    float phongCylinderVertices[phongCylinderShapeVertices.size()];
-    std::copy(phongCylinderShapeVertices.begin(), phongCylinderShapeVertices.end(), phongCylinderVertices);
-    unsigned int phongCylinderVerticesByteSize = sizeof(phongCylinderVertices);
-    unsigned int phongCylinderVerticesArraySize = sizeof(phongCylinderVertices) / sizeof(phongCylinderVertices[0]);
-
-
-    // ----- OBJECTS VERTICES BUFFERS ------
-
-    unsigned int textVAO, textVBO, textEBO;
-    generateVAOandEBO(textVAO, textVBO, textEBO, textVerticesByteSize, textIndicesByteSize, textVertices, textIndices);
-
-    unsigned int boxVAO, boxVBO;
-    generateVAO(boxVAO, boxVBO, boxVerticesByteSize, boxVertices);
-
-    unsigned int pyramidVAO, pyramidVBO;
-    generateVAO(pyramidVAO, pyramidVBO, pyramidVerticesByteSize, pyramidVertices);
-
-    unsigned int sphereVAO, sphereVBO;
-    generateVAO(sphereVAO, sphereVBO, sphereVerticesByteSize, sphereVertices);
-
-    unsigned int coneVAO, coneVBO;
-    generateVAO(coneVAO, coneVBO, coneVerticesByteSize, coneVertices);
-
-    unsigned int tubeVAO, tubeVBO;
-    generateVAO(tubeVAO, tubeVBO, tubeVerticesByteSize, tubeVertices);
-
-    // VAO with phong shader
-
-    unsigned int phongBoxVAO, phongBoxVBO;
-    generatePhongVAO(phongBoxVAO, phongBoxVBO, phongBoxVerticesByteSize, phongBoxVertices);
-
-    unsigned int phongFloorVAO, phongFloorVBO;
-    generatePhongVAO(phongFloorVAO, phongFloorVBO, phongFloorVerticesByteSize, phongFloorVertices);
-
-    unsigned int phongPyramidVAO, phongPyramidVBO;
-    generatePhongVAO(phongPyramidVAO, phongPyramidVBO, phongPyramidVerticesByteSize, phongPyramidVertices);
-
-    unsigned int phongConeVAO, phongConeVBO;
-    generatePhongVAO(phongConeVAO, phongConeVBO, phongConeVerticesByteSize, phongConeVertices);
-
-    unsigned int phongSphereVAO, phongSphereVBO;
-    generatePhongVAO(phongSphereVAO, phongSphereVBO, phongSphereVerticesByteSize, phongSphereVertices);
-
-    unsigned int phongCylinderVAO, phongCylinderVBO;
-    generatePhongVAO(phongCylinderVAO, phongCylinderVBO, phongCylinderVerticesByteSize, phongCylinderVertices);
-
-
+    initializeAllShapes();
 
     // ----- TEXTURES -----
     unsigned int texture1, texture2;
@@ -156,15 +67,11 @@ int main(){
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
 
-
-
-
     // first atlas values
     std::vector<float> boxAtlasUV = returnTextureUV(0, 0);
     std::vector<float> cobbleAtlasUV = returnTextureUV(1, 0);
     std::vector<float> oceroAtlasUV = returnTextureUV(2, 0);
     std::vector<float> shadowAtlasUV = returnTextureUV(0, 2);
-
 
     // ----- INITIALIZE OBJECTS -----
 
@@ -218,7 +125,6 @@ int main(){
     shape entityShadows[1];
     int entityShadowsArraySize = sizeof(entityShadows) / sizeof(entityShadows[0]);
     entityShadows[0].type = 7;
-    entityShadows[0].modelMatrix = glm::translate(entityShadows[0].modelMatrix, glm::vec3(cameraPos.x, 0.1f, cameraPos.z));
 
     // ----- MAIN PROGRAM -----
 
