@@ -69,8 +69,8 @@
 		<Unit filename="opengl/window_functions.h" />
 		<Unit filename="resources/textures/TextAtlas.png" />
 		<Unit filename="resources/textures/TextureAtlas.png" />
-		<Unit filename="shaders/basic_shader.fs" />
-		<Unit filename="shaders/basic_shader.vs" />
+		<Unit filename="shaders/billboard_shader.fs" />
+		<Unit filename="shaders/billboard_shader.vs" />
 		<Unit filename="shaders/phong_lighting.fs" />
 		<Unit filename="shaders/phong_lighting.vs" />
 		<Unit filename="shaders/text_shader.fs" />
