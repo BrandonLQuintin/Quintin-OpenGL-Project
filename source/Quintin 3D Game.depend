@@ -1126,15 +1126,16 @@
 	<inttypes.h>
 	<stdint.h>
 
-1709090392 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1709234347 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1709158242 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1709234403 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
 	<cmath>
+	<shader_m.h>
 
 1709090391 c:\users\brand\desktop\quintin-opengl-project\glfw\include\glm\glm.hpp
 	"detail/_fixes.hpp"
@@ -2120,13 +2121,15 @@
 	<sstream>
 	<iostream>
 
-1709154748 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
+1709236094 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
 	"text_render.h"
 
-1709154748 c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.h
+1709236094 c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.h
 	<map>
 	<vector>
 	"textures.h"
+	"../shapes/initialize_shape_vertices.h"
+	"../globals.h"
 
 1709154748 c:\users\brand\desktop\quintin-opengl-project\source\opengl\textures.h
 	<glad/glad.h>
@@ -2151,7 +2154,7 @@
 	<intrin.h>
 	<arm_neon.h>
 
-1709154748 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\textures.cpp
+1709230972 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\textures.cpp
 	"textures.h"
 	<iostream>
 
@@ -2189,19 +2192,19 @@
 	<GL/gl.h>
 	<GL/glext.h>
 
-1709117692 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.cpp
+1709225881 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.cpp
 	"shapes.h"
 	"../globals.h"
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glad/glad.h>
 
-1709090392 c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.h
+1709225881 c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1709224526 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1709237180 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2222,21 +2225,21 @@
 	"opengl/text_render.h"
 	"game/entity.h"
 
-1709121250 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
+1709236592 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
 	"entity.h"
 
-1709120825 c:\users\brand\desktop\quintin-opengl-project\source\game\entity.h
+1709229126 c:\users\brand\desktop\quintin-opengl-project\source\game\entity.h
 	"../shapes/shapes.h"
 	"../opengl/camera_variables.h"
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 
-1709224381 c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.h
+1709226061 c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.h
 	<vector>
 	"../globals.h"
 	"shapes.h"
 
-1709224402 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.cpp
+1709236109 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.cpp
 	"initialize_shape_vertices.h"
 

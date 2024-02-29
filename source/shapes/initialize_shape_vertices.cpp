@@ -7,6 +7,7 @@ unsigned int sphereVAO, sphereVBO;
 unsigned int coneVAO, coneVBO;
 unsigned int tubeVAO, tubeVBO;
 
+unsigned int phongBillboardVAO, phongBillboardVBO, phongBillboardEBO;
 unsigned int phongBoxVAO, phongBoxVBO;
 unsigned int phongFloorVAO, phongFloorVBO;
 unsigned int phongPyramidVAO, phongPyramidVBO;
@@ -79,6 +80,7 @@ void initializeAllShapes(){
 
     // VAO with phong shader
 
+    generatePhongVAOandEBO(phongBillboardVAO, phongBillboardVBO, phongBillboardEBO, phongBillboardVerticesByteSize, phongBillboardIndicesByteSize, phongBillboardVertices, phongBillboardIndices);
     generatePhongVAO(phongBoxVAO, phongBoxVBO, phongBoxVerticesByteSize, phongBoxVertices);
     generatePhongVAO(phongFloorVAO, phongFloorVBO, phongFloorVerticesByteSize, phongFloorVertices);
     generatePhongVAO(phongPyramidVAO, phongPyramidVBO, phongPyramidVerticesByteSize, phongPyramidVertices);

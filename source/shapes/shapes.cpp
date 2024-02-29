@@ -20,6 +20,23 @@ unsigned int textIndices[] = {
 unsigned int textVerticesByteSize = sizeof(textVertices);
 unsigned int textIndicesByteSize = sizeof(textIndices);
 
+float phongBillboardVertices[] = {
+    // xyz, normals, tex coords
+    -0.5f, 0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
+    0.5f, 0.5f, 0.0f,    0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
+    -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
+    0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f
+};
+
+unsigned int phongBillboardIndices[] = {
+    0, 1, 2,
+    1, 3, 2
+};
+
+unsigned int phongBillboardVerticesByteSize = sizeof(phongBillboardVertices);
+unsigned int phongBillboardIndicesByteSize = sizeof(phongBillboardIndices);
+
+
 float boxVertices[] = {
     // xyz, tex coords
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -249,6 +266,29 @@ void generatePhongVAO(unsigned int &VAO, unsigned int &VBO, unsigned int boxVert
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, boxVerticesByteSize, boxVertices, GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // normal attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    // texture coord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+}
+
+void generatePhongVAOandEBO(unsigned int &VAO, unsigned int &VBO, unsigned int &EBO, unsigned int verticesByteSize, unsigned int indicesByteSize, float vertices[], unsigned int indices[]){
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, verticesByteSize, vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesByteSize, indices, GL_STATIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
