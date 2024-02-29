@@ -1,5 +1,6 @@
 #include "globals.h"
 
+bool isRaining = true;
 float fov = 90;
 
 float deltaTime = 0.0f;

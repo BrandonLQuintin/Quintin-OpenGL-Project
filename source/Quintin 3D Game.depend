@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1709234347 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1709245117 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1709234403 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1709245088 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -2204,10 +2204,11 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1709237180 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1709246869 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
+	<random>
 	<glad/glad.h>
 	<GLFW/glfw3.h>
 	<shader_m.h>
@@ -2228,7 +2229,7 @@
 1709236592 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
 	"entity.h"
 
-1709229126 c:\users\brand\desktop\quintin-opengl-project\source\game\entity.h
+1709243731 c:\users\brand\desktop\quintin-opengl-project\source\game\entity.h
 	"../shapes/shapes.h"
 	"../opengl/camera_variables.h"
 	<glm/glm.hpp>
