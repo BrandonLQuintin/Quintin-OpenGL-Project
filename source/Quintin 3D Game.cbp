@@ -75,6 +75,8 @@
 		<Unit filename="shaders/phong_lighting.vs" />
 		<Unit filename="shaders/text_shader.fs" />
 		<Unit filename="shaders/text_shader.vs" />
+		<Unit filename="shapes/initialize_shape_vertices.cpp" />
+		<Unit filename="shapes/initialize_shape_vertices.h" />
 		<Unit filename="shapes/shapes.cpp" />
 		<Unit filename="shapes/shapes.h" />
 		<Extensions>
