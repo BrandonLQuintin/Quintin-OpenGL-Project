@@ -12,11 +12,15 @@ uniform vec2 u;
 uniform vec2 v;
 
 uniform bool firstTextureAtlas;
+uniform bool isRaining;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
+
+float fogDensity = 0.001;
+vec3 fogColor = vec3(0.792f, 0.957f, 1.00f);
 
 void main()
 {
@@ -37,14 +41,15 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 13);
     vec3 specular = specularStrength * spec * lightColor;
 
+    float distance = length(FragPos - viewPos);
+    float fogFactor = 1.0 - exp(-fogDensity * distance * distance);
+
     vec2 uv = vec2(mix(u.x, u.y, TexCoord.x), mix(v.x, v.y, TexCoord.y));
     vec4 texelColor;
-
 
     if (firstTextureAtlas){
         texelColor = texture(texture1, uv);
     }
-
     else{
         texelColor = texture(texture2, uv);
     }
@@ -52,8 +57,14 @@ void main()
     if (texelColor.a < 0.1){
         discard;
     }
+    vec3 result;
+    if (isRaining){
+        result = mix(texelColor.rgb * (ambient + diffuse + specular) * objectColor, fogColor, fogFactor);
+    }
+    else{
+        result = texelColor.rgb * (ambient + diffuse + specular) * objectColor;
+    }
 
-    vec3 result = (ambient + diffuse + specular) * objectColor * texelColor.rgb;
 
     FragColor = vec4(result, 1.0);
 }

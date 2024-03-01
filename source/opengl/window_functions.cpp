@@ -67,12 +67,12 @@ void processInput(GLFWwindow* window){
 
             if (glfwGetWindowMonitor(window) == nullptr){
                 glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
-                projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, 100.0f);
+                projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, VIEW_DISTANCE);
                 glViewport(0, 0, (*mode).width, (*mode).height);
             }
             else{
                 glfwSetWindowMonitor(window, nullptr, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, GLFW_DONT_CARE);
-                projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+                projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, VIEW_DISTANCE);
                 glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             }
             while (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS){
@@ -124,6 +124,6 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height){
         height = 1;
         width = 1;
     }
-    projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, VIEW_DISTANCE);
     glViewport(0, 0, width, height);
 }

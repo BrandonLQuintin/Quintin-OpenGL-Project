@@ -33,6 +33,7 @@ std::mt19937 gen(rd());
 #include "opengl/textures.h"
 #include "opengl/text_render.h"
 #include "game/entity.h"
+#include "game/calculate_fps.h"
 
 float randomInRange(float min, float max);
 
@@ -90,6 +91,7 @@ int main(){
     generateSurroundingPositions(initialSpherePositions, 25);
     for (int i = 0; i < initialSpherePositions.size(); i++){
         initialSpherePositions[i] = initialSpherePositions[i] * glm::vec3(30.0f, 30.0f, 30.0f);
+        initialSpherePositions[i].y = 3.0f;
     }
 
     // 2 boxes
@@ -104,7 +106,7 @@ int main(){
     floors[0].type = 2;
     int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
     floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
-    floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(15.0f));
+    floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(500.0f));
 
     // 1 pyramid
     shape pyramids[1];
@@ -146,7 +148,7 @@ int main(){
     shadows[0].type = 8;
 
     // rain drops
-    rainEntity rainDrops[1000];
+    rainEntity rainDrops[600];
     int rainDropsArraySize = sizeof(rainDrops) / sizeof(rainDrops[0]);
     for (int i = 0; i < rainDropsArraySize; i++){
         rainDrops[i].modelMatrix[3][0] = cameraPos.x + randomInRange(-10.0f, 10.0f);
@@ -158,6 +160,12 @@ int main(){
 
     // ----- MAIN PROGRAM -----
 isRaining = true;
+if (isRaining){
+    phongShader.use();
+    phongShader.setBool("isRaining", true);
+    billboardShader.use();
+    billboardShader.setBool("isRaining", true);
+}
     while (!glfwWindowShouldClose(window)){
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
@@ -170,8 +178,6 @@ isRaining = true;
         else{
             glClearColor(0.16f, 0.80f, 1.00f, 1.0f);
         }
-
-
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -308,8 +314,8 @@ isRaining = true;
         }
 
         // ----- DRAW TEXT ------
-        int fps = 1.0f / deltaTime;
-        std::string text =      "\\ocero 3d game beta v1.0.2\\"
+        int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector);
+        std::string text =      "\\ocero 3d game beta v1.0.3\\"
                                 "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 "framerate: " + std::to_string(fps) + " fps";
                                 if (isRaining){

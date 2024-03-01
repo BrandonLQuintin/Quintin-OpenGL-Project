@@ -215,13 +215,13 @@ unsigned int floorVerticesByteSize = sizeof(floorVertices);
 
 float phongFloorVertices[] = {
     // Vertex Positions       // Normals                  // Texture Coordinates
-    -1.0f, 0.0f, -1.0f,       0.0f, 1.0f, 0.0f,          0.0f, 0.0f,
-    1.0f, 0.0f, -1.0f,        0.0f, 1.0f, 0.0f,          1.0f, 0.0f,
-    -1.0f, 0.0f, 1.0f,        0.0f, 1.0f, 0.0f,          0.0f, 1.0f,
+    -0.5f, 0.0f, -0.5f,       0.0f, 1.0f, 0.0f,          0.0f, 0.0f,
+    0.5f, 0.0f, -0.5f,        0.0f, 1.0f, 0.0f,          1.0f, 0.0f,
+    -0.5f, 0.0f, 0.5f,        0.0f, 1.0f, 0.0f,          0.0f, 1.0f,
 
-    1.0f, 0.0f, -1.0f,        0.0f, 1.0f, 0.0f,          1.0f, 0.0f,
-    1.0f, 0.0f, 1.0f,         0.0f, 1.0f, 0.0f,          1.0f, 1.0f,
-    -1.0f, 0.0f, 1.0f,        0.0f, 1.0f, 0.0f,          0.0f, 1.0f
+    0.5f, 0.0f, -0.5f,        0.0f, 1.0f, 0.0f,          1.0f, 0.0f,
+    0.5f, 0.0f, 0.5f,         0.0f, 1.0f, 0.0f,          1.0f, 1.0f,
+    -0.5f, 0.0f, 0.5f,        0.0f, 1.0f, 0.0f,          0.0f, 1.0f
 };
 
 unsigned int phongFloorVerticesByteSize = sizeof(phongFloorVertices);
