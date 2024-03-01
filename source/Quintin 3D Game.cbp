@@ -49,6 +49,8 @@
 		<Linker>
 			<Add option="-static" />
 		</Linker>
+		<Unit filename="game/calculate_fps.cpp" />
+		<Unit filename="game/calculate_fps.h" />
 		<Unit filename="game/entity.cpp" />
 		<Unit filename="game/entity.h" />
 		<Unit filename="glad.c">

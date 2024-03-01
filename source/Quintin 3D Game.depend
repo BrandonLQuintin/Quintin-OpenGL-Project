@@ -1126,16 +1126,17 @@
 	<inttypes.h>
 	<stdint.h>
 
-1709245117 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1709319152 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1709245088 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1709319101 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
 	<cmath>
 	<shader_m.h>
+	<vector>
 
 1709090391 c:\users\brand\desktop\quintin-opengl-project\glfw\include\glm\glm.hpp
 	"detail/_fixes.hpp"
@@ -2093,7 +2094,7 @@
 	<cstdarg>
 	<cstdio>
 
-1709120774 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\camera_variables.cpp
+1709312911 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\camera_variables.cpp
 	"camera_variables.h"
 	"../globals.h"
 
@@ -2158,7 +2159,7 @@
 	"textures.h"
 	<iostream>
 
-1709157859 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1709312911 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 	"../globals.h"
@@ -2192,7 +2193,7 @@
 	<GL/gl.h>
 	<GL/glext.h>
 
-1709225881 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.cpp
+1709315317 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.cpp
 	"shapes.h"
 	"../globals.h"
 	<glm/glm.hpp>
@@ -2204,7 +2205,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1709246869 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1709320462 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2225,6 +2226,7 @@
 	"opengl/textures.h"
 	"opengl/text_render.h"
 	"game/entity.h"
+	"game/calculate_fps.h"
 
 1709236592 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
 	"entity.h"
@@ -2243,4 +2245,12 @@
 
 1709236109 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.cpp
 	"initialize_shape_vertices.h"
+
+1709320587 source:c:\users\brand\desktop\quintin-opengl-project\source\game\calculate_fps.cpp
+	"calculate_fps.h"
+
+1709320256 c:\users\brand\desktop\quintin-opengl-project\source\game\calculate_fps.h
+	<vector>
+	<GLFW/glfw3.h>
+	<iostream>
 
