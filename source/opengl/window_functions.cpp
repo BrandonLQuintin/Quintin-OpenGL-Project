@@ -49,20 +49,18 @@ void processInput(GLFWwindow* window){
 
     if (CONTROLS_ENABLED){
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
-            if (cameraPos.y >= collisionLimit){
-                cameraPos += cameraSpeed * cameraFront;
-                if (cameraPos.y <= collisionLimit){
-                    cameraPos.y = collisionLimit;
-                }
+            cameraPos += cameraSpeed * cameraFront;
+            if (cameraPos.y <= collisionLimit){
+                cameraPos.y = collisionLimit;
             }
+
         }
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
-            if (cameraPos.y >= collisionLimit){
-                cameraPos -= cameraSpeed * cameraFront;
-                if (cameraPos.y <= collisionLimit){
-                    cameraPos.y = collisionLimit;
-                }
+            cameraPos -= cameraSpeed * cameraFront;
+            if (cameraPos.y <= collisionLimit){
+                cameraPos.y = collisionLimit;
             }
+
         }
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
             cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
