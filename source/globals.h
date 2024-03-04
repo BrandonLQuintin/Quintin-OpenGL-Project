@@ -8,6 +8,8 @@
 #include <vector>
 
 // game settings
+extern bool mainMenu;
+
 const bool CONTROLS_ENABLED = true;
 const bool IS_RAINING = true;
 

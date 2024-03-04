@@ -53,6 +53,8 @@
 		<Unit filename="game/calculate_fps.h" />
 		<Unit filename="game/entity.cpp" />
 		<Unit filename="game/entity.h" />
+		<Unit filename="game/main_menu.cpp" />
+		<Unit filename="game/main_menu.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
