@@ -13,6 +13,7 @@ uniform vec2 v;
 
 uniform bool firstTextureAtlas;
 uniform bool isRaining;
+uniform bool isTree;
 
 uniform float fogDensity;
 
@@ -60,7 +61,10 @@ void main()
     }
 
     vec3 result;
-    if (!firstTextureAtlas){
+    if (isTree){
+        result = mix(texelColor.rgb * objectColor, fogColor, fogFactor);
+    }
+    else if (!firstTextureAtlas){
         result = mix(texelColor.rgb * (ambient + diffuse) * objectColor, fogColor, fogFactor);
     }
     else if (isRaining){

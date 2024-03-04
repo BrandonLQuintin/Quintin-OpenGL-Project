@@ -15,7 +15,9 @@ const float PI = 3.14159265358979323846f;
 const unsigned int POLY_RESOLUTION = 35;
 const unsigned int CHUNK_SIZE = 1000;
 const float VIEW_DISTANCE = 100.0f;
+const float DESPAWN_DISTANCE = 60.0f;
 const float FOG_DENSITY = 0.001f;
+
 
 // player variables
 extern float terrainCoordBelowCamera;

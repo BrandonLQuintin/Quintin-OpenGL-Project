@@ -5,9 +5,6 @@
 
 struct shape {
     glm::mat4 modelMatrix = glm::mat4(1.0f); // initialized to an identity matrix
-    // UNUSED FOR NOW
-    unsigned int type = 0; // 1 = box, 2 = floor, 3 = pyramid, 4 = spheres, 5 = cones, 6 = cylinders
-
 };
 
 extern float textVertices[];
