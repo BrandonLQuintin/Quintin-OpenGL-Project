@@ -14,10 +14,12 @@ unsigned int phongPyramidVAO, phongPyramidVBO;
 unsigned int phongConeVAO, phongConeVBO;
 unsigned int phongSphereVAO, phongSphereVBO;
 unsigned int phongCylinderVAO, phongCylinderVBO;
+unsigned int phongTerrainVAO, phongTerrainVBO, phongTerrainEBO;
 
 unsigned int phongCylinderVerticesArraySize;
 unsigned int phongConeVerticesArraySize;
 unsigned int phongSphereVerticesArraySize;
+
 
 void initializeAllShapes(){
     // initialize sphere vertices
@@ -68,6 +70,16 @@ void initializeAllShapes(){
     unsigned int phongCylinderVerticesByteSize = sizeof(phongCylinderVertices);
     phongCylinderVerticesArraySize = sizeof(phongCylinderVertices) / sizeof(phongCylinderVertices[0]);
 
+    // initialize terrain vertices
+    float terrainVertices[phongTerrainVector.size()];
+    unsigned int terrainIndices[phongTerrainIndicesVector.size()];
+    std::copy(phongTerrainVector.begin(), phongTerrainVector.end(), terrainVertices);
+    std::copy(phongTerrainIndicesVector.begin(), phongTerrainIndicesVector.end(), terrainIndices);
+    unsigned int terrainVerticesByteSize = sizeof(terrainVertices);
+    unsigned int terrainIndicesByteSize = sizeof(terrainIndices);
+    unsigned int terrainVerticesArraySize = sizeof(terrainVertices) / sizeof(terrainVertices[0]);
+    unsigned int terrainIndicesArraySize = sizeof(terrainIndices) / sizeof(terrainIndices[0]);
+
     // ----- OBJECTS VERTICES BUFFERS ------
 
 
@@ -81,6 +93,7 @@ void initializeAllShapes(){
     // VAO with phong shader
 
     generatePhongVAOandEBO(phongBillboardVAO, phongBillboardVBO, phongBillboardEBO, phongBillboardVerticesByteSize, phongBillboardIndicesByteSize, phongBillboardVertices, phongBillboardIndices);
+    generatePhongVAOandEBO(phongTerrainVAO, phongTerrainVBO, phongTerrainEBO, terrainVerticesByteSize, terrainIndicesByteSize, terrainVertices, terrainIndices);
     generatePhongVAO(phongBoxVAO, phongBoxVBO, phongBoxVerticesByteSize, phongBoxVertices);
     generatePhongVAO(phongFloorVAO, phongFloorVBO, phongFloorVerticesByteSize, phongFloorVertices);
     generatePhongVAO(phongPyramidVAO, phongPyramidVBO, phongPyramidVerticesByteSize, phongPyramidVertices);

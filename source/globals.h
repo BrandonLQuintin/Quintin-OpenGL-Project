@@ -9,15 +9,21 @@
 
 // game settings
 const bool CONTROLS_ENABLED = true;
-extern bool isRaining;
+const bool IS_RAINING = true;
 
 const float PI = 3.14159265358979323846f;
 const unsigned int POLY_RESOLUTION = 35;
+const unsigned int CHUNK_SIZE = 1000;
 const float VIEW_DISTANCE = 100.0f;
+const float FOG_DENSITY = 0.001f;
+
+// player variables
+extern float terrainCoordBelowCamera;
 
 // screen settings
 const unsigned int SCREEN_WIDTH = 1280;
 const unsigned int SCREEN_HEIGHT = 720;
+const float CAMERA_SPEED = 5.0f;
 const bool ENABLE_VSYNC = false;
 extern float fov;
 

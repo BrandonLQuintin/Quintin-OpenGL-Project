@@ -3,6 +3,7 @@
 #include <vector>
 #include "../globals.h"
 #include "shapes.h"
+#include "terrain.h"
 
 
 extern float sphereVertices[];
@@ -29,6 +30,13 @@ extern float phongCylinderVertices[];
 extern unsigned int phongCylinderVerticesByteSize;
 extern unsigned int phongCylinderVerticesArraySize;
 
+extern float terrainVertices[];
+extern unsigned int terrainVerticesByteSize;
+extern unsigned int terrainIndicesByteSize;
+extern unsigned int terrainVerticesArraySize;
+extern unsigned int terrainIndicesArraySize;
+
+
 extern unsigned int textVAO, textVBO, textEBO;
 extern unsigned int boxVAO, boxVBO;
 extern unsigned int pyramidVAO, pyramidVBO;
@@ -37,6 +45,7 @@ extern unsigned int coneVAO, coneVBO;
 extern unsigned int tubeVAO, tubeVBO;
 
 extern unsigned int phongBillboardVAO, phongBillboardVBO, phongBillboardEBO;
+extern unsigned int phongTerrainVAO, phongTerrainVBO, phongTerrainEBO;
 extern unsigned int phongBoxVAO, phongBoxVBO;
 extern unsigned int phongFloorVAO, phongFloorVBO;
 extern unsigned int phongPyramidVAO, phongPyramidVBO;

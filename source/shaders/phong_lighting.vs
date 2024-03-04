@@ -10,6 +10,7 @@ out vec2 TexCoord;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform bool firstTextureAtlas;
 
 void main()
 {
@@ -17,5 +18,11 @@ void main()
     Normal = mat3(transpose(inverse(model))) * aNormal;
 
     gl_Position = projection * view * vec4(FragPos, 1.0);
-    TexCoord = vec2(aTexCoord.x, aTexCoord.y);
+    if (firstTextureAtlas){
+        TexCoord = vec2(aTexCoord.x, aTexCoord.y);
+    }
+    else{
+        TexCoord = vec2(aTexCoord.x, aTexCoord.y) * 40;
+    }
+
 }

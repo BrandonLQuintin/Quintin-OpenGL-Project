@@ -1,6 +1,9 @@
 #pragma once
 #include <glad/glad.h> // loads OpenGL pointers
 #include <GLFW/glfw3.h>
+#include "../globals.h"
+#include "camera_variables.h"
+#include "../shapes/terrain.h"
 
 extern bool firstMouse;
 

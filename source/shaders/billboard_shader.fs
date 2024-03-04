@@ -14,12 +14,13 @@ uniform vec2 v;
 uniform bool firstTextureAtlas;
 uniform bool isRaining;
 
+uniform float fogDensity;
+
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
 
-float fogDensity = 0.001;
 vec3 fogColor = vec3(0.792f, 0.957f, 1.00f);
 
 void main()

@@ -69,6 +69,8 @@
 		<Unit filename="opengl/textures.h" />
 		<Unit filename="opengl/window_functions.cpp" />
 		<Unit filename="opengl/window_functions.h" />
+		<Unit filename="resources/heightmap.png" />
+		<Unit filename="resources/textures/GrassTiles.png" />
 		<Unit filename="resources/textures/TextAtlas.png" />
 		<Unit filename="resources/textures/TextureAtlas.png" />
 		<Unit filename="shaders/billboard_shader.fs" />
@@ -81,6 +83,8 @@
 		<Unit filename="shapes/initialize_shape_vertices.h" />
 		<Unit filename="shapes/shapes.cpp" />
 		<Unit filename="shapes/shapes.h" />
+		<Unit filename="shapes/terrain.cpp" />
+		<Unit filename="shapes/terrain.h" />
 		<Extensions>
 			<AutoVersioning>
 				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />

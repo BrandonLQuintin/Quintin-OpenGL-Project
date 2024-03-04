@@ -1,7 +1,6 @@
 #include "window_functions.h"
 #include <iostream>
-#include "../globals.h"
-#include "camera_variables.h"
+
 
 bool firstMouse = true;
 
@@ -42,24 +41,54 @@ GLFWwindow* createWindow(){
 }
 
 void processInput(GLFWwindow* window){
-    const float cameraSpeed = 5.0f * deltaTime;
+    const float cameraSpeed = CAMERA_SPEED * deltaTime;
+    const float collisionLimit = terrainCoordBelowCamera + 1.0f;
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
     if (CONTROLS_ENABLED){
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            cameraPos += cameraSpeed * cameraFront;
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            cameraPos -= cameraSpeed * cameraFront;
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+            if (cameraPos.y >= collisionLimit){
+                cameraPos += cameraSpeed * cameraFront;
+                if (cameraPos.y <= collisionLimit){
+                    cameraPos.y = collisionLimit;
+                }
+            }
+        }
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+            if (cameraPos.y >= collisionLimit){
+                cameraPos -= cameraSpeed * cameraFront;
+                if (cameraPos.y <= collisionLimit){
+                    cameraPos.y = collisionLimit;
+                }
+            }
+        }
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
             cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            if (cameraPos.y <= collisionLimit){
+                cameraPos.y = (collisionLimit);
+            }
+        }
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+
             cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            if (cameraPos.y <= collisionLimit){
+                cameraPos.y = (collisionLimit);
+            }
+        }
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
             cameraPos.y += (cameraSpeed);
-        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-            cameraPos.y -= (cameraSpeed);
+        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS){
+            if (cameraPos.y >= collisionLimit){
+                cameraPos.y -= (cameraSpeed);
+                if (cameraPos.y <= collisionLimit){
+                    cameraPos.y = collisionLimit;
+                }
+            }
+        }
+
+
 
         if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) { // help from chatgpt
             GLFWmonitor* monitor = glfwGetPrimaryMonitor();
