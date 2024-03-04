@@ -14,12 +14,13 @@ uniform vec2 v;
 uniform bool firstTextureAtlas;
 uniform bool isRaining;
 
+uniform float fogDensity;
+
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
 
-float fogDensity = 0.001;
 vec3 fogColor = vec3(0.792f, 0.957f, 1.00f);
 
 void main()
@@ -51,12 +52,13 @@ void main()
         texelColor = texture(texture1, uv);
     }
     else{
-        texelColor = texture(texture2, uv);
+        texelColor = texture(texture2, TexCoord);
     }
 
     if (texelColor.a < 0.1){
         discard;
     }
+
     vec3 result;
     if (isRaining){
         result = mix(texelColor.rgb * (ambient + diffuse + specular) * objectColor, fogColor, fogFactor);

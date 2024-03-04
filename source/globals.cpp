@@ -16,3 +16,5 @@ float pitch = 0.0f;
 
 std::vector<float> fpsVector;
 float timeSinceLastFPSCalculation = 0.0f;
+
+float terrainCoordBelowCamera = 0.0f;

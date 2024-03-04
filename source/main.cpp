@@ -34,6 +34,7 @@ std::mt19937 gen(rd());
 #include "opengl/text_render.h"
 #include "game/entity.h"
 #include "game/calculate_fps.h"
+#include "shapes/terrain.h"
 
 float randomInRange(float min, float max);
 
@@ -48,26 +49,28 @@ int main(){
     billboardShader.use();
     billboardShader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
     billboardShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-    billboardShader.setVec3("lightPos", glm::vec3(100.0f, 100.0f, 100.0f));
+    billboardShader.setVec3("lightPos", glm::vec3(-1000.0f, 1000.0f, 1000.0f));
 
     phongShader.use();
     phongShader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
     phongShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-    phongShader.setVec3("lightPos", glm::vec3(100.0f, 100.0f, 100.0f));
+    phongShader.setVec3("lightPos", glm::vec3(-1000.0f, 1000.0f, 1000.0f));
 
+    generatePlaneVertices(phongTerrainVector, phongTerrainIndicesVector);
     initializeAllShapes();
 
     // ----- TEXTURES -----
-    unsigned int texture1, texture2;
+    unsigned int texture1, texture2, texture3;
     loadTexture(texture1, "resources/textures/TextureAtlas.png");
     loadTexture(texture2, "resources/textures/TextAtlas.png");
+    loadTexture(texture3, "resources/textures/GrassTiles.png");
     billboardShader.use();
     billboardShader.setInt("texture1", 0);
     billboardShader.setInt("texture2", 1);
 
     phongShader.use();
     phongShader.setInt("texture1", 0);
-    phongShader.setInt("texture2", 1);
+    phongShader.setInt("texture2", 2);
 
     t.use();
     t.setInt("texture1", 0);
@@ -77,6 +80,8 @@ int main(){
     glBindTexture(GL_TEXTURE_2D, texture1);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, texture3);
 
     // first atlas values
     std::vector<float> boxAtlasUV = returnTextureUV(0, 0);
@@ -88,31 +93,38 @@ int main(){
     // ----- INITIALIZE OBJECTS -----
 
     // initialize various sphere locations
+    float heightOffset = 50.0f;
+
     generateSurroundingPositions(initialSpherePositions, 25);
     for (int i = 0; i < initialSpherePositions.size(); i++){
         initialSpherePositions[i] = initialSpherePositions[i] * glm::vec3(30.0f, 30.0f, 30.0f);
-        initialSpherePositions[i].y = 3.0f;
+        initialSpherePositions[i].y = 10.0f + heightOffset;
     }
+
+    // 1 terrain
+    shape terrains[1];
+    terrains[0].type = 100;
+    int terrainsArraySize = sizeof(terrains) / sizeof(terrains[0]);
 
     // 2 boxes
     shape boxes[2];
     boxes[0].type = 1;
     int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
-    boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, 1.5f, -3.0f));
-    boxes[1].modelMatrix = glm::translate(boxes[1].modelMatrix, glm::vec3(1.0f, 0.5f, -3.0f));
+    boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, 0.5f + heightOffset, -3.0f));
+    boxes[1].modelMatrix = glm::translate(boxes[1].modelMatrix, glm::vec3(1.0f, 1.5f + heightOffset, -3.0f));
 
     // 1 floor
     shape floors[1];
     floors[0].type = 2;
     int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
-    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, 0.0f, 0.0f));
+    floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, 0.0f + heightOffset, 0.0f));
     floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(500.0f));
 
     // 1 pyramid
     shape pyramids[1];
     pyramids[0].type = 3;
     int pyramidsArraySize = sizeof(pyramids) / sizeof(pyramids[0]);
-    pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, 0.0f, -3.0f));
+    pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, 0.0f + heightOffset, -3.0f));
 
     // 25 spheres
     shape spheres[25];
@@ -126,26 +138,21 @@ int main(){
     shape cones[1];
     int conesArraySize = sizeof(cones) / sizeof(cones[0]);
     cones[0].type = 5;
-    cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, 0.0f, -3.0f));
+    cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, 0.0f + heightOffset, -3.0f));
 
     // 1 tube
     shape tubes[1];
     int tubesArraySize = sizeof(tubes) / sizeof(tubes[0]);
     tubes[0].type = 6;
-    tubes[0].modelMatrix = glm::translate(tubes[0].modelMatrix, glm::vec3(-2.0f, 0.0f, -3.0f));
+    tubes[0].modelMatrix = glm::translate(tubes[0].modelMatrix, glm::vec3(-2.0f, 0.0f + heightOffset, -3.0f));
 
     // 1 billboard
     shape billboards[3];
     int billboardsArraySize = sizeof(billboards) / sizeof(billboards[0]);
     for (int i = 0; i < billboardsArraySize; i++){
         billboards[i].type = 7;
-        billboards[i].modelMatrix = glm::translate(billboards[i].modelMatrix, glm::vec3(1 - (i * 1.1), 1.0f, -5.0f));
+        billboards[i].modelMatrix = glm::translate(billboards[i].modelMatrix, glm::vec3(1 - (i * 1.1), 0.0f + heightOffset, -5.0f));
     }
-
-    // 1 shadow
-    shape shadows[1 + billboardsArraySize];
-    int shadowsArraySize = sizeof(shadows) / sizeof(shadows[0]);
-    shadows[0].type = 8;
 
     // rain drops
     rainEntity rainDrops[600];
@@ -159,12 +166,13 @@ int main(){
 
 
     // ----- MAIN PROGRAM -----
-isRaining = true;
-if (isRaining){
+if (IS_RAINING){
     phongShader.use();
     phongShader.setBool("isRaining", true);
+    phongShader.setFloat("fogDensity", FOG_DENSITY);
     billboardShader.use();
     billboardShader.setBool("isRaining", true);
+    billboardShader.setFloat("fogDensity", FOG_DENSITY);
 }
     while (!glfwWindowShouldClose(window)){
         float currentFrame = glfwGetTime();
@@ -172,7 +180,7 @@ if (isRaining){
         lastFrame = currentFrame;
         processInput(window);
 
-        if (isRaining){
+        if (IS_RAINING){
             glClearColor(0.792f, 0.957f, 1.00f, 1.0f);
         }
         else{
@@ -196,6 +204,17 @@ if (isRaining){
 
         // ----- DRAW OBJECTS ------
 
+        // ### TERRAIN
+        for (int i = 0; i < terrainsArraySize; i++){
+            phongShader.use();
+            glBindVertexArray(phongTerrainVAO);
+            setTextureUV(phongShader, oceroAtlasUV, true);
+
+            phongShader.setMat4("model", terrains[i].modelMatrix);
+            glDrawElements(GL_TRIANGLES, phongTerrainIndicesVector.size(), GL_UNSIGNED_INT, 0);
+        }
+
+
         // ### BOXES
         for (int i = 0; i < boxesArraySize; i++){
             phongShader.use();
@@ -207,7 +226,7 @@ if (isRaining){
             phongShader.setMat4("model", boxes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-
+/*
         // ### FLOORS
         phongShader.use();
         glBindVertexArray(phongFloorVAO);
@@ -217,7 +236,7 @@ if (isRaining){
             phongShader.setMat4("model", floors[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
-
+*/
         // ### PYRAMIDS
         phongShader.use();
         glBindVertexArray(phongPyramidVAO);
@@ -272,7 +291,7 @@ if (isRaining){
 
 
         // ### RAIN
-        if (isRaining){
+        if (IS_RAINING){
             billboardShader.use();
             glBindVertexArray(phongBillboardVAO);
             setTextureUV(billboardShader, rainAtlasUV, false);
@@ -293,32 +312,16 @@ if (isRaining){
             }
         }
 
-        // ### SHADOWS
-        for (int i = 0; i < shadowsArraySize; i++){
-            float groundY = 0.01f;
 
-            if (i > 0){ // after rendering player shadow, render billboard shadows
-                shadows[i].modelMatrix[3][0] = billboards[i - 1].modelMatrix[3][0]; // x
-                shadows[i].modelMatrix[3][2] = billboards[i - 1].modelMatrix[3][2]; // z
-                setShadowLocation(shadows[i], glm::vec3(billboards[i - 1].modelMatrix[3][0], billboards[i - 1].modelMatrix[3][1], billboards[i - 1].modelMatrix[3][2]), groundY);
-            }
-            else{
-                setShadowLocation(shadows[0], glm::vec3(cameraPos.x, cameraPos.y, cameraPos.z), groundY);
-            }
-
-            phongShader.use();
-            glBindVertexArray(phongFloorVAO);
-            setTextureUV(phongShader, shadowAtlasUV, false);
-            phongShader.setMat4("model", shadows[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
-        }
 
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector);
-        std::string text =      "\\ocero 3d game beta v1.0.3\\"
+        terrainCoordBelowCamera = getHeight(cameraPos.x, cameraPos.z);
+        std::string text =      "\\ocero 3d game beta v1.1.0\\"
                                 "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
-                                "framerate: " + std::to_string(fps) + " fps";
-                                if (isRaining){
+                                "terrain y coord (below camera): " + std::to_string(terrainCoordBelowCamera) +
+                                "\\framerate: " + std::to_string(fps) + " fps";
+                                if (IS_RAINING){
                                     text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
                                 }
 
