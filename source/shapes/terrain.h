@@ -28,3 +28,4 @@ float getTerrainHeight(int x, int z);
 float getHeight(float worldX, float worldZ);
 glm::vec3 getNormals(int x, int y);
 float barryCentric(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3, const glm::vec2& pos);
+bool renderDistanceCheck(const glm::vec3& playerPos, const glm::vec3& treePos);

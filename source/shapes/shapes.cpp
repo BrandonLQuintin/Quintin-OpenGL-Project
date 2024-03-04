@@ -741,3 +741,16 @@ void generatePhongCylinderVertices(float radius, float height, int numSegments, 
         }
     }
 }
+
+// UNUSED CODE
+/*
+        // ### FLOORS
+        phongShader.use();
+        glBindVertexArray(phongFloorVAO);
+        setTextureUV(phongShader, cobbleAtlasUV, false);
+        for (int i = 0; i < floorsArraySize; i++){
+
+            phongShader.setMat4("model", floors[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+        }
+*/

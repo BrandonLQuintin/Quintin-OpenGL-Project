@@ -90,6 +90,9 @@ int main(){
     std::vector<float> shadowAtlasUV = returnTextureUV(0, 2);
     std::vector<float> rainAtlasUV = returnTextureUV(2, 2);
 
+    std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f};
+    std::vector<float> treeAtlasUV = {0.75f, 1.0f, 0.0625f, 0.25f};
+
     // ----- INITIALIZE OBJECTS -----
 
     // initialize various sphere locations
@@ -103,26 +106,43 @@ int main(){
 
     // 1 terrain
     shape terrains[1];
-    terrains[0].type = 100;
     int terrainsArraySize = sizeof(terrains) / sizeof(terrains[0]);
+
+    // 100 trees
+    shape trees[5000];
+    int treesArraySize = sizeof(trees) / sizeof(trees[0]);
+    const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
+    for (int i = 0; i < treesArraySize; i++){
+        trees[i].modelMatrix[3][0] = cameraPos.x + randomInRange(-HALF_CHUNK_SIZE, HALF_CHUNK_SIZE);
+        trees[i].modelMatrix[3][2] = cameraPos.z + randomInRange(-HALF_CHUNK_SIZE, HALF_CHUNK_SIZE);
+        trees[i].modelMatrix[3][1] = getHeight(trees[i].modelMatrix[3][0], trees[i].modelMatrix[3][2]) + 2.3f;
+        trees[i].modelMatrix = glm::scale(trees[i].modelMatrix, glm::vec3(5.0f));
+    }
+    shape clonedTree[treesArraySize];
+    for (int i = 0; i < treesArraySize; i++){
+        clonedTree[i].modelMatrix = trees[i].modelMatrix;
+    }
+    for (int i = 0; i < treesArraySize; i++){
+        clonedTree[i].modelMatrix = glm::rotate(clonedTree[i].modelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        clonedTree[i].modelMatrix[3][0] = trees[i].modelMatrix[3][0] + 0.55f;
+        clonedTree[i].modelMatrix[3][1] = trees[i].modelMatrix[3][1];
+        clonedTree[i].modelMatrix[3][2] = trees[i].modelMatrix[3][2] + 0.55f;
+    }
 
     // 2 boxes
     shape boxes[2];
-    boxes[0].type = 1;
     int boxesArraySize = sizeof(boxes) / sizeof(boxes[0]);
     boxes[0].modelMatrix = glm::translate(boxes[0].modelMatrix, glm::vec3(1.0f, 0.5f + heightOffset, -3.0f));
     boxes[1].modelMatrix = glm::translate(boxes[1].modelMatrix, glm::vec3(1.0f, 1.5f + heightOffset, -3.0f));
 
     // 1 floor
     shape floors[1];
-    floors[0].type = 2;
     int floorsArraySize = sizeof(floors) / sizeof(floors[0]);
     floors[0].modelMatrix = glm::translate(floors[0].modelMatrix, glm::vec3(0.0f, 0.0f + heightOffset, 0.0f));
     floors[0].modelMatrix = glm::scale(floors[0].modelMatrix, glm::vec3(500.0f));
 
     // 1 pyramid
     shape pyramids[1];
-    pyramids[0].type = 3;
     int pyramidsArraySize = sizeof(pyramids) / sizeof(pyramids[0]);
     pyramids[0].modelMatrix = glm::translate(pyramids[0].modelMatrix, glm::vec3(0.0f, 0.0f + heightOffset, -3.0f));
 
@@ -130,27 +150,23 @@ int main(){
     shape spheres[25];
     int spheresArraySize = sizeof(spheres) / sizeof(spheres[0]);
     for (int i = 0; i < spheresArraySize; i++){
-        spheres[i].type = 4;
         spheres[i].modelMatrix = glm::translate(spheres[i].modelMatrix, initialSpherePositions[i]);
     }
 
     // 1 cone
     shape cones[1];
     int conesArraySize = sizeof(cones) / sizeof(cones[0]);
-    cones[0].type = 5;
     cones[0].modelMatrix = glm::translate(cones[0].modelMatrix, glm::vec3(-1.0f, 0.0f + heightOffset, -3.0f));
 
     // 1 tube
     shape tubes[1];
     int tubesArraySize = sizeof(tubes) / sizeof(tubes[0]);
-    tubes[0].type = 6;
     tubes[0].modelMatrix = glm::translate(tubes[0].modelMatrix, glm::vec3(-2.0f, 0.0f + heightOffset, -3.0f));
 
     // 1 billboard
     shape billboards[3];
     int billboardsArraySize = sizeof(billboards) / sizeof(billboards[0]);
     for (int i = 0; i < billboardsArraySize; i++){
-        billboards[i].type = 7;
         billboards[i].modelMatrix = glm::translate(billboards[i].modelMatrix, glm::vec3(1 - (i * 1.1), 0.0f + heightOffset, -5.0f));
     }
 
@@ -214,7 +230,6 @@ if (IS_RAINING){
             glDrawElements(GL_TRIANGLES, phongTerrainIndicesVector.size(), GL_UNSIGNED_INT, 0);
         }
 
-
         // ### BOXES
         for (int i = 0; i < boxesArraySize; i++){
             phongShader.use();
@@ -226,17 +241,7 @@ if (IS_RAINING){
             phongShader.setMat4("model", boxes[i].modelMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-/*
-        // ### FLOORS
-        phongShader.use();
-        glBindVertexArray(phongFloorVAO);
-        setTextureUV(phongShader, cobbleAtlasUV, false);
-        for (int i = 0; i < floorsArraySize; i++){
 
-            phongShader.setMat4("model", floors[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
-        }
-*/
         // ### PYRAMIDS
         phongShader.use();
         glBindVertexArray(phongPyramidVAO);
@@ -278,7 +283,7 @@ if (IS_RAINING){
         }
 
         // ### BILLBOARDS
-        billboardShader.use();
+       billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
         setTextureUV(billboardShader, oceroAtlasUV, false);
         for (int i = 0; i < billboardsArraySize; i++){
@@ -288,6 +293,27 @@ if (IS_RAINING){
             billboardShader.setMat4("model", billboards[i].modelMatrix);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
+
+        // ### TREES
+        phongShader.use();
+        phongShader.setBool("isTree", true);
+        glBindVertexArray(phongBillboardVAO);
+        setTextureUV(phongShader, treeAtlasUV, false);
+        for (int i = 0; i < treesArraySize; i++) {
+        glm::vec3 treePosition = glm::vec3(trees[i].modelMatrix[3]);
+
+        if (renderDistanceCheck(cameraPos, treePosition)) {
+            phongShader.setMat4("model", trees[i].modelMatrix);
+
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+            phongShader.setMat4("model", clonedTree[i].modelMatrix);
+
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+        }
+            phongShader.setBool("isTree", false);
+
 
 
         // ### RAIN
@@ -317,7 +343,7 @@ if (IS_RAINING){
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector);
         terrainCoordBelowCamera = getHeight(cameraPos.x, cameraPos.z);
-        std::string text =      "\\ocero 3d game alpha v1.1.1\\"
+        std::string text =      "\\ocero 3d game alpha v1.1.2\\"
                                 "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 "terrain y coord (below camera): " + std::to_string(terrainCoordBelowCamera) +
                                 "\\framerate: " + std::to_string(fps) + " fps";
@@ -340,3 +366,5 @@ float randomInRange(float min, float max) {
     std::uniform_real_distribution<float> distribution(min, max);
     return distribution(gen);
 }
+
+
