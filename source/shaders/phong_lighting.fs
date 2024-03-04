@@ -60,7 +60,10 @@ void main()
     }
 
     vec3 result;
-    if (isRaining){
+    if (!firstTextureAtlas){
+        result = mix(texelColor.rgb * (ambient + diffuse) * objectColor, fogColor, fogFactor);
+    }
+    else if (isRaining){
         result = mix(texelColor.rgb * (ambient + diffuse + specular) * objectColor, fogColor, fogFactor);
     }
     else{
