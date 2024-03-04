@@ -34,7 +34,9 @@ std::mt19937 gen(rd());
 #include "opengl/text_render.h"
 #include "game/entity.h"
 #include "game/calculate_fps.h"
+#include "game/main_menu.h"
 #include "shapes/terrain.h"
+
 
 float randomInRange(float min, float max);
 
@@ -191,6 +193,10 @@ if (IS_RAINING){
     billboardShader.setFloat("fogDensity", FOG_DENSITY);
 }
     while (!glfwWindowShouldClose(window)){
+        while (mainMenu){
+            processMainMenu(window, t, 0);
+        }
+
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;

@@ -1,5 +1,6 @@
 #include "globals.h"
 
+bool mainMenu = false;
 bool isRaining = true;
 float fov = 90;
 

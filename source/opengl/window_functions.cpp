@@ -86,7 +86,9 @@ void processInput(GLFWwindow* window){
             }
         }
 
-
+        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS){
+                mainMenu = false;
+            }
 
         if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) { // help from chatgpt
             GLFWmonitor* monitor = glfwGetPrimaryMonitor();
