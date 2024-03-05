@@ -26,6 +26,9 @@ GLFWwindow* createWindow(){
         glfwSetCursorPosCallback(window, mouseCallback);
     }
 
+
+    glfwSwapInterval(0); // uncapped framerate
+
     // glad: load all OpenGL function pointers
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
