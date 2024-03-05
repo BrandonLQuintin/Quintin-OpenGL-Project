@@ -194,11 +194,13 @@ if (IS_RAINING){
 }
     while (!glfwWindowShouldClose(window)){
         while (mainMenu){
-            processMainMenu(window, t, 0);
+            processMainMenu(window, t, menuChoice);
         }
 
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
+        if (SLOW_MO)
+            deltaTime /= 3;
         lastFrame = currentFrame;
         processInput(window);
 
@@ -348,8 +350,10 @@ if (IS_RAINING){
 
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector);
+        if (SLOW_MO)
+            fps /= 3;
         terrainCoordBelowCamera = getHeight(cameraPos.x, cameraPos.z);
-        std::string text =      "\\ocero 3d game alpha v1.1.2\\"
+        std::string text =      "\\ocero 3d game alpha v1.2.0\\"
                                 "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 "terrain y coord (below camera): " + std::to_string(terrainCoordBelowCamera) +
                                 "\\framerate: " + std::to_string(fps) + " fps";
