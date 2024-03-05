@@ -32,10 +32,6 @@ GLFWwindow* createWindow(){
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
 
-    if (!ENABLE_VSYNC){
-        glfwSwapInterval(0); // uncapped framerate
-    }
-
     return window;
 
 }
@@ -86,10 +82,6 @@ void processInput(GLFWwindow* window){
             }
         }
 
-        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS){
-                mainMenu = false;
-            }
-
         if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) { // help from chatgpt
             GLFWmonitor* monitor = glfwGetPrimaryMonitor();
             const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -110,6 +102,23 @@ void processInput(GLFWwindow* window){
         }
     }
 
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
+    if (key == GLFW_KEY_ENTER && action == GLFW_PRESS && !enterKeyPressed) {
+        enterKeyPressed = true;
+    }
+
+    if (key == GLFW_KEY_UP && action == GLFW_PRESS && !enterKeyPressed) {
+        if(menuChoice > 0){
+            menuChoice -= 1;
+        }
+    }
+    if (key == GLFW_KEY_DOWN && action == GLFW_PRESS && !enterKeyPressed) {
+        if(menuChoice < 5){
+            menuChoice += 1;
+        }
+    }
 }
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos)

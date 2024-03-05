@@ -65,6 +65,8 @@ std::map<char, std::vector<float>> characterUV = {
 
 
 void renderText(Shader shader, std::string input){
+        if (!ENABLE_TEXT)
+            return;
         glDisable(GL_DEPTH_TEST);
         shader.use();
         glBindVertexArray(textVAO);
