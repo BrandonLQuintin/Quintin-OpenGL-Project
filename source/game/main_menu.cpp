@@ -13,9 +13,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         renderText(t, "\\\\  play game");
 
     if (choice == 1)
-        renderText(t, std::string("\\\\\\x enable_vsync: ") + (ENABLE_VSYNC ? "true" : "false"));
-    else
-        renderText(t, std::string("\\\\\\  enable_vsync: ") + (ENABLE_VSYNC ? "true" : "false"));
+        renderText(t, std::string("\\\\\\x enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false"));
+    else // REMOVE glfwSwapInterval(0); CODE FROM WINDOW FUNCTIONS TO RESTORE FUNCTIONALITY
+        renderText(t, std::string("\\\\\\  enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false"));
 
     if (choice == 2)
         renderText(t, std::string("\\\\\\\\x is_raining: ") + (IS_RAINING ? "true" : "false"));
