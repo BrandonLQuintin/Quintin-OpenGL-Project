@@ -1,5 +1,5 @@
 # The Game Engine Now (1 month of progress)!
-![Screenshot 2024-03-03 200609](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/440fa24b-4dcb-4838-bcf7-cf8c1622156f)
+![Screenshot 2024-03-07 212524](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/b184681c-8144-431b-b95e-373e22e6d492)
 
 
 # Quintin-Professional-Programming-Project
