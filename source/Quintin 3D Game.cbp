@@ -55,6 +55,8 @@
 		<Unit filename="game/entity.h" />
 		<Unit filename="game/main_menu.cpp" />
 		<Unit filename="game/main_menu.h" />
+		<Unit filename="game/player_controls.cpp" />
+		<Unit filename="game/player_controls.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
