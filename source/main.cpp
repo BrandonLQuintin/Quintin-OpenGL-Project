@@ -35,8 +35,8 @@ std::mt19937 gen(rd());
 #include "game/entity.h"
 #include "game/calculate_fps.h"
 #include "game/main_menu.h"
+#include "game/player_controls.h"
 #include "shapes/terrain.h"
-
 
 float randomInRange(float min, float max);
 
@@ -92,7 +92,12 @@ int main(){
     std::vector<float> shadowAtlasUV = returnTextureUV(0, 2);
     std::vector<float> rainAtlasUV = returnTextureUV(2, 2);
 
-    std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f};
+    std::vector<float> playerBackUV = returnTextureUV(0, 3);
+    std::vector<float> playerRightUV = returnTextureUV(0, 4);
+    std::vector<float> playerFrontUV = returnTextureUV(0, 5);
+    std::vector<float> playerLeftUV = returnTextureUV(0, 6);
+
+    std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f}; // these textures take up multiple 64x64 pixel grids so I gave it hard coded numbers.
     std::vector<float> treeAtlasUV = {0.75f, 1.0f, 0.0625f, 0.25f};
 
     // ----- INITIALIZE OBJECTS -----
@@ -182,7 +187,9 @@ int main(){
         rainDrops[i].modelMatrix[3][2] = cameraPos.z + randomInRange(-10.0f, 10.0f);
     }
 
-
+        player[3][0] = 0.0f;
+        player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
+        player[3][2] = -5.0f;
     // ----- MAIN PROGRAM -----
 if (IS_RAINING){
     phongShader.use();
@@ -204,12 +211,8 @@ if (IS_RAINING){
         lastFrame = currentFrame;
         processInput(window);
 
-        if (IS_RAINING){
-            glClearColor(0.792f, 0.957f, 1.00f, 1.0f);
-        }
-        else{
-            glClearColor(0.16f, 0.80f, 1.00f, 1.0f);
-        }
+        glClearColor(0.792f, 0.957f, 1.00f, 1.0f);
+
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -225,6 +228,31 @@ if (IS_RAINING){
         phongShader.setMat4("projection", projection);
         phongShader.setVec3("viewPos", cameraPos);
 
+        // ----- DRAW PLAYER / ENEMY -----
+
+        // ### PLAYER
+        billboardShader.use();
+        glBindVertexArray(phongBillboardVAO);
+        setTextureUV(billboardShader, playerBackUV, false);
+
+        if (!FREECAM_CONTROLS_ENABLED){
+            cameraPos.y = player[3][1];
+
+            float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
+
+            if (cameraPos.y < cameraHeightAboveTerrain + 1.0f){
+                cameraPos.y = cameraHeightAboveTerrain + 1.0f;
+            }
+        }
+
+        // ### ENEMY
+        // NO ENEMY RENDERED YET (TECHNICALLY DOESNT EXIST) SO LETS COPY THE LOCATION OF BILLBOARD #3
+        enemy[3][0] = billboards[2].modelMatrix[3][0];
+        enemy[3][1] = billboards[2].modelMatrix[3][1];
+        enemy[3][2] = billboards[2].modelMatrix[3][2];
+
+        billboardShader.setMat4("model", player);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // ----- DRAW OBJECTS ------
 
@@ -291,7 +319,7 @@ if (IS_RAINING){
         }
 
         // ### BILLBOARDS
-       billboardShader.use();
+        billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
         setTextureUV(billboardShader, oceroAtlasUV, false);
         for (int i = 0; i < billboardsArraySize; i++){
@@ -332,13 +360,13 @@ if (IS_RAINING){
             for (int i = 0; i < rainDropsArraySize; i++){
                 rainDrops[i].modelMatrix[3][1] -= rainDrops[i].speed * deltaTime;
 
-                if (rainDrops[i].modelMatrix[3][1] < cameraPos.y - 5){
+                if (rainDrops[i].modelMatrix[3][1] < player[3][1] - 5){
                     std::mt19937 generator(i);
-                    rainDrops[i].modelMatrix[3][0] = cameraPos.x + randomInRange(-8.0f, 8.0f);
-                    rainDrops[i].modelMatrix[3][1] = cameraPos.y + 5;
+                    rainDrops[i].modelMatrix[3][0] = player[3][0] + randomInRange(-8.0f, 8.0f);
+                    rainDrops[i].modelMatrix[3][1] = player[3][1] + 5;
                     rainDrops[i].initialY = rainDrops[i].modelMatrix[3][1] + randomInRange(-1.0f, 1.0f);
                     rainDrops[i].speed = randomInRange(5.0f, 8.0f);
-                    rainDrops[i].modelMatrix[3][2] = cameraPos.z + randomInRange(-8.0f, 8.0f);
+                    rainDrops[i].modelMatrix[3][2] = player[3][2] + randomInRange(-8.0f, 8.0f);
                 }
 
                 billboardShader.setMat4("model", rainDrops[i].modelMatrix);
@@ -346,20 +374,19 @@ if (IS_RAINING){
             }
         }
 
-
-
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector);
         if (SLOW_MO)
             fps /= 3;
-        terrainCoordBelowCamera = getHeight(cameraPos.x, cameraPos.z);
-        std::string text =      "\\ocero 3d game alpha v1.2.0\\"
-                                "camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
-                                "terrain y coord (below camera): " + std::to_string(terrainCoordBelowCamera) +
+        //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
+        std::string text =      "\\ocero 3d game alpha v2.0.0"
+                                //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
+                                //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
+                                //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
                                 "\\framerate: " + std::to_string(fps) + " fps";
-                                if (IS_RAINING){
-                                    text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
-                                }
+                                //if (IS_RAINING){
+                                //    text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
+                                //}
 
         renderText(t, text);
 

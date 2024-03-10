@@ -6,6 +6,7 @@ bool HIGH_RENDER_DISTANCE = false;
 bool ENABLE_VSYNC = false;
 bool ENABLE_TEXT = true;
 bool text = true;
+bool FREECAM_CONTROLS_ENABLED = false;
 
 float VIEW_DISTANCE = 100.0f;
 float DESPAWN_DISTANCE = 60.0f;
@@ -20,6 +21,12 @@ float fov = 90;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+
+// player
+glm::mat4 player = glm::mat4(1.0f);
+
+glm::mat4 enemy = glm::mat4(1.0f);
+
 
 
 float lastX = 0;

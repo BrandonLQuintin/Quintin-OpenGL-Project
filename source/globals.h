@@ -10,15 +10,13 @@
 // game settings
 extern bool mainMenu;
 
-const bool MOUSE_ENABLED = true;
-const bool FREECAM_CONTROLS_ENABLED = true;
+extern bool FREECAM_CONTROLS_ENABLED;
 extern bool IS_RAINING;
 extern bool SLOW_MO;
 extern bool HIGH_RENDER_DISTANCE;
 extern bool ENABLE_VSYNC;
 extern bool ENABLE_TEXT;
 extern bool text;
-
 
 const float PI = 3.14159265358979323846f;
 const unsigned int POLY_RESOLUTION = 35;
@@ -34,11 +32,16 @@ extern int menuChoice;
 
 // player variables
 extern float terrainCoordBelowCamera;
+extern glm::mat4 player;
+
+// enemy variables
+extern glm::mat4 enemy;
 
 // screen settings
 const unsigned int SCREEN_WIDTH = 1280;
 const unsigned int SCREEN_HEIGHT = 720;
 const float CAMERA_SPEED = 5.0f;
+const float CAMERA_ROTATE_SPEED = 100.0f;
 extern float fov;
 
 // timing

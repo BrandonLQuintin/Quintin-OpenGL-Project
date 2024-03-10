@@ -25,9 +25,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += std::string("\\  is_raining: ") + (IS_RAINING ? "true" : "false");
 
     if (choice == 3)
-        outputText += std::string("\\x high_render_distance: ") + (HIGH_RENDER_DISTANCE ? "true" : "false");
+        outputText += std::string("\\x freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
     else
-        outputText += std::string("\\  high_render_distance: ") + (HIGH_RENDER_DISTANCE ? "true" : "false");
+        outputText += std::string("\\  freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
 
     if (choice == 4)
         outputText += std::string("\\x slow_mo: ") + (SLOW_MO ? "true" : "false");
@@ -57,10 +57,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
             enterKeyPressed = false;
         }
         else if (choice == 3){
-            if (HIGH_RENDER_DISTANCE)
-                HIGH_RENDER_DISTANCE = false;
+            if (FREECAM_CONTROLS_ENABLED)
+                FREECAM_CONTROLS_ENABLED = false;
             else
-                HIGH_RENDER_DISTANCE = true;
+                FREECAM_CONTROLS_ENABLED = true;
             enterKeyPressed = false;
         }
         else if (choice == 4){

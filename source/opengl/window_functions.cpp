@@ -21,10 +21,9 @@ GLFWwindow* createWindow(){
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-    if (FREECAM_CONTROLS_ENABLED){
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetCursorPosCallback(window, mouseCallback);
-    }
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouseCallback);
 
 
     glfwSwapInterval(0); // uncapped framerate
@@ -105,6 +104,29 @@ void processInput(GLFWwindow* window){
         }
     }
 
+    if (!FREECAM_CONTROLS_ENABLED){
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+            rotateAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
+                                         cameraPos, deltaTime, -CAMERA_ROTATE_SPEED);
+            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+        }
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+            rotateAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
+                                         cameraPos, deltaTime, CAMERA_ROTATE_SPEED);
+            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+        }
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+            movePlayerToPoint(deltaTime, CAMERA_SPEED);
+            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+            movePlayerToPoint(deltaTime, -CAMERA_SPEED);
+            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+        }
+
+    }
+
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -126,14 +148,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
-    if (MOUSE_ENABLED){
+    if (FREECAM_CONTROLS_ENABLED){
 
         if (firstMouse){
             lastX = xpos;
             lastY = ypos;
             firstMouse = false;
         }
-
         float xoffset = xpos - lastX;
         float yoffset = lastY - ypos;
         lastX = xpos;

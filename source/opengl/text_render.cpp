@@ -64,7 +64,7 @@ std::map<char, std::vector<float>> characterUV = {
 };
 
 
-void renderText(Shader shader, std::string input){
+void renderText(Shader shader, std::string input){ // calling this function a lot hurts performance usually by 10-30% of the fps
         if (!ENABLE_TEXT)
             return;
         glDisable(GL_DEPTH_TEST);
