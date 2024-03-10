@@ -2132,7 +2132,7 @@
 	"../shapes/initialize_shape_vertices.h"
 	"../globals.h"
 
-1709484397 c:\users\brand\desktop\quintin-opengl-project\source\opengl\textures.h
+1710109358 c:\users\brand\desktop\quintin-opengl-project\source\opengl\textures.h
 	<glad/glad.h>
 	<stb_image.h>
 	<vector>
@@ -2155,7 +2155,7 @@
 	<intrin.h>
 	<arm_neon.h>
 
-1709484397 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\textures.cpp
+1710109358 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\textures.cpp
 	"textures.h"
 	<iostream>
 
@@ -2207,7 +2207,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1710107427 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1710109471 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2284,14 +2284,15 @@
 	"../opengl/text_render.h"
 	"../opengl/window_functions.h"
 
-1710102397 c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.h
+1710109042 c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.h
 	<iostream>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
+	<cmath>
 	"../globals.h"
 	"../opengl/camera_variables.h"
 	"../shapes/terrain.h"
 
-1710103872 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.cpp
+1710109042 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.cpp
 	"player_controls.h"
 
