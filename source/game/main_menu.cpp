@@ -1,42 +1,45 @@
 #include "main_menu.h"
+
 void processMainMenu(GLFWwindow* window, Shader t, int &choice){
     glfwSetKeyCallback(window, key_callback);
     glClearColor(0.16f, 0.80f, 1.00f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    std::string outputText;
 
+    outputText = "press enter to select\\";
 
-    renderText(t, "press enter to select");
     if (choice == 0)
-        renderText(t, "\\\\x play game");
+        outputText += "\\x play game";
     else
-        renderText(t, "\\\\  play game");
+        outputText += "\\  play game";
 
     if (choice == 1)
-        renderText(t, std::string("\\\\\\x enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false"));
+        outputText += std::string("\\x enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
     else // REMOVE glfwSwapInterval(0); CODE FROM WINDOW FUNCTIONS TO RESTORE FUNCTIONALITY
-        renderText(t, std::string("\\\\\\  enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false"));
+        outputText += std::string("\\  enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
 
     if (choice == 2)
-        renderText(t, std::string("\\\\\\\\x is_raining: ") + (IS_RAINING ? "true" : "false"));
+        outputText += std::string("\\x is_raining: ") + (IS_RAINING ? "true" : "false");
     else
-        renderText(t, std::string("\\\\\\\\  is_raining: ") + (IS_RAINING ? "true" : "false"));
+        outputText += std::string("\\  is_raining: ") + (IS_RAINING ? "true" : "false");
 
     if (choice == 3)
-        renderText(t, std::string("\\\\\\\\\\x high_render_distance: ") + (HIGH_RENDER_DISTANCE ? "true" : "false"));
+        outputText += std::string("\\x high_render_distance: ") + (HIGH_RENDER_DISTANCE ? "true" : "false");
     else
-        renderText(t, std::string("\\\\\\\\\\  high_render_distance: ") + (HIGH_RENDER_DISTANCE ? "true" : "false"));
+        outputText += std::string("\\  high_render_distance: ") + (HIGH_RENDER_DISTANCE ? "true" : "false");
 
     if (choice == 4)
-        renderText(t, std::string("\\\\\\\\\\\\x slow_mo: ") + (SLOW_MO ? "true" : "false"));
+        outputText += std::string("\\x slow_mo: ") + (SLOW_MO ? "true" : "false");
     else
-        renderText(t, std::string("\\\\\\\\\\\\  slow_mo: ") + (SLOW_MO ? "true" : "false"));
+        outputText += std::string("\\  slow_mo: ") + (SLOW_MO ? "true" : "false");
 
     if (choice == 5)
-        renderText(t, std::string("\\\\\\\\\\\\\\x enable_text: ") + (text ? "true" : "false"));
+        outputText += std::string("\\x enable_text: ") + (text ? "true" : "false");
     else
-        renderText(t, std::string("\\\\\\\\\\\\\\  enable_text: ") + (text ? "true" : "false"));
+        outputText += std::string("\\  enable_text: ") + (text ? "true" : "false");
 
+    renderText(t, outputText);
 
     if (enterKeyPressed){
         if (choice == 1){
