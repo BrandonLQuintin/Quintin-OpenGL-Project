@@ -21,6 +21,19 @@ void moveToPoint(glm::vec3 &objectPos, const glm::vec3 &destinationPos, float de
 
 }
 
+void moveEnemyToPoint(const glm::vec3 destinationPos, float deltaTime, float speed){
+    glm::vec3 enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+    glm::vec3 direction = glm::normalize(destinationPos - enemyPos);
+
+    float maxDistance = speed * deltaTime;
+
+    enemyPos += direction * maxDistance;
+
+    enemy[3][0] = enemyPos.x;
+    enemy[3][1] = enemyPos.y;
+    enemy[3][2] = enemyPos.z;
+}
+
 float calculateDistance(glm::vec3 objectPos, glm::vec3 destinationPos){
     glm::vec3 direction = glm::normalize(destinationPos - objectPos);
 
@@ -36,7 +49,7 @@ void movePlayerToPoint(float deltaTime, float speed){
 
     float distanceFromEnemy = calculateDistance(playerPos, destinationPos);
 
-    if (distanceFromEnemy > 1.0f){
+    if (distanceFromEnemy > 1.0f || speed < 0){
             moveToPoint(playerPos, destinationPos, deltaTime, speed);
     }
 

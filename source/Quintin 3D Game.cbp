@@ -51,6 +51,8 @@
 		</Linker>
 		<Unit filename="game/calculate_fps.cpp" />
 		<Unit filename="game/calculate_fps.h" />
+		<Unit filename="game/enemy.cpp" />
+		<Unit filename="game/enemy.h" />
 		<Unit filename="game/entity.cpp" />
 		<Unit filename="game/entity.h" />
 		<Unit filename="game/main_menu.cpp" />

@@ -36,6 +36,10 @@ extern glm::mat4 player;
 
 // enemy variables
 extern glm::mat4 enemy;
+extern glm::vec3 enemyGoTo;
+extern bool enemyReachedDestination;
+extern float enemyWaitTime;
+extern float timeSinceLastEnemyWait;
 
 // screen settings
 const unsigned int SCREEN_WIDTH = 1280;
