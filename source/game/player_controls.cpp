@@ -52,3 +52,26 @@ void movePlayerToPoint(float deltaTime, float speed){
         player[3][1] = playerHeightAboveTerrain;
     }
 }
+
+int calculateOrientationSpriteIndex(const glm::mat4 &transformationMatrix, const glm::vec3 &characterVertex, const glm::vec3 &targetVertex){
+    float rotationY = atan2(transformationMatrix[2][0], transformationMatrix[0][0]);
+
+    float dx = targetVertex.x - characterVertex.x;
+    float dz = targetVertex.z - characterVertex.z;
+
+    float angle = atan2(dz, dx) - rotationY;
+    angle = fmod((angle + 2 * M_PI) * (180.0f / M_PI), 360.0f);
+
+    int spriteIndex = 0; // Default to back view
+    if ((angle >= 315.0f && angle < 360.0f) || (angle >= 0.0f && angle < 45.0f)) {
+        spriteIndex = 1; // Right View
+    } else if (angle >= 45.0f && angle < 135.0f) {
+        spriteIndex = 2; // Front View
+    } else if (angle >= 135.0f && angle < 225.0f) {
+        spriteIndex = 3; // Left View
+    } else if (angle >= 225.0f && angle < 315.0f) {
+        spriteIndex = 0; // Back View
+    }
+
+    return spriteIndex;
+}

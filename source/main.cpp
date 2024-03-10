@@ -233,10 +233,13 @@ if (IS_RAINING){
         // ### PLAYER
         billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
-        setTextureUV(billboardShader, playerBackUV, false);
+        int orientation = calculateOrientationSpriteIndex(view, glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
+        std::vector<float> playerUV = returnTextureUV(0, 3 + orientation);
 
+        setTextureUV(billboardShader, playerUV, false);
         if (!FREECAM_CONTROLS_ENABLED){
             cameraPos.y = player[3][1];
+
 
             float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
 
