@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1710104051 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1710106586 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1710104051 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1710107532 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -2159,11 +2159,11 @@
 	"textures.h"
 	<iostream>
 
-1710104783 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1710106963 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
-1710098180 c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.h
+1710106921 c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.h
 	<glad/glad.h>
 	<GLFW/glfw3.h>
 	"../globals.h"
@@ -2207,7 +2207,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1710106142 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1710107427 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>

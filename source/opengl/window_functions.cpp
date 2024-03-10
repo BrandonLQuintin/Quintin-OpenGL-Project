@@ -40,7 +40,6 @@ GLFWwindow* createWindow(){
 
 void processInput(GLFWwindow* window){
     const float cameraSpeed = CAMERA_SPEED * deltaTime;
-    const float collisionLimit = terrainCoordBelowCamera + 1.0f;
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -65,6 +64,8 @@ void processInput(GLFWwindow* window){
     }
 
     if (FREECAM_CONTROLS_ENABLED){
+        terrainCoordBelowCamera = getHeight(cameraPos.x, cameraPos.z);
+        const float collisionLimit = terrainCoordBelowCamera + 1.0f;
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
             cameraPos += cameraSpeed * cameraFront;
             if (cameraPos.y <= collisionLimit){
