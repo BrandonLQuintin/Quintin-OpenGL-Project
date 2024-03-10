@@ -10,7 +10,8 @@
 // game settings
 extern bool mainMenu;
 
-const bool CONTROLS_ENABLED = true;
+const bool MOUSE_ENABLED = true;
+const bool FREECAM_CONTROLS_ENABLED = true;
 extern bool IS_RAINING;
 extern bool SLOW_MO;
 extern bool HIGH_RENDER_DISTANCE;

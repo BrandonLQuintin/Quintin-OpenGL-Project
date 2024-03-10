@@ -11,7 +11,7 @@ float VIEW_DISTANCE = 100.0f;
 float DESPAWN_DISTANCE = 60.0f;
 float FOG_DENSITY = 0.001f;
 
-bool mainMenu = true;
+bool mainMenu = false;
 int menuChoice = 0;
 bool enterKeyPressed = false;
 

@@ -21,7 +21,7 @@ GLFWwindow* createWindow(){
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-    if (CONTROLS_ENABLED){
+    if (FREECAM_CONTROLS_ENABLED){
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetCursorPosCallback(window, mouseCallback);
     }
@@ -46,7 +46,26 @@ void processInput(GLFWwindow* window){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (CONTROLS_ENABLED){
+    if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) { // help from chatgpt
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+        if (glfwGetWindowMonitor(window) == nullptr){
+            glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
+            projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, VIEW_DISTANCE);
+            glViewport(0, 0, (*mode).width, (*mode).height);
+        }
+        else{
+            glfwSetWindowMonitor(window, nullptr, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, GLFW_DONT_CARE);
+            projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, VIEW_DISTANCE);
+            glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        }
+        while (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS){
+            glfwPollEvents();
+        }
+    }
+
+    if (FREECAM_CONTROLS_ENABLED){
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
             cameraPos += cameraSpeed * cameraFront;
             if (cameraPos.y <= collisionLimit){
@@ -84,25 +103,6 @@ void processInput(GLFWwindow* window){
                 }
             }
         }
-
-        if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) { // help from chatgpt
-            GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-            const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-
-            if (glfwGetWindowMonitor(window) == nullptr){
-                glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
-                projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, VIEW_DISTANCE);
-                glViewport(0, 0, (*mode).width, (*mode).height);
-            }
-            else{
-                glfwSetWindowMonitor(window, nullptr, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, GLFW_DONT_CARE);
-                projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, VIEW_DISTANCE);
-                glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-            }
-            while (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS){
-                glfwPollEvents();
-            }
-        }
     }
 
 }
@@ -126,7 +126,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
-    if (CONTROLS_ENABLED){
+    if (MOUSE_ENABLED){
 
         if (firstMouse){
             lastX = xpos;
