@@ -379,7 +379,7 @@ if (IS_RAINING){
         if (SLOW_MO)
             fps /= 3;
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v2.0.0"
+        std::string text =      "\\ocero 3d game alpha v2.0.1"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
@@ -387,6 +387,10 @@ if (IS_RAINING){
                                 //if (IS_RAINING){
                                 //    text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
                                 //}
+                                if (FREECAM_CONTROLS_ENABLED){
+                                    text += "\\\\freecam mode";
+                                    text += "\\camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
+                                }
 
         renderText(t, text);
 
