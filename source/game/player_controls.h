@@ -10,6 +10,7 @@
 void rotateAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed);
 
 void moveToPoint(glm::vec3 &objectPos, const glm::vec3 &destinationPos, float deltaTime, float speed);
+void moveEnemyToPoint(const glm::vec3 destinationPos, float deltaTime, float speed);
 
 float calculateDistance(glm::vec3 objectPos, glm::vec3 destinationPos);
 

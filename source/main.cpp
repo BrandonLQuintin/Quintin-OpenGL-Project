@@ -111,6 +111,15 @@ int main(){
         initialSpherePositions[i].y = 10.0f + heightOffset;
     }
 
+    // enemy
+    enemyGoTo = glm::vec3(randomInRange(-10, 10), 0, randomInRange(-10, 10));
+    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+    enemy[3][0] = enemyGoTo.x;
+    enemy[3][1] = enemyGoTo.y;
+    enemy[3][2] = enemyGoTo.z;
+    enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
+    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+
     // 1 terrain
     shape terrains[1];
     int terrainsArraySize = sizeof(terrains) / sizeof(terrains[0]);
@@ -189,7 +198,7 @@ int main(){
 
         player[3][0] = 0.0f;
         player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
-        player[3][2] = -5.0f;
+        player[3][2] = -3.5f;
     // ----- MAIN PROGRAM -----
 if (IS_RAINING){
     phongShader.use();
@@ -239,25 +248,43 @@ if (IS_RAINING){
         setTextureUV(billboardShader, playerUV, false);
         if (!FREECAM_CONTROLS_ENABLED){
             cameraPos.y = player[3][1];
-
-
             float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
 
             if (cameraPos.y < cameraHeightAboveTerrain + 1.0f){
                 cameraPos.y = cameraHeightAboveTerrain + 1.0f;
             }
         }
-
-        // ### ENEMY
-        // NO ENEMY RENDERED YET (TECHNICALLY DOESNT EXIST) SO LETS COPY THE LOCATION OF BILLBOARD #3
-        enemy[3][0] = billboards[2].modelMatrix[3][0];
-        enemy[3][1] = billboards[2].modelMatrix[3][1];
-        enemy[3][2] = billboards[2].modelMatrix[3][2];
-
         billboardShader.setMat4("model", player);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        // ----- DRAW OBJECTS ------
+        // ### ENEMY
+        glm::vec3 playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+        glm::vec3 enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+        float enemyGoToDistance = calculateDistance(enemyPos, enemyGoTo);
+        enemyWaitTime = currentFrame - timeSinceLastEnemyWait;
+
+        if (enemyWaitTime > 5.0f){
+            moveEnemyToPoint(enemyGoTo, deltaTime, CAMERA_SPEED);
+        }
+
+        if (enemyGoToDistance < 1.0f){
+            enemyGoTo = glm::vec3(randomInRange(-10, 10), 0, randomInRange(-10, 10));
+            enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+            enemyWaitTime = glfwGetTime();
+            timeSinceLastEnemyWait = currentFrame;
+        }
+
+
+        billboardShader.use();
+        glBindVertexArray(phongBillboardVAO);
+        orientation = calculateOrientationSpriteIndex(view, glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]), glm::vec3(player[3][0], player[3][1], player[3][2]));
+        playerUV = returnTextureUV(0, 3 + orientation);
+
+        setTextureUV(billboardShader, playerUV, false);
+        billboardShader.setMat4("model", enemy);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        // ----- OBJECTS ------
 
         // ### TERRAIN
         for (int i = 0; i < terrainsArraySize; i++){
@@ -410,5 +437,3 @@ float randomInRange(float min, float max) {
     std::uniform_real_distribution<float> distribution(min, max);
     return distribution(gen);
 }
-
-

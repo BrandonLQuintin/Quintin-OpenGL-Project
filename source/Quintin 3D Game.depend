@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1710106586 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1710113994 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1710107532 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1710113994 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -2207,7 +2207,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1710109471 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1710113553 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2284,7 +2284,7 @@
 	"../opengl/text_render.h"
 	"../opengl/window_functions.h"
 
-1710109042 c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.h
+1710113354 c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.h
 	<iostream>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
@@ -2293,6 +2293,11 @@
 	"../opengl/camera_variables.h"
 	"../shapes/terrain.h"
 
-1710109042 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.cpp
+1710113330 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player_controls.cpp
 	"player_controls.h"
+
+1710111001 source:c:\users\brand\desktop\quintin-opengl-project\source\game\enemy.cpp
+	"enemy.h"
+
+1710111001 c:\users\brand\desktop\quintin-opengl-project\source\game\enemy.h
 
