@@ -243,9 +243,12 @@ if (IS_RAINING){
         billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
         int orientation = calculateOrientationSpriteIndex(view, glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
+        glm::vec3 playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+        glm::vec3 enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
         std::vector<float> playerUV = returnTextureUV(0, 3 + orientation);
 
-        setTextureUV(billboardShader, playerUV, false);
+        float distanceFromEnemy = calculateDistance(glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
+
         if (!FREECAM_CONTROLS_ENABLED){
             cameraPos.y = player[3][1];
             float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
@@ -253,16 +256,41 @@ if (IS_RAINING){
             if (cameraPos.y < cameraHeightAboveTerrain + 1.0f){
                 cameraPos.y = cameraHeightAboveTerrain + 1.0f;
             }
+
+
+            // handle player animations
+            if (currentlyFighting && distanceFromEnemy < 2.0f){
+                rotatePlayerAroundEnemy(deltaTime);
+                calculateTimeSinceLastPunch(timeSinceLastPunch, currentFrame, firstPunchFrame);
+
+                // initialize player's fighting position to the left of the enemy
+
+
+                if (player[3][0] < enemy[3][0]){ // if player is left, show the player punching from the left side
+                    if (firstPunchFrame)
+                        playerUV = returnTextureUV(2,4);
+                    else
+                        playerUV = returnTextureUV(3,4);
+                }
+                else{
+                    if (firstPunchFrame)
+                        playerUV = returnTextureUV(2,6);
+                    else
+                        playerUV = returnTextureUV(3,6);
+                }
+            }
+            setTextureUV(billboardShader, playerUV, false);
+            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+
         }
+
         billboardShader.setMat4("model", player);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // ### ENEMY
-        glm::vec3 playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
-        glm::vec3 enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+
         float enemyGoToDistance = calculateDistance(enemyPos, enemyGoTo);
         enemyWaitTime = currentFrame - timeSinceLastEnemyWait;
-
         if (enemyWaitTime > 5.0f){
             moveEnemyToPoint(enemyGoTo, deltaTime, CAMERA_SPEED);
         }
@@ -409,7 +437,7 @@ if (IS_RAINING){
         if (SLOW_MO)
             fps /= 3;
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v2.0.1"
+        std::string text =      "\\ocero 3d game alpha v2.1.0"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +

@@ -66,6 +66,7 @@ void processInput(GLFWwindow* window){
     if (FREECAM_CONTROLS_ENABLED){
         terrainCoordBelowCamera = getHeight(cameraPos.x, cameraPos.z);
         const float collisionLimit = terrainCoordBelowCamera + 1.0f;
+
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
             cameraPos += cameraSpeed * cameraFront;
             if (cameraPos.y <= collisionLimit){
@@ -106,24 +107,26 @@ void processInput(GLFWwindow* window){
     }
 
     if (!FREECAM_CONTROLS_ENABLED){
+        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+            currentlyFighting = true;
+        else
+            currentlyFighting = false;
+
+
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-            rotateAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
+            rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, deltaTime, -CAMERA_ROTATE_SPEED);
-            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         }
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
-            rotateAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
+            rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, deltaTime, CAMERA_ROTATE_SPEED);
-            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         }
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
             movePlayerToPoint(deltaTime, CAMERA_SPEED);
-            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
             movePlayerToPoint(deltaTime, -CAMERA_SPEED);
-            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         }
 
     }

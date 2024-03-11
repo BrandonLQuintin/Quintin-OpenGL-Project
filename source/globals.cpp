@@ -12,7 +12,7 @@ float VIEW_DISTANCE = 100.0f;
 float DESPAWN_DISTANCE = 60.0f;
 float FOG_DENSITY = 0.001f;
 
-bool mainMenu = false;
+bool mainMenu = true;
 int menuChoice = 0;
 bool enterKeyPressed = false;
 
@@ -24,6 +24,9 @@ float lastFrame = 0.0f;
 
 // player
 glm::mat4 player = glm::mat4(1.0f);
+bool currentlyFighting = false;
+float timeSinceLastPunch = 0.0f;
+bool firstPunchFrame = false;
 
 // enemy
 glm::mat4 enemy = glm::mat4(1.0f);
