@@ -33,6 +33,9 @@ extern int menuChoice;
 // player variables
 extern float terrainCoordBelowCamera;
 extern glm::mat4 player;
+extern bool currentlyFighting;
+extern bool firstPunchFrame;
+extern float timeSinceLastPunch;
 
 // enemy variables
 extern glm::mat4 enemy;

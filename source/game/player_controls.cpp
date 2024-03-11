@@ -1,6 +1,6 @@
 #include "player_controls.h"
 
-void rotateAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed){ // chatGPT generated
+void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed){ // chatGPT generated
     float angleRadians = glm::radians(rotationSpeed) * deltaTime;
 
     glm::vec3 toCamera = cameraPos - player;
@@ -10,6 +10,29 @@ void rotateAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float delt
     glm::vec3 rotatedVector = glm::vec3(rotation * glm::vec4(toCamera, 1.0f));
 
     cameraPos = player + rotatedVector;
+}
+
+void rotatePlayerAroundEnemy(float deltaTime){
+    glm::vec3 playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+    glm::vec3 target = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+
+    float rotationSpeed = 320.0f;
+    float angleRadians = glm::radians(rotationSpeed) * deltaTime;
+
+    glm::vec3 toPlayer = playerPos - target;
+
+    glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), angleRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    glm::vec3 rotatedVector = glm::vec3(rotation * glm::vec4(toPlayer, 1.0f));
+
+    playerPos = target + rotatedVector;
+    player[3][0] = playerPos.x;
+    player[3][1] = playerPos.y;
+    player[3][2] = playerPos.z;
+
+    cameraPos.x = player[3][0];
+    cameraPos.y = player[3][1];
+    cameraPos.z = player[3][2] + 3.5f;
 }
 
 void moveToPoint(glm::vec3 &objectPos, const glm::vec3 &destinationPos, float deltaTime, float speed){ // chatGPT generated
@@ -87,4 +110,12 @@ int calculateOrientationSpriteIndex(const glm::mat4 &transformationMatrix, const
     }
 
     return spriteIndex;
+}
+
+void calculateTimeSinceLastPunch(float &timeSinceSomething, float currentFrame, bool &toggle){
+    float time = currentFrame - timeSinceSomething;
+    if (time > 0.03f){
+        timeSinceSomething = currentFrame;
+        toggle = !toggle;
+    }
 }
