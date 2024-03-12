@@ -279,11 +279,12 @@ if (IS_RAINING){
                         playerUV = returnTextureUV(3,6);
                 }
             }
-            setTextureUV(billboardShader, playerUV, false);
             cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
-            billboardShader.setMat4("model", player);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
         }
+        setTextureUV(billboardShader, playerUV, false);
+        billboardShader.setMat4("model", player);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // ### ENEMY
 
@@ -435,7 +436,7 @@ if (IS_RAINING){
         if (SLOW_MO)
             fps /= 3;
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v2.1.0"
+        std::string text =      "\\ocero 3d game alpha v2.1.1"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
