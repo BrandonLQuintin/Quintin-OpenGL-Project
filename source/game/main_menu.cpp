@@ -15,9 +15,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += "\\  play game";
 
     if (choice == 1)
-        outputText += std::string("\\x enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
-    else // REMOVE glfwSwapInterval(0); CODE FROM WINDOW FUNCTIONS TO RESTORE FUNCTIONALITY
-        outputText += std::string("\\  enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
+        outputText += std::string("\\x freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
+    else
+        outputText += std::string("\\  freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
 
     if (choice == 2)
         outputText += std::string("\\x is_raining: ") + (IS_RAINING ? "true" : "false");
@@ -25,9 +25,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += std::string("\\  is_raining: ") + (IS_RAINING ? "true" : "false");
 
     if (choice == 3)
-        outputText += std::string("\\x freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
-    else
-        outputText += std::string("\\  freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
+        outputText += std::string("\\x enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
+    else // REMOVE glfwSwapInterval(0); CODE FROM WINDOW FUNCTIONS TO RESTORE FUNCTIONALITY
+        outputText += std::string("\\  enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
 
     if (choice == 4)
         outputText += std::string("\\x slow_mo: ") + (SLOW_MO ? "true" : "false");
@@ -43,10 +43,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     if (enterKeyPressed){
         if (choice == 1){
-            if (ENABLE_VSYNC)
-                ENABLE_VSYNC = false;
+            if (FREECAM_CONTROLS_ENABLED)
+                FREECAM_CONTROLS_ENABLED = false;
             else
-                ENABLE_VSYNC = true;
+                FREECAM_CONTROLS_ENABLED = true;
             enterKeyPressed = false;
         }
         else if (choice == 2){
@@ -57,10 +57,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
             enterKeyPressed = false;
         }
         else if (choice == 3){
-            if (FREECAM_CONTROLS_ENABLED)
-                FREECAM_CONTROLS_ENABLED = false;
+            if (ENABLE_VSYNC)
+                ENABLE_VSYNC = false;
             else
-                FREECAM_CONTROLS_ENABLED = true;
+                ENABLE_VSYNC = true;
             enterKeyPressed = false;
         }
         else if (choice == 4){
