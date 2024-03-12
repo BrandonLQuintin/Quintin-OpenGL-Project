@@ -281,11 +281,9 @@ if (IS_RAINING){
             }
             setTextureUV(billboardShader, playerUV, false);
             cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
-
+            billboardShader.setMat4("model", player);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
-
-        billboardShader.setMat4("model", player);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // ### ENEMY
 
