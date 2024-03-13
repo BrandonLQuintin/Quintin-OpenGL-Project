@@ -144,7 +144,7 @@ void calculatePunchParticles(bool leftSide){
 void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV){
     if (currentlyFighting && distanceFromEnemy < 1.3f){ // initialize player's fighting position to the left of the enemy
         if (initializeFightAniamtion == true){
-            player[3][0] = enemy[3][0] - 0.7f;
+            player[3][0] = enemy[3][0] - 1.0f;
             player[3][1] = enemy[3][1];
             player[3][2] = enemy[3][2];
             initializeFightAniamtion = false;
