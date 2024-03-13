@@ -4,7 +4,7 @@
 #include "../globals.h"
 #include "camera_variables.h"
 #include "../shapes/terrain.h"
-#include "../game/player_controls.h"
+#include "../game/player.h"
 
 extern bool firstMouse;
 
