@@ -6,6 +6,10 @@
 #include <cmath>
 #include <shader_m.h>
 #include <vector>
+#include <random>
+
+
+float randomInRange(float min, float max);
 
 // game settings
 extern bool mainMenu;
@@ -36,6 +40,9 @@ extern glm::mat4 player;
 extern bool currentlyFighting;
 extern bool firstPunchFrame;
 extern float timeSinceLastPunch;
+extern bool punchAnimationBounceBack;
+extern bool initializeFightAniamtion;
+extern bool punchFrameToggle;
 
 // enemy variables
 extern glm::mat4 enemy;
@@ -43,6 +50,7 @@ extern glm::vec3 enemyGoTo;
 extern bool enemyReachedDestination;
 extern float enemyWaitTime;
 extern float timeSinceLastEnemyWait;
+const bool ENEMY_MOVMENT = true;
 
 // screen settings
 const unsigned int SCREEN_WIDTH = 1280;

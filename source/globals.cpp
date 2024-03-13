@@ -1,5 +1,9 @@
 #include "globals.h"
 
+std::random_device rd;
+std::mt19937 gen(rd()); // for use with random
+
+
 bool IS_RAINING = true;
 bool SLOW_MO = false;
 bool HIGH_RENDER_DISTANCE = false;
@@ -27,6 +31,9 @@ glm::mat4 player = glm::mat4(1.0f);
 bool currentlyFighting = false;
 float timeSinceLastPunch = 0.0f;
 bool firstPunchFrame = false;
+bool punchFrameToggle = true; // this makes it so the hit registration doesnt count hundreds of time per second
+bool punchAnimationBounceBack = false;
+bool initializeFightAniamtion = false;
 
 // enemy
 glm::mat4 enemy = glm::mat4(1.0f);
@@ -47,5 +54,9 @@ float pitch = 0.0f;
 std::vector<float> fpsVector;
 float timeSinceLastFPSCalculation = 0.0f;
 
-
 float terrainCoordBelowCamera = 0.0f;
+
+float randomInRange(float min, float max) {
+    std::uniform_real_distribution<float> distribution(min, max);
+    return distribution(gen);
+}

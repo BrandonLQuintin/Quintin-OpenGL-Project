@@ -4,9 +4,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <random>
-std::random_device rd;
-std::mt19937 gen(rd());
 
 // opengl libraries
 #include <glad/glad.h> // loads OpenGL pointers
@@ -35,10 +32,10 @@ std::mt19937 gen(rd());
 #include "game/entity.h"
 #include "game/calculate_fps.h"
 #include "game/main_menu.h"
-#include "game/player_controls.h"
+#include "game/player.h"
 #include "shapes/terrain.h"
 
-float randomInRange(float min, float max);
+
 
 int main(){
 
@@ -199,15 +196,18 @@ int main(){
         player[3][0] = 0.0f;
         player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
         player[3][2] = -3.5f;
+
+    if (IS_RAINING){
+        phongShader.use();
+        phongShader.setBool("isRaining", true);
+        phongShader.setFloat("fogDensity", FOG_DENSITY);
+        billboardShader.use();
+        billboardShader.setBool("isRaining", true);
+        billboardShader.setFloat("fogDensity", FOG_DENSITY);
+    }
+
     // ----- MAIN PROGRAM -----
-if (IS_RAINING){
-    phongShader.use();
-    phongShader.setBool("isRaining", true);
-    phongShader.setFloat("fogDensity", FOG_DENSITY);
-    billboardShader.use();
-    billboardShader.setBool("isRaining", true);
-    billboardShader.setFloat("fogDensity", FOG_DENSITY);
-}
+
     while (!glfwWindowShouldClose(window)){
         while (mainMenu){
             processMainMenu(window, t, menuChoice);
@@ -257,55 +257,56 @@ if (IS_RAINING){
                 cameraPos.y = cameraHeightAboveTerrain + 1.0f;
             }
 
-
             // handle player animations
-            if (currentlyFighting && distanceFromEnemy < 2.0f){
-                rotatePlayerAroundEnemy(deltaTime);
-                calculateTimeSinceLastPunch(timeSinceLastPunch, currentFrame, firstPunchFrame);
-
-                // initialize player's fighting position to the left of the enemy
-
-
-                if (player[3][0] < enemy[3][0]){ // if player is left, show the player punching from the left side
-                    if (firstPunchFrame)
-                        playerUV = returnTextureUV(2,4);
-                    else
-                        playerUV = returnTextureUV(3,4);
-                }
-                else{
-                    if (firstPunchFrame)
-                        playerUV = returnTextureUV(2,6);
-                    else
-                        playerUV = returnTextureUV(3,6);
-                }
-            }
+            handlePlayerAnimations(distanceFromEnemy, currentFrame, playerUV);
             cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+        }
+
+        // render all punches
+        for (int i = 0; i < existingPunches.size(); i++){
+            if (currentFrame - existingPunches[i].timeSinceExistence > 0.05f){
+                existingPunches.erase(existingPunches.begin() + i);
+            }
+
+            else{
+                std::vector<float> punchTexture = returnTextureUV(existingPunches[i].textureXCoord, 1);
+                setTextureUV(billboardShader, punchTexture, false);
+                billboardShader.setMat4("model", existingPunches[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
 
         }
+
+        // render player
         setTextureUV(billboardShader, playerUV, false);
         billboardShader.setMat4("model", player);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // ### ENEMY
+        if (ENEMY_MOVMENT){
+            float enemyGoToDistance = calculateDistance(enemyPos, enemyGoTo);
+            enemyWaitTime = currentFrame - timeSinceLastEnemyWait;
+            if (enemyWaitTime > 5.0f){
+                moveEnemyToPoint(enemyGoTo, deltaTime, CAMERA_SPEED);
+            }
 
-        float enemyGoToDistance = calculateDistance(enemyPos, enemyGoTo);
-        enemyWaitTime = currentFrame - timeSinceLastEnemyWait;
-        if (enemyWaitTime > 5.0f){
-            moveEnemyToPoint(enemyGoTo, deltaTime, CAMERA_SPEED);
+            if (enemyGoToDistance < 1.0f){
+                enemyGoTo = glm::vec3(randomInRange(-10, 10), 0, randomInRange(-10, 10));
+                enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+                enemyWaitTime = glfwGetTime();
+                timeSinceLastEnemyWait = currentFrame;
+            }
         }
-
-        if (enemyGoToDistance < 1.0f){
-            enemyGoTo = glm::vec3(randomInRange(-10, 10), 0, randomInRange(-10, 10));
-            enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
-            enemyWaitTime = glfwGetTime();
-            timeSinceLastEnemyWait = currentFrame;
-        }
-
 
         billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
-        orientation = calculateOrientationSpriteIndex(view, glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]), glm::vec3(player[3][0], player[3][1], player[3][2]));
-        playerUV = returnTextureUV(0, 3 + orientation);
+        if (currentlyFighting && distanceFromEnemy < 1.3f && !(enemyWaitTime > 5.0f)) // if enemy is getting damaged
+            playerUV = returnTextureUV(1, 5);
+        else{
+            orientation = calculateOrientationSpriteIndex(view, glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]), glm::vec3(player[3][0], player[3][1], player[3][2]));
+            playerUV = returnTextureUV(0, 3 + orientation);
+        }
+
 
         setTextureUV(billboardShader, playerUV, false);
         billboardShader.setMat4("model", enemy);
@@ -460,7 +461,4 @@ if (IS_RAINING){
 
 }
 
-float randomInRange(float min, float max) {
-    std::uniform_real_distribution<float> distribution(min, max);
-    return distribution(gen);
-}
+

@@ -1,4 +1,6 @@
-#include "player_controls.h"
+#include "player.h"
+
+std::vector<punchEntity> existingPunches;
 
 void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed){ // chatGPT generated
     float angleRadians = glm::radians(rotationSpeed) * deltaTime;
@@ -117,5 +119,73 @@ void calculateTimeSinceLastPunch(float &timeSinceSomething, float currentFrame, 
     if (time > 0.03f){
         timeSinceSomething = currentFrame;
         toggle = !toggle;
+        punchFrameToggle = true;
     }
 }
+
+void calculatePunchParticles(bool leftSide){
+    punchEntity newPunch;
+    float randXValue = randomInRange(13.0f, 16.0f);
+    randXValue = std::floor(randXValue);
+    newPunch.textureXCoord = randXValue;
+
+    if (leftSide){
+        newPunch.modelMatrix[3][0] = enemy[3][0] + randomInRange(-0.5f, 0.0f);
+    }
+    else{
+        newPunch.modelMatrix[3][0] = enemy[3][0] + randomInRange(0.0f, 0.5f);
+    }
+    newPunch.modelMatrix[3][1] = enemy[3][1] + randomInRange(-0.5f, 0.5f);
+    newPunch.modelMatrix[3][2] = player[3][2];
+    existingPunches.push_back(newPunch);
+    punchFrameToggle = false;
+}
+
+void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV){
+    if (currentlyFighting && distanceFromEnemy < 1.3f){ // initialize player's fighting position to the left of the enemy
+        if (initializeFightAniamtion == true){
+            player[3][0] = enemy[3][0] - 0.7f;
+            player[3][1] = enemy[3][1];
+            player[3][2] = enemy[3][2];
+            initializeFightAniamtion = false;
+        }
+
+        if (punchAnimationBounceBack == false){
+            player[3][1] += 0.4f * deltaTime;
+            if (player[3][1] >= (enemy[3][1] + 0.1f)){ // hit top
+                punchAnimationBounceBack = true;
+            }
+        }
+        else if (punchAnimationBounceBack == true){
+            player[3][1] -= 0.4f * deltaTime;
+            if (player[3][1] <= (enemy[3][1] - 0.1f)){ // hit bottom
+                punchAnimationBounceBack = false;
+            }
+        }
+
+        rotatePlayerAroundEnemy(deltaTime);
+        calculateTimeSinceLastPunch(timeSinceLastPunch, currentFrame, firstPunchFrame);
+
+        if (player[3][0] < enemy[3][0]){ // if player is left, show the player punching from the left side
+            if (firstPunchFrame){
+                if (punchFrameToggle){
+                    calculatePunchParticles(true); // before punching enemy, generate punch particles.
+                    }
+                playerUV = returnTextureUV(2,4);
+                }
+            else
+            playerUV = returnTextureUV(3,4);
+        }
+        else{
+            if (firstPunchFrame){
+                if (punchFrameToggle){
+                    calculatePunchParticles(false);
+                    }
+                    playerUV = returnTextureUV(2,6);
+                }
+                else
+                    playerUV = returnTextureUV(3,6);
+        }
+    }
+}
+
