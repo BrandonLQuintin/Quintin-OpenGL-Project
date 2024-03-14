@@ -30,6 +30,9 @@ extern float VIEW_DISTANCE;
 extern float DESPAWN_DISTANCE;
 extern float FOG_DENSITY;
 
+extern std::string dialogue;
+extern int dialogueChoice;
+
 // main menu
 extern bool enterKeyPressed;
 extern int menuChoice;
@@ -63,7 +66,7 @@ extern float fov;
 // timing
 extern float deltaTime;
 extern float lastFrame;
-const float SLOW_MO_MULTIPLIER = 2.0f;
+const float SLOW_MO_MULTIPLIER = 1.75f;
 
 // mouse controls
 extern float lastX;

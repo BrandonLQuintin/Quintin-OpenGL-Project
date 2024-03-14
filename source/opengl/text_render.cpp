@@ -63,6 +63,15 @@ std::map<char, std::vector<float>> characterUV = {
     {'&', returnTextureUV(7, 4)}
 };
 
+std::map<int, std::string> textOptions = {
+    {1, "\\\\\\\\\\                                  take that, ocero!"},
+    {2, "\\\\\\\\\\                                   whisker punch!"},
+    {3, "\\\\\\\\\\                                    slow motion!"},
+    {4, "\\\\\\\\\\                                      whiskers!"},
+    {5, "\\\\\\\\\\                                       no way!"},
+    {6, "\\\\\\\\\\                                   mega whiskers!"}
+};
+
 
 void renderText(Shader shader, std::string input){ // calling this function a lot hurts performance usually by 10-30% of the fps
         if (!ENABLE_TEXT)
@@ -104,4 +113,14 @@ void renderText(Shader shader, std::string input){ // calling this function a lo
             }
         }
         glEnable(GL_DEPTH_TEST);
-};
+}
+
+void newDialogue(){
+    int oldChoice = dialogueChoice;
+    dialogueChoice = randomInRange(1.0f, textOptions.size() + 1.0f);
+    while (dialogueChoice == oldChoice){
+        dialogueChoice = randomInRange(1.0f, textOptions.size() + 1.0f);
+    }
+
+    dialogue = textOptions[dialogueChoice];
+}

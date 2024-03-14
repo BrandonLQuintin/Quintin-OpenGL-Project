@@ -148,6 +148,7 @@ void calculatePunchParticles(bool leftSide){
 void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV){
     if (currentlyFighting && distanceFromEnemy < 1.3f){ // initialize player's fighting position to the left of the enemy
         if (initializeFightAniamtion == true){
+            newDialogue();
 
             if (player[3][0] < enemy[3][0]) // if player left, start fight left
                 player[3][0] = enemy[3][0] - 1.0f;
