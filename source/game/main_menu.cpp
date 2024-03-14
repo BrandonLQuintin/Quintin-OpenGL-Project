@@ -74,6 +74,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
             ENABLE_TEXT = text;
             mainMenu = false;
             lastFrame = glfwGetTime();
+
+            cameraPos.x = player[3][0];
+            cameraPos.y = player[3][1];
+            cameraPos.z = player[3][2] + 3.5f;
         }
     }
 
