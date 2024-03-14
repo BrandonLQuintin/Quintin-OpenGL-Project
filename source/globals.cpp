@@ -6,6 +6,7 @@ std::mt19937 gen(rd()); // for use with random
 
 bool IS_RAINING = true;
 bool SLOW_MO = false;
+bool DISABLE_SLOW_MO = false;
 bool HIGH_RENDER_DISTANCE = false;
 bool ENABLE_VSYNC = false;
 bool ENABLE_TEXT = true;
