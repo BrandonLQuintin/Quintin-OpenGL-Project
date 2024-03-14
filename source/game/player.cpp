@@ -116,7 +116,11 @@ int calculateOrientationSpriteIndex(const glm::mat4 &transformationMatrix, const
 
 void calculateTimeSinceLastPunch(float &timeSinceSomething, float currentFrame, bool &toggle){
     float time = currentFrame - timeSinceSomething;
-    if (time > 0.03f){
+    float adjustedTime = 0.03f;
+    if (SLOW_MO){
+        adjustedTime *= 3.0f;
+    }
+    if (time > adjustedTime){
         timeSinceSomething = currentFrame;
         toggle = !toggle;
         punchFrameToggle = true;
@@ -149,21 +153,25 @@ void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::ve
             player[3][2] = enemy[3][2];
             initializeFightAniamtion = false;
         }
+        float adjustedDeltaTime = deltaTime;
+        if (SLOW_MO){
+            adjustedDeltaTime /= 3;
+        }
 
         if (punchAnimationBounceBack == false){
-            player[3][1] += 0.4f * deltaTime;
+            player[3][1] += 0.4f * adjustedDeltaTime;
             if (player[3][1] >= (enemy[3][1] + 0.1f)){ // hit top
                 punchAnimationBounceBack = true;
             }
         }
         else if (punchAnimationBounceBack == true){
-            player[3][1] -= 0.4f * deltaTime;
+            player[3][1] -= 0.4f * adjustedDeltaTime;
             if (player[3][1] <= (enemy[3][1] - 0.1f)){ // hit bottom
                 punchAnimationBounceBack = false;
             }
         }
 
-        rotatePlayerAroundEnemy(deltaTime);
+        rotatePlayerAroundEnemy(adjustedDeltaTime);
         calculateTimeSinceLastPunch(timeSinceLastPunch, currentFrame, firstPunchFrame);
 
         if (player[3][0] < enemy[3][0]){ // if player is left, show the player punching from the left side

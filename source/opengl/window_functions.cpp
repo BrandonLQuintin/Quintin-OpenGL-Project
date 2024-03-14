@@ -112,14 +112,18 @@ void processInput(GLFWwindow* window){
         else
             currentlyFighting = false;
 
+        float adjustedDeltaTime = deltaTime;
+        if (SLOW_MO){
+            adjustedDeltaTime *= 3.0f;
+        }
 
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
-                                         cameraPos, deltaTime, -CAMERA_ROTATE_SPEED);
+                                         cameraPos, adjustedDeltaTime, -CAMERA_ROTATE_SPEED);
         }
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
-                                         cameraPos, deltaTime, CAMERA_ROTATE_SPEED);
+                                         cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !currentlyFighting){
             movePlayerToPoint(deltaTime, CAMERA_SPEED);
