@@ -5,6 +5,8 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
     glClearColor(0.16f, 0.80f, 1.00f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    processInput(window);
+
     std::string outputText;
 
     outputText = "press enter to select\\";
