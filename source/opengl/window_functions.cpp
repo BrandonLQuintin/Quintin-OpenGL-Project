@@ -165,6 +165,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_K && action == GLFW_PRESS) {
         initializeFightAniamtion = true;
     }
+    if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
+        mainMenu = true;
+        enterKeyPressed = false;
+        ENABLE_TEXT = true;
+    }
 }
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos)
