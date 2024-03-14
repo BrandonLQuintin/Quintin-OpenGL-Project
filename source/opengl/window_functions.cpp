@@ -107,14 +107,24 @@ void processInput(GLFWwindow* window){
     }
 
     if (!FREECAM_CONTROLS_ENABLED){
-        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS){
             currentlyFighting = true;
-        else
+            if (!DISABLE_SLOW_MO){
+                SLOW_MO = true;
+            }
+        }
+
+        else{
             currentlyFighting = false;
+            if (!DISABLE_SLOW_MO){
+                SLOW_MO = false;
+            }
+        }
+
 
         float adjustedDeltaTime = deltaTime;
         if (SLOW_MO){
-            adjustedDeltaTime *= 3.0f;
+            adjustedDeltaTime *= SLOW_MO_MULTIPLIER;
         }
 
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){

@@ -30,9 +30,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += std::string("\\  enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
 
     if (choice == 4)
-        outputText += std::string("\\x slow_mo: ") + (SLOW_MO ? "true" : "false");
+        outputText += std::string("\\x disable_slow_mo: ") + (DISABLE_SLOW_MO ? "true" : "false");
     else
-        outputText += std::string("\\  slow_mo: ") + (SLOW_MO ? "true" : "false");
+        outputText += std::string("\\  disable_slow_mo: ") + (DISABLE_SLOW_MO ? "true" : "false");
 
     if (choice == 5)
         outputText += std::string("\\x enable_text: ") + (text ? "true" : "false");
@@ -43,38 +43,23 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     if (enterKeyPressed){
         if (choice == 1){
-            if (FREECAM_CONTROLS_ENABLED)
-                FREECAM_CONTROLS_ENABLED = false;
-            else
-                FREECAM_CONTROLS_ENABLED = true;
+            FREECAM_CONTROLS_ENABLED = !FREECAM_CONTROLS_ENABLED;
             enterKeyPressed = false;
         }
         else if (choice == 2){
-            if (IS_RAINING)
-                IS_RAINING = false;
-            else
-                IS_RAINING = true;
+            IS_RAINING = !IS_RAINING;
             enterKeyPressed = false;
         }
         else if (choice == 3){
-            if (ENABLE_VSYNC)
-                ENABLE_VSYNC = false;
-            else
-                ENABLE_VSYNC = true;
+            ENABLE_VSYNC = !ENABLE_VSYNC;
             enterKeyPressed = false;
         }
         else if (choice == 4){
-            if (SLOW_MO)
-                SLOW_MO = false;
-            else
-                SLOW_MO = true;
+            DISABLE_SLOW_MO = !DISABLE_SLOW_MO;
             enterKeyPressed = false;
         }
         else if (choice == 5){
-            if (text)
-                text = false;
-            else
-                text = true;
+            text = !text;
             enterKeyPressed = false;
         }
         else{

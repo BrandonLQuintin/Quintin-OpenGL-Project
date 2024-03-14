@@ -17,6 +17,7 @@ extern bool mainMenu;
 extern bool FREECAM_CONTROLS_ENABLED;
 extern bool IS_RAINING;
 extern bool SLOW_MO;
+extern bool DISABLE_SLOW_MO;
 extern bool HIGH_RENDER_DISTANCE;
 extern bool ENABLE_VSYNC;
 extern bool ENABLE_TEXT;
@@ -62,6 +63,7 @@ extern float fov;
 // timing
 extern float deltaTime;
 extern float lastFrame;
+const float SLOW_MO_MULTIPLIER = 2.0f;
 
 // mouse controls
 extern float lastX;
