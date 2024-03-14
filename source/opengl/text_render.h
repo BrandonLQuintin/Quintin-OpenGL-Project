@@ -7,5 +7,7 @@
 
 
 extern std::map<char, std::vector<float>> characterUV;
+extern std::map<int, std::string> textOptions;
 
 void renderText(Shader shader, std::string input);
+void newDialogue();

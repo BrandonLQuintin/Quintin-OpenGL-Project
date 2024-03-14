@@ -7,6 +7,7 @@
 #include "../opengl/camera_variables.h"
 #include "../shapes/terrain.h"
 #include "entity.h"
+#include "../opengl/text_render.h"
 
 void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed);
 void rotatePlayerAroundEnemy(float deltaTime);

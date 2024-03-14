@@ -27,6 +27,9 @@ float fov = 90;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+std::string dialogue;
+int dialogueChoice = 0;
+
 // player
 glm::mat4 player = glm::mat4(1.0f);
 bool currentlyFighting = false;
