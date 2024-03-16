@@ -48,6 +48,8 @@ extern float timeSinceLastPunch;
 extern bool punchAnimationBounceBack;
 extern bool initializeFightAnimation;
 extern bool punchFrameToggle;
+extern bool playerShieldEnabled;
+extern bool playerShieldToggle;
 
 // enemy variables
 extern glm::mat4 enemy;

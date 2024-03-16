@@ -39,6 +39,8 @@ bool firstPunchFrame = false;
 bool punchFrameToggle = true; // this makes it so the hit registration doesnt count hundreds of time per second
 bool punchAnimationBounceBack = false;
 bool initializeFightAnimation = false;
+bool playerShieldEnabled = false;
+bool playerShieldToggle = false;
 
 // enemy
 glm::mat4 enemy = glm::mat4(1.0f);

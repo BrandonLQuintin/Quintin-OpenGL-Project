@@ -135,13 +135,19 @@ void processInput(GLFWwindow* window){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle){
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled){
             movePlayerToPoint(deltaTime, CAMERA_SPEED);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle){
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled){
             movePlayerToPoint(deltaTime, -CAMERA_SPEED);
         }
+
+        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle){
+            playerShieldEnabled = true;
+        }
+        else
+            playerShieldEnabled = false;
 
     }
 

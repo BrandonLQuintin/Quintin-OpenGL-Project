@@ -1,11 +1,15 @@
 #include "calculate_fps.h"
 
-int calculateAverageFPS(float &timeSinceCalculation, float deltaTime, std::vector<float> &fpsArray){
+int calculateAverageFPS(float &timeSinceCalculation, float deltaTime, std::vector<float> &fpsArray, bool isSlowMO){
     float elapsedTime = glfwGetTime() - timeSinceCalculation;
+
     if (elapsedTime > 0.1f){
         timeSinceCalculation = glfwGetTime();
-
-        int fps = 1.0f / deltaTime;
+        int fps;
+        if (isSlowMO)
+            fps = 1.0f / (deltaTime * 1.75);
+        else
+            fps = 1.0f / deltaTime;
         fpsArray.push_back(fps);
 
     }
