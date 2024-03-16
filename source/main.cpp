@@ -94,6 +94,9 @@ int main(){
     std::vector<float> playerFrontUV = returnTextureUV(0, 5);
     std::vector<float> playerLeftUV = returnTextureUV(0, 6);
 
+    std::vector<float> playerInjuryUV = returnTextureUV(1, 5);
+    std::vector<float> playerShieldUV = returnTextureUV(0, 1);
+
     std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f}; // these textures take up multiple 64x64 pixel grids so I gave it hard coded numbers.
     std::vector<float> treeAtlasUV = {0.75f, 1.0f, 0.0625f, 0.25f};
 
@@ -283,8 +286,13 @@ int main(){
         }
 
         // render player
-        if (enemyFightingToggle)
-            playerUV = returnTextureUV(1, 5);
+        if (enemyFightingToggle && !playerShieldToggle)
+            playerUV = playerInjuryUV;
+        if (playerShieldEnabled || playerShieldToggle){
+            setTextureUV(billboardShader, playerShieldUV, false);
+            billboardShader.setMat4("model", player);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        }
         setTextureUV(billboardShader, playerUV, false);
         billboardShader.setMat4("model", player);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -295,7 +303,7 @@ int main(){
             determinedTime *= SLOW_MO_MULTIPLIER;
         }
         if (playerFightingToggle && distanceFromEnemy < 1.3f && !(enemyWaitTime > determinedTime)) // if enemy is getting damaged
-            playerUV = returnTextureUV(1, 5);
+            playerUV = playerInjuryUV;
         else{
             orientation = calculateOrientationSpriteIndex(view, glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]), glm::vec3(player[3][0], player[3][1], player[3][2]));
             playerUV = returnTextureUV(0, 3 + orientation);
@@ -310,11 +318,16 @@ int main(){
                 moveEnemyToPoint(enemyGoTo, deltaTime, CAMERA_SPEED);
             }
 
-            if (distanceFromPlayer < 1.0f){ // every second there is a 30% chance of attack
+            if (distanceFromPlayer < 1.0f && !enemyFightingToggle){ // every second there is a 30% chance of attack
                     if (currentFrame - timeSinceLastEnemyThought > 1.0f && !playerCurrentlyFighting && !enemyFightingToggle){
                         timeSinceLastEnemyThought = glfwGetTime();
                         int randomChance = randomInRange(0.0f, 100.0f);
                         if (randomChance <= 30.0f){
+                            if (playerShieldEnabled)
+                                playerShieldToggle = true;
+                            else
+                                playerShieldToggle = false;
+
                             enemyFightingToggle = true;
                             timeSinceEnemyFightInit = glfwGetTime();
                         }
@@ -323,6 +336,8 @@ int main(){
             // handle enemy fighting animations
             if (enemyFightingToggle){
                 if (currentFrame - timeSinceEnemyFightInit > 3.0f){
+                    timeSinceLastEnemyThought = glfwGetTime();
+                    playerShieldToggle = false;
                     enemyFightingToggle = false;
                     timeSinceEnemyFightInit = glfwGetTime();
                     cameraPos.x = player[3][0];
@@ -475,11 +490,9 @@ int main(){
         }
 
         // ----- DRAW TEXT ------
-        int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector);
-        if (SLOW_MO)
-            fps /= SLOW_MO_MULTIPLIER;
+        int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector, SLOW_MO);
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v2.3.0"
+        std::string text =      "\\ocero 3d game alpha v2.3.1"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
