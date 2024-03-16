@@ -51,14 +51,12 @@
 		</Linker>
 		<Unit filename="game/calculate_fps.cpp" />
 		<Unit filename="game/calculate_fps.h" />
-		<Unit filename="game/enemy.cpp" />
-		<Unit filename="game/enemy.h" />
 		<Unit filename="game/entity.cpp" />
 		<Unit filename="game/entity.h" />
+		<Unit filename="game/gameplay.cpp" />
+		<Unit filename="game/gameplay.h" />
 		<Unit filename="game/main_menu.cpp" />
 		<Unit filename="game/main_menu.h" />
-		<Unit filename="game/player.cpp" />
-		<Unit filename="game/player.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>

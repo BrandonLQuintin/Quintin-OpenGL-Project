@@ -68,8 +68,7 @@ std::map<int, std::string> textOptions = {
     {2, "\\\\\\\\\\                                   whisker punch!"},
     {3, "\\\\\\\\\\                                    slow motion!"},
     {4, "\\\\\\\\\\                                      whiskers!"},
-    {5, "\\\\\\\\\\                                       no way!"},
-    {6, "\\\\\\\\\\                                   mega whiskers!"}
+    {5, "\\\\\\\\\\                                       no way!"}
 };
 
 

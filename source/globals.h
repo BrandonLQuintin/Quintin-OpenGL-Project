@@ -41,11 +41,12 @@ extern int menuChoice;
 // player variables
 extern float terrainCoordBelowCamera;
 extern glm::mat4 player;
-extern bool currentlyFighting;
+extern bool playerCurrentlyFighting;
+extern bool playerFightingToggle;
 extern bool firstPunchFrame;
 extern float timeSinceLastPunch;
 extern bool punchAnimationBounceBack;
-extern bool initializeFightAniamtion;
+extern bool initializeFightAnimation;
 extern bool punchFrameToggle;
 
 // enemy variables
@@ -54,6 +55,10 @@ extern glm::vec3 enemyGoTo;
 extern bool enemyReachedDestination;
 extern float enemyWaitTime;
 extern float timeSinceLastEnemyWait;
+extern float timeSinceLastEnemyThought;
+
+extern bool enemyFightingToggle;
+extern float timeSinceEnemyFightInit;
 const bool ENEMY_MOVMENT = true;
 
 // screen settings
