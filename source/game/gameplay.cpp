@@ -1,4 +1,4 @@
-#include "player.h"
+#include "gameplay.h"
 
 std::vector<punchEntity> existingPunches;
 
@@ -14,27 +14,56 @@ void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, floa
     cameraPos = player + rotatedVector;
 }
 
-void rotatePlayerAroundEnemy(float deltaTime){
-    glm::vec3 playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
-    glm::vec3 target = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+void rotatePlayerAroundEnemy(float deltaTime, bool isPlayer){
+    glm::vec3 playerPos;
+    glm::vec3 enemyPos;
+    if (isPlayer){
+        playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+        enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+    }
+    else{
+        playerPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+        enemyPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+    }
 
     float rotationSpeed = 320.0f;
     float angleRadians = glm::radians(rotationSpeed) * deltaTime;
 
-    glm::vec3 toPlayer = playerPos - target;
+    glm::vec3 toPlayer = playerPos - enemyPos;
 
     glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), angleRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
     glm::vec3 rotatedVector = glm::vec3(rotation * glm::vec4(toPlayer, 1.0f));
 
-    playerPos = target + rotatedVector;
-    player[3][0] = playerPos.x;
-    player[3][1] = playerPos.y;
-    player[3][2] = playerPos.z;
+    playerPos = enemyPos + rotatedVector;
+    if (isPlayer){
+        player[3][0] = playerPos.x;
+        player[3][1] = playerPos.y;
+        player[3][2] = playerPos.z;
 
-    cameraPos.x = player[3][0];
-    cameraPos.y = player[3][1];
-    cameraPos.z = player[3][2] + 3.5f;
+        enemy[3][0] = enemyPos.x;
+        enemy[3][1] = enemyPos.y;
+        enemy[3][2] = enemyPos.z;
+
+        cameraPos.x = player[3][0];
+        cameraPos.y = player[3][1];
+        cameraPos.z = player[3][2] + 3.5f;
+    }
+
+    else{
+        player[3][0] = enemyPos.x;
+        player[3][1] = enemyPos.y;
+        player[3][2] = enemyPos.z;
+
+        enemy[3][0] = playerPos.x;
+        enemy[3][1] = playerPos.y;
+        enemy[3][2] = playerPos.z;
+
+        cameraPos.x = player[3][0];
+        cameraPos.y = player[3][1];
+        cameraPos.z = player[3][2] + 2.5f;
+    }
+
 }
 
 void moveToPoint(glm::vec3 &objectPos, const glm::vec3 &destinationPos, float deltaTime, float speed){ // chatGPT generated
@@ -127,36 +156,59 @@ void calculateTimeSinceLastPunch(float &timeSinceSomething, float currentFrame, 
     }
 }
 
-void calculatePunchParticles(bool leftSide){
+void calculatePunchParticles(bool leftSide, glm::vec3 playerPos, glm::vec3 enemyPos){
     punchEntity newPunch;
     float randXValue = randomInRange(13.0f, 16.0f);
     randXValue = std::floor(randXValue);
     newPunch.textureXCoord = randXValue;
 
     if (leftSide){
-        newPunch.modelMatrix[3][0] = enemy[3][0] + randomInRange(-0.5f, 0.0f);
+        newPunch.modelMatrix[3][0] = enemyPos.x + randomInRange(-0.5f, 0.0f);
     }
     else{
-        newPunch.modelMatrix[3][0] = enemy[3][0] + randomInRange(0.0f, 0.5f);
+        newPunch.modelMatrix[3][0] = enemyPos.x + randomInRange(0.0f, 0.5f);
     }
-    newPunch.modelMatrix[3][1] = enemy[3][1] + randomInRange(-0.5f, 0.5f);
-    newPunch.modelMatrix[3][2] = player[3][2];
+    newPunch.modelMatrix[3][1] = enemyPos.y + randomInRange(-0.5f, 0.5f);
+    newPunch.modelMatrix[3][2] = playerPos.z;
     existingPunches.push_back(newPunch);
     punchFrameToggle = false;
 }
 
-void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV){
-    if (currentlyFighting && distanceFromEnemy < 1.3f){ // initialize player's fighting position to the left of the enemy
-        if (initializeFightAniamtion == true){
-            newDialogue();
+void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV, bool isPlayer){
+    if ((playerFightingToggle || enemyFightingToggle) && distanceFromEnemy < 1.3f){ // initialize player's fighting position to the left of the enemy
+        glm::vec3 playerPos;
+        glm::vec3 enemyPos;
+        if (isPlayer){
+            playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+            enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+        }
+        else{
+            playerPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+            enemyPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+        }
 
-            if (player[3][0] < enemy[3][0]) // if player left, start fight left
-                player[3][0] = enemy[3][0] - 1.0f;
-            else
-                player[3][0] = enemy[3][0] + 1.0f;
-            player[3][1] = enemy[3][1];
-            player[3][2] = enemy[3][2];
-            initializeFightAniamtion = false;
+
+        if (initializeFightAnimation == true){
+
+            playerCurrentlyFighting = true;
+            if (isPlayer){
+                if (playerPos.x < enemyPos.x) // if player left, start fight left
+                    playerPos.x = enemyPos.x - 1.0f;
+                else
+                    playerPos.x = enemyPos.x + 1.0f;
+                newDialogue();
+                playerPos.y = enemyPos.y;
+                playerPos.z = enemyPos.z;
+            }
+            else{
+                if (enemyPos.x < playerPos.x)
+                    enemyPos.x = playerPos.x - 1.0f;
+                else
+                    enemyPos.x = playerPos.x + 1.0f;
+                enemyPos.y = playerPos.y;
+                enemyPos.z = playerPos.z;
+            }
+            initializeFightAnimation = false;
         }
         float adjustedDeltaTime = deltaTime;
         if (SLOW_MO){
@@ -164,25 +216,45 @@ void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::ve
         }
 
         if (punchAnimationBounceBack == false){
-            player[3][1] += 0.4f * adjustedDeltaTime;
-            if (player[3][1] >= (enemy[3][1] + 0.1f)){ // hit top
+            playerPos.y += 0.4f * adjustedDeltaTime;
+            if (playerPos.y >= (enemyPos.y + 0.1f)){ // hit top
                 punchAnimationBounceBack = true;
             }
         }
         else if (punchAnimationBounceBack == true){
-            player[3][1] -= 0.4f * adjustedDeltaTime;
-            if (player[3][1] <= (enemy[3][1] - 0.1f)){ // hit bottom
+            playerPos.y -= 0.4f * adjustedDeltaTime;
+            if (playerPos.y <= (enemyPos.y - 0.1f)){ // hit bottom
                 punchAnimationBounceBack = false;
             }
         }
 
-        rotatePlayerAroundEnemy(adjustedDeltaTime);
+        // set player position BEFORE rotation!
+        if (isPlayer){
+            player[3][0] = playerPos.x;
+            player[3][1] = playerPos.y;
+            player[3][2] = playerPos.z;
+
+            enemy[3][0] = enemyPos.x;
+            enemy[3][1] = enemyPos.y;
+            enemy[3][2] = enemyPos.z;
+        }
+        else{
+            player[3][0] = enemyPos.x;
+            player[3][1] = enemyPos.y;
+            player[3][2] = enemyPos.z;
+
+            enemy[3][0] = playerPos.x;
+            enemy[3][1] = playerPos.y;
+            enemy[3][2] = playerPos.z;
+        }
+
+        rotatePlayerAroundEnemy(adjustedDeltaTime, isPlayer);
         calculateTimeSinceLastPunch(timeSinceLastPunch, currentFrame, firstPunchFrame);
 
-        if (player[3][0] < enemy[3][0]){ // if player is left, show the player punching from the left side
+        if (playerPos.x < enemyPos.x){ // if player is left, show the player punching from the left side
             if (firstPunchFrame){
                 if (punchFrameToggle){
-                    calculatePunchParticles(true); // before punching enemy, generate punch particles.
+                    calculatePunchParticles(true, playerPos, enemyPos); // before punching enemy, generate punch particles.
                     }
                 playerUV = returnTextureUV(2,4);
                 }
@@ -192,13 +264,16 @@ void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::ve
         else{
             if (firstPunchFrame){
                 if (punchFrameToggle){
-                    calculatePunchParticles(false);
+                    calculatePunchParticles(false, playerPos, enemyPos);
                     }
                     playerUV = returnTextureUV(2,6);
                 }
                 else
                     playerUV = returnTextureUV(3,6);
         }
+    }
+    else{ // if player is not in range of enemy
+        playerCurrentlyFighting = false;
     }
 }
 

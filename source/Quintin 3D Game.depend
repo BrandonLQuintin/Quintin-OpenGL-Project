@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1710452896 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1710609207 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1710452896 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1710609207 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -2123,7 +2123,7 @@
 	<sstream>
 	<iostream>
 
-1710453821 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
+1710603599 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
 	"text_render.h"
 
 1710452252 c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.h
@@ -2160,17 +2160,17 @@
 	"textures.h"
 	<iostream>
 
-1710454620 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1710609448 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
-1710286520 c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.h
+1710604743 c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.h
 	<glad/glad.h>
 	<GLFW/glfw3.h>
 	"../globals.h"
 	"camera_variables.h"
 	"../shapes/terrain.h"
-	"../game/player.h"
+	"../game/gameplay.h"
 
 1709093991 c:\users\brand\desktop\quintin-opengl-project\glfw\include\glfw\glfw3.h
 	<stddef.h>
@@ -2208,7 +2208,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1710455497 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1710611170 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2230,7 +2230,7 @@
 	"game/entity.h"
 	"game/calculate_fps.h"
 	"game/main_menu.h"
-	"game/player.h"
+	"game/gameplay.h"
 	"shapes/terrain.h"
 
 1710217842 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
@@ -2314,6 +2314,20 @@
 	"entity.h"
 	"../opengl/text_render.h"
 
-1710452360 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
+1710604348 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
 	"player.h"
+
+1710611170 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
+	"gameplay.h"
+
+1710611170 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h
+	<iostream>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<cmath>
+	"../globals.h"
+	"../opengl/camera_variables.h"
+	"../shapes/terrain.h"
+	"entity.h"
+	"../opengl/text_render.h"
 

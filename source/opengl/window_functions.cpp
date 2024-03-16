@@ -107,15 +107,15 @@ void processInput(GLFWwindow* window){
     }
 
     if (!FREECAM_CONTROLS_ENABLED){
-        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS){
-            currentlyFighting = true;
+        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && !enemyFightingToggle){
+            playerFightingToggle = true;
             if (!DISABLE_SLOW_MO){
                 SLOW_MO = true;
             }
         }
 
         else{
-            currentlyFighting = false;
+            playerFightingToggle = false;
             if (!DISABLE_SLOW_MO){
                 SLOW_MO = false;
             }
@@ -127,19 +127,19 @@ void processInput(GLFWwindow* window){
             adjustedDeltaTime *= SLOW_MO_MULTIPLIER;
         }
 
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !enemyFightingToggle){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, -CAMERA_ROTATE_SPEED);
         }
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !enemyFightingToggle){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !currentlyFighting){
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle){
             movePlayerToPoint(deltaTime, CAMERA_SPEED);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !currentlyFighting){
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle){
             movePlayerToPoint(deltaTime, -CAMERA_SPEED);
         }
 
@@ -162,8 +162,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             menuChoice += 1;
         }
     }
-    if (key == GLFW_KEY_K && action == GLFW_PRESS) {
-        initializeFightAniamtion = true;
+    if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle) {
+        initializeFightAnimation = true;
     }
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
         mainMenu = true;

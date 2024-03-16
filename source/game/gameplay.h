@@ -10,7 +10,7 @@
 #include "../opengl/text_render.h"
 
 void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed);
-void rotatePlayerAroundEnemy(float deltaTime);
+void rotatePlayerAroundEnemy(float deltaTime, bool isPlayer);
 
 void moveToPoint(glm::vec3 &objectPos, const glm::vec3 &destinationPos, float deltaTime, float speed);
 void moveEnemyToPoint(const glm::vec3 destinationPos, float deltaTime, float speed);
@@ -23,8 +23,8 @@ int calculateOrientationSpriteIndex(const glm::mat4 &transformationMatrix, const
 
 void calculateTimeSinceLastPunch(float &timeSinceSomething, float currentFrame, bool &toggle);
 
-void calculatePunchParticles(bool leftSide);
+void calculatePunchParticles(bool leftSide, glm::vec3 playerPos, glm::vec3 enemyPos);
 
-void handlePlayerAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV);
+void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV, bool isPlayer);
 
 extern std::vector<punchEntity> existingPunches;

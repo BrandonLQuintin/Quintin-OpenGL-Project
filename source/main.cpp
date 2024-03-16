@@ -32,7 +32,7 @@
 #include "game/entity.h"
 #include "game/calculate_fps.h"
 #include "game/main_menu.h"
-#include "game/player.h"
+#include "game/gameplay.h"
 #include "shapes/terrain.h"
 
 
@@ -248,7 +248,6 @@ int main(){
         std::vector<float> playerUV = returnTextureUV(0, 3 + orientation);
 
         float distanceFromEnemy = calculateDistance(glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
-
         if (!FREECAM_CONTROLS_ENABLED){
             cameraPos.y = player[3][1];
             float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
@@ -258,7 +257,8 @@ int main(){
             }
 
             // handle player animations
-            handlePlayerAnimations(distanceFromEnemy, currentFrame, playerUV);
+            if (!enemyFightingToggle)
+                handleFightAnimations(distanceFromEnemy, currentFrame, playerUV, true);
             cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         }
 
@@ -283,21 +283,56 @@ int main(){
         }
 
         // render player
+        if (enemyFightingToggle)
+            playerUV = returnTextureUV(1, 5);
         setTextureUV(billboardShader, playerUV, false);
         billboardShader.setMat4("model", player);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // ### ENEMY
+        float determinedTime = 5.0f;
+        if (SLOW_MO){
+            determinedTime *= SLOW_MO_MULTIPLIER;
+        }
+        if (playerFightingToggle && distanceFromEnemy < 1.3f && !(enemyWaitTime > determinedTime)) // if enemy is getting damaged
+            playerUV = returnTextureUV(1, 5);
+        else{
+            orientation = calculateOrientationSpriteIndex(view, glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]), glm::vec3(player[3][0], player[3][1], player[3][2]));
+            playerUV = returnTextureUV(0, 3 + orientation);
+        }
+
         if (ENEMY_MOVMENT){
             float enemyGoToDistance = calculateDistance(enemyPos, enemyGoTo);
+            float distanceFromPlayer = calculateDistance(enemyPos, playerPos);
             enemyWaitTime = currentFrame - timeSinceLastEnemyWait;
-            float determinedTime = 5.0f;
-            if (SLOW_MO){
-                determinedTime *= SLOW_MO_MULTIPLIER;
-            }
-            if (enemyWaitTime > determinedTime){
+
+            if (enemyWaitTime > determinedTime && !enemyFightingToggle){
                 moveEnemyToPoint(enemyGoTo, deltaTime, CAMERA_SPEED);
             }
+
+            if (distanceFromPlayer < 1.0f){ // every second there is a 30% chance of attack
+                    if (currentFrame - timeSinceLastEnemyThought > 1.0f && !playerCurrentlyFighting && !enemyFightingToggle){
+                        timeSinceLastEnemyThought = glfwGetTime();
+                        int randomChance = randomInRange(0.0f, 100.0f);
+                        if (randomChance <= 30.0f){
+                            enemyFightingToggle = true;
+                            timeSinceEnemyFightInit = glfwGetTime();
+                        }
+                    }
+            }
+            // handle enemy fighting animations
+            if (enemyFightingToggle){
+                if (currentFrame - timeSinceEnemyFightInit > 3.0f){
+                    enemyFightingToggle = false;
+                    timeSinceEnemyFightInit = glfwGetTime();
+                    cameraPos.x = player[3][0];
+                    cameraPos.y = player[3][1];
+                    cameraPos.z = player[3][2] + 3.5f;
+                }
+                else
+                    handleFightAnimations(distanceFromPlayer, currentFrame, playerUV, false);
+            }
+
 
             if (enemyGoToDistance < 1.0f){
                 enemyGoTo = glm::vec3(randomInRange(-10, 10), 0, randomInRange(-10, 10));
@@ -309,15 +344,9 @@ int main(){
 
         billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
-        float determinedTime = 5.0f;
+        determinedTime = 5.0f;
             if (SLOW_MO){
                 determinedTime *= SLOW_MO_MULTIPLIER;
-        }
-        if (currentlyFighting && distanceFromEnemy < 1.3f && !(enemyWaitTime > determinedTime)) // if enemy is getting damaged
-            playerUV = returnTextureUV(1, 5);
-        else{
-            orientation = calculateOrientationSpriteIndex(view, glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]), glm::vec3(player[3][0], player[3][1], player[3][2]));
-            playerUV = returnTextureUV(0, 3 + orientation);
         }
 
 
@@ -450,7 +479,7 @@ int main(){
         if (SLOW_MO)
             fps /= SLOW_MO_MULTIPLIER;
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v2.2.2"
+        std::string text =      "\\ocero 3d game alpha v2.3.0"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +

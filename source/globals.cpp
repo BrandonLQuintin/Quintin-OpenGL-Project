@@ -32,12 +32,13 @@ int dialogueChoice = 0;
 
 // player
 glm::mat4 player = glm::mat4(1.0f);
-bool currentlyFighting = false;
+bool playerCurrentlyFighting = false;
+bool playerFightingToggle = false;
 float timeSinceLastPunch = 0.0f;
 bool firstPunchFrame = false;
 bool punchFrameToggle = true; // this makes it so the hit registration doesnt count hundreds of time per second
 bool punchAnimationBounceBack = false;
-bool initializeFightAniamtion = false;
+bool initializeFightAnimation = false;
 
 // enemy
 glm::mat4 enemy = glm::mat4(1.0f);
@@ -45,6 +46,9 @@ glm::vec3 enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
 bool enemyReachedDestination = false;
 float enemyWaitTime = 0.0f;
 float timeSinceLastEnemyWait = 0.0f;
+float timeSinceLastEnemyThought = 0.0f;
+bool enemyFightingToggle = false;
+float timeSinceEnemyFightInit = 0.0f;
 
 
 
