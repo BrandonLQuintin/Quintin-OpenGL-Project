@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1710612031 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1710799075 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1710611945 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1710798885 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -1138,6 +1138,7 @@
 	<shader_m.h>
 	<vector>
 	<random>
+	<SFML/Audio.hpp>
 
 1709093991 c:\users\brand\desktop\quintin-opengl-project\glfw\include\glm\glm.hpp
 	"detail/_fixes.hpp"
@@ -2160,7 +2161,7 @@
 	"textures.h"
 	<iostream>
 
-1710612573 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1710799115 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
@@ -2208,12 +2209,13 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1710613540 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1710799075 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
 	<glad/glad.h>
 	<GLFW/glfw3.h>
+	<SFML/Audio.hpp>
 	<shader_m.h>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
@@ -2232,6 +2234,7 @@
 	"game/main_menu.h"
 	"game/gameplay.h"
 	"shapes/terrain.h"
+	"game/sound.h"
 
 1710217842 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
 	"entity.h"
@@ -2273,7 +2276,7 @@
 	"../opengl/textures.h"
 	"../globals.h"
 
-1710455441 source:c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.cpp
+1710799084 source:c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.cpp
 	"main_menu.h"
 
 1710091488 c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.h
@@ -2317,10 +2320,10 @@
 1710604348 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
 	"player.h"
 
-1710611170 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
+1710798955 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
 	"gameplay.h"
 
-1710611170 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h
+1710796577 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h
 	<iostream>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
@@ -2330,4 +2333,237 @@
 	"../shapes/terrain.h"
 	"entity.h"
 	"../opengl/text_render.h"
+	"sound.h"
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio.hpp
+	<SFML/System.hpp>
+	<SFML/Audio/InputSoundFile.hpp>
+	<SFML/Audio/Listener.hpp>
+	<SFML/Audio/Music.hpp>
+	<SFML/Audio/OutputSoundFile.hpp>
+	<SFML/Audio/Sound.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+	<SFML/Audio/SoundBufferRecorder.hpp>
+	<SFML/Audio/SoundFileFactory.hpp>
+	<SFML/Audio/SoundFileReader.hpp>
+	<SFML/Audio/SoundFileWriter.hpp>
+	<SFML/Audio/SoundRecorder.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/Audio/SoundStream.hpp>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system.hpp
+	<SFML/Config.hpp>
+	<SFML/System/Clock.hpp>
+	<SFML/System/Err.hpp>
+	<SFML/System/FileInputStream.hpp>
+	<SFML/System/InputStream.hpp>
+	<SFML/System/Lock.hpp>
+	<SFML/System/MemoryInputStream.hpp>
+	<SFML/System/Mutex.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<SFML/System/Sleep.hpp>
+	<SFML/System/String.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/ThreadLocal.hpp>
+	<SFML/System/ThreadLocalPtr.hpp>
+	<SFML/System/Time.hpp>
+	<SFML/System/Utf.hpp>
+	<SFML/System/Vector2.hpp>
+	<SFML/System/Vector3.hpp>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\config.hpp
+	"TargetConditionals.h"
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\clock.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/Time.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\export.hpp
+	<SFML/Config.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\time.hpp
+	<SFML/System/Export.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\err.hpp
+	<SFML/System/Export.hpp>
+	<ostream>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\fileinputstream.hpp
+	<SFML/Config.hpp>
+	<SFML/System/Export.hpp>
+	<SFML/System/InputStream.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<cstdio>
+	<string>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\inputstream.hpp
+	<SFML/Config.hpp>
+	<SFML/System/Export.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\noncopyable.hpp
+	<SFML/System/Export.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\lock.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\memoryinputstream.hpp
+	<SFML/Config.hpp>
+	<SFML/System/InputStream.hpp>
+	<SFML/System/Export.hpp>
+	<cstdlib>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\mutex.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\sleep.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/Time.hpp>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\string.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/Utf.hpp>
+	<iterator>
+	<locale>
+	<string>
+	<SFML/System/String.inl>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\utf.hpp
+	<SFML/Config.hpp>
+	<algorithm>
+	<locale>
+	<string>
+	<cstdlib>
+	<SFML/System/Utf.inl>
+
+1710786565 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\utf.inl
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\string.inl
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\thread.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<cstdlib>
+	<SFML/System/Thread.inl>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\thread.inl
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\threadlocal.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<cstdlib>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\threadlocalptr.hpp
+	<SFML/System/ThreadLocal.hpp>
+	<SFML/System/ThreadLocalPtr.inl>
+
+1710786564 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\threadlocalptr.inl
+
+1710786565 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\vector2.hpp
+	<SFML/System/Vector2.inl>
+
+1710786565 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\vector2.inl
+
+1710786565 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\vector3.hpp
+	<SFML/System/Vector3.inl>
+
+1710786565 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\system\vector3.inl
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\inputsoundfile.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<cstddef>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\export.hpp
+	<SFML/Config.hpp>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\listener.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/Vector3.hpp>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\music.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundStream.hpp>
+	<SFML/Audio/InputSoundFile.hpp>
+	<SFML/System/Mutex.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+
+1710786563 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundstream.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/Time.hpp>
+	<SFML/System/Mutex.hpp>
+	<cstdlib>
+
+1710786563 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundsource.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Vector3.hpp>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\alresource.hpp
+	<SFML/Audio/Export.hpp>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\outputsoundfile.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<string>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\sound.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Time.hpp>
+	<cstdlib>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundbuffer.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+	<set>
+
+1710786562 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundbufferrecorder.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+	<SFML/Audio/SoundRecorder.hpp>
+	<vector>
+
+1710786563 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundrecorder.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/AlResource.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/Time.hpp>
+	<vector>
+	<string>
+
+1710786563 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundfilefactory.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+	<vector>
+	<SFML/Audio/SoundFileFactory.inl>
+
+1710786563 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundfilefactory.inl
+
+1710786563 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundfilereader.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+
+1710786563 c:\users\brand\desktop\quintin-opengl-project\sfml\include\sfml\audio\soundfilewriter.hpp
+	<SFML/Audio/Export.hpp>
+	<string>
+
+1710799146 source:c:\users\brand\desktop\quintin-opengl-project\source\game\sound.cpp
+	"sound.h"
+
+1710798047 c:\users\brand\desktop\quintin-opengl-project\source\game\sound.h
+	<SFML/Audio.hpp>
+	<vector>
+	<iostream>
+	"../globals.h"
 
