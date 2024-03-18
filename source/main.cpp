@@ -5,9 +5,10 @@
 #include <string>
 #include <vector>
 
-// opengl libraries
+// opengl & SFML
 #include <glad/glad.h> // loads OpenGL pointers
 #include <GLFW/glfw3.h> // window manager
+#include <SFML/Audio.hpp>
 
 //#include <stb_image.h> // helps load images (commented out because it's in textures.h)
 #include <shader_m.h> // shader class from learnopengl.com on lesson "Coordinate Systems"
@@ -34,16 +35,15 @@
 #include "game/main_menu.h"
 #include "game/gameplay.h"
 #include "shapes/terrain.h"
-
+#include "game/sound.h"
 
 
 int main(){
-
     GLFWwindow* window = createWindow();
     glEnable(GL_DEPTH_TEST);
     Shader billboardShader("shaders/billboard_shader.vs", "shaders/billboard_shader.fs");
     Shader phongShader("shaders/phong_lighting.vs", "shaders/phong_lighting.fs");
-    Shader t("shaders/text_shader.vs", "shaders/text_shader.fs"); // shortened so I can call it faster with renderText()
+    Shader t("shaders/text_shader.vs", "shaders/text_shader.fs"); // variable name shortened so I can call it faster with renderText()
 
     billboardShader.use();
     billboardShader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
@@ -99,6 +99,13 @@ int main(){
 
     std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f}; // these textures take up multiple 64x64 pixel grids so I gave it hard coded numbers.
     std::vector<float> treeAtlasUV = {0.75f, 1.0f, 0.0625f, 0.25f};
+
+    // ----- INITIALIZE SOUNDS -----
+    if (!loadSoundBuffer("resources/sounds/punch.wav")) {
+        std::cerr << "Could not load sound file." << std::endl;
+        return -1;
+    }
+    playSoundSilentlyMultipleTimes(30);
 
     // ----- INITIALIZE OBJECTS -----
 
@@ -260,8 +267,10 @@ int main(){
             }
 
             // handle player animations
-            if (!enemyFightingToggle)
+            if (!enemyFightingToggle){
                 handleFightAnimations(distanceFromEnemy, currentFrame, playerUV, true);
+            }
+
             cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         }
 

@@ -255,6 +255,8 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
             if (firstPunchFrame){
                 if (punchFrameToggle){
                     calculatePunchParticles(true, playerPos, enemyPos); // before punching enemy, generate punch particles.
+                    if (ENABLE_SOUND)
+                        playSound();
                     }
                 playerUV = returnTextureUV(2,4);
                 }
@@ -265,6 +267,8 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
             if (firstPunchFrame){
                 if (punchFrameToggle){
                     calculatePunchParticles(false, playerPos, enemyPos);
+                    if (ENABLE_SOUND)
+                        playSound();
                     }
                     playerUV = returnTextureUV(2,6);
                 }

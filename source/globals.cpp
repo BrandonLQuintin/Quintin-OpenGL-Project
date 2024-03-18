@@ -3,13 +3,14 @@
 std::random_device rd;
 std::mt19937 gen(rd()); // for use with random
 
-
+// game settings
 bool IS_RAINING = true;
 bool SLOW_MO = false;
 bool DISABLE_SLOW_MO = false;
 bool HIGH_RENDER_DISTANCE = false;
 bool ENABLE_VSYNC = false;
 bool ENABLE_TEXT = true;
+bool ENABLE_SOUND = true;
 bool text = true;
 bool FREECAM_CONTROLS_ENABLED = false;
 

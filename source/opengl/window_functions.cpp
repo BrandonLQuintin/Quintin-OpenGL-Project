@@ -164,7 +164,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         }
     }
     if (key == GLFW_KEY_DOWN && action == GLFW_PRESS && !enterKeyPressed) {
-        if(menuChoice < 5){
+        if(menuChoice < 6){
             menuChoice += 1;
         }
     }
