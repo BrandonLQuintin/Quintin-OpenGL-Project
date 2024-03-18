@@ -40,6 +40,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += std::string("\\x enable_text: ") + (text ? "true" : "false");
     else
         outputText += std::string("\\  enable_text: ") + (text ? "true" : "false");
+    if (choice == 6)
+        outputText += std::string("\\x enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
+    else
+        outputText += std::string("\\  enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
 
     renderText(t, outputText);
 
@@ -62,6 +66,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         }
         else if (choice == 5){
             text = !text;
+            enterKeyPressed = false;
+        }
+        else if (choice == 6){
+            ENABLE_SOUND = !ENABLE_SOUND;
             enterKeyPressed = false;
         }
         else{
