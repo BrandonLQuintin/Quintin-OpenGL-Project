@@ -53,6 +53,9 @@ extern bool punchFrameToggle;
 extern bool playerShieldEnabled;
 extern bool playerShieldToggle;
 
+// controls
+extern float timeSinceLastInput;
+
 // enemy variables
 extern glm::mat4 enemy;
 extern glm::vec3 enemyGoTo;

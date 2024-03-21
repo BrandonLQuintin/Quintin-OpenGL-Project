@@ -107,7 +107,9 @@ void processInput(GLFWwindow* window){
     }
 
     if (!FREECAM_CONTROLS_ENABLED){
-        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && !enemyFightingToggle){
+        float timeElapsed = glfwGetTime() - timeSinceLastInput;
+
+        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f){
             playerFightingToggle = true;
             if (!DISABLE_SLOW_MO){
                 SLOW_MO = true;
@@ -135,15 +137,15 @@ void processInput(GLFWwindow* window){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled){
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
             movePlayerToPoint(deltaTime, CAMERA_SPEED);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled){
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
             movePlayerToPoint(deltaTime, -CAMERA_SPEED);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle){
+        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && timeElapsed > 1.0f){
             playerShieldEnabled = true;
         }
         else
@@ -154,6 +156,8 @@ void processInput(GLFWwindow* window){
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
+    float timeElapsed = glfwGetTime() - timeSinceLastInput;
+
     if (key == GLFW_KEY_ENTER && action == GLFW_PRESS && !enterKeyPressed) {
         enterKeyPressed = true;
     }
@@ -168,8 +172,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             menuChoice += 1;
         }
     }
-    if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle) {
+    if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f) {
         initializeFightAnimation = true;
+    }
+    if (key == GLFW_KEY_K && action == GLFW_RELEASE && !enemyFightingToggle) {
+        timeSinceLastInput = glfwGetTime();
+    }
+    if (key == GLFW_KEY_L && action == GLFW_RELEASE && !enemyFightingToggle) {
+        timeSinceLastInput = glfwGetTime();
     }
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
         mainMenu = true;

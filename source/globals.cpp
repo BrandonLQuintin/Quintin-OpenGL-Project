@@ -43,6 +43,9 @@ bool initializeFightAnimation = false;
 bool playerShieldEnabled = false;
 bool playerShieldToggle = false;
 
+// controls
+float timeSinceLastInput = 0.0f;
+
 // enemy
 glm::mat4 enemy = glm::mat4(1.0f);
 glm::vec3 enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
