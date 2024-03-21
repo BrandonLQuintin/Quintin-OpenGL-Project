@@ -7,7 +7,7 @@ int calculateAverageFPS(float &timeSinceCalculation, float deltaTime, std::vecto
         timeSinceCalculation = glfwGetTime();
         int fps;
         if (isSlowMO)
-            fps = 1.0f / (deltaTime * 1.75);
+            fps = 1.0f / (deltaTime * SLOW_MO_MULTIPLIER);
         else
             fps = 1.0f / deltaTime;
         fpsArray.push_back(fps);

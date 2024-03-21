@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 // opengl & SFML
 #include <glad/glad.h> // loads OpenGL pointers
@@ -48,7 +49,7 @@ int main(){
     billboardShader.use();
     billboardShader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
     billboardShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-    billboardShader.setVec3("lightPos", glm::vec3(-1000.0f, 1000.0f, 1000.0f));
+    billboardShader.setVec3("lightPos", glm::vec3(-10000.0f, 1000.0f, 10000.0f));
 
     phongShader.use();
     phongShader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
@@ -119,13 +120,11 @@ int main(){
     }
 
     // enemy
-    enemyGoTo = glm::vec3(randomInRange(-10, 10), 0, randomInRange(-10, 10));
+    enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
     enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
     enemy[3][0] = enemyGoTo.x;
     enemy[3][1] = enemyGoTo.y;
     enemy[3][2] = enemyGoTo.z;
-    enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
-    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
 
     // 1 terrain
     shape terrains[1];
@@ -196,16 +195,12 @@ int main(){
     // rain drops
     rainEntity rainDrops[600];
     int rainDropsArraySize = sizeof(rainDrops) / sizeof(rainDrops[0]);
-    for (int i = 0; i < rainDropsArraySize; i++){
-        rainDrops[i].modelMatrix[3][0] = cameraPos.x + randomInRange(-10.0f, 10.0f);
-        rainDrops[i].modelMatrix[3][1] = cameraPos.y + randomInRange(1.0f, 10.0f);
-        rainDrops[i].initialY = rainDrops[i].modelMatrix[3][1];
-        rainDrops[i].modelMatrix[3][2] = cameraPos.z + randomInRange(-10.0f, 10.0f);
-    }
+    for (int i = 0; i < rainDropsArraySize; i++)
+        initializeRainLocation(rainDrops[i]);
 
-        player[3][0] = 0.0f;
-        player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
-        player[3][2] = -3.5f;
+    player[3][0] = 0.0f;
+    player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
+    player[3][2] = -3.5f;
 
     if (IS_RAINING){
         phongShader.use();
@@ -257,7 +252,31 @@ int main(){
         glm::vec3 enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
         std::vector<float> playerUV = returnTextureUV(0, 3 + orientation);
 
+        float playerHeightAboveTerrain = getHeight(player[3][0], player[3][2]);
+        if (player[3][1] < playerHeightAboveTerrain + 0.5f){
+            player[3][1] = playerHeightAboveTerrain + 0.5f;
+        }
+
+        // handle player teleporting (and teleporting rain particles)
         float distanceFromEnemy = calculateDistance(glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
+        if (distanceFromEnemy > 50.0f)
+            allowPlayerTeleportation = true;
+        else
+            allowPlayerTeleportation = false;
+
+        if (teleportKeyPressed && allowPlayerTeleportation){
+            player[3][0] = enemy[3][0] - 1.0f;
+            player[3][1] = enemy[3][1];
+            player[3][2] = enemy[3][2];
+
+            cameraPos.x = player[3][0];
+            cameraPos.y = player[3][1];
+            cameraPos.z = player[3][2] + 3.5f;
+
+            for (int i = 0; i < rainDropsArraySize; i++)
+                initializeRainLocation(rainDrops[i]);
+        }
+
         if (!FREECAM_CONTROLS_ENABLED){
             cameraPos.y = player[3][1];
             float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
@@ -307,7 +326,12 @@ int main(){
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // ### ENEMY
-        float determinedTime = 5.0f;
+        float enemyHeightAboveTerrain = getHeight(enemy[3][0], enemy[3][2]);
+        if (enemy[3][1] < playerHeightAboveTerrain + 0.5f){
+            enemy[3][1] = playerHeightAboveTerrain + 0.5f;
+        }
+
+        float determinedTime = 10.0f;
         if (SLOW_MO){
             determinedTime *= SLOW_MO_MULTIPLIER;
         }
@@ -324,14 +348,18 @@ int main(){
             enemyWaitTime = currentFrame - timeSinceLastEnemyWait;
 
             if (enemyWaitTime > determinedTime && !enemyFightingToggle){
-                moveEnemyToPoint(enemyGoTo, deltaTime, CAMERA_SPEED);
+                moveEnemyToPoint(enemyGoTo, deltaTime, MOVEMENT_SPEED * 0.8);
+                float terrainY = getHeight(enemy[3][0], enemy[3][2]);
+                if (enemy[3][1] < terrainY){
+                    enemy[3][1] = terrainY;
+                }
             }
 
-            if (distanceFromPlayer < 1.0f && !enemyFightingToggle){ // every second there is a 30% chance of attack
-                    if (currentFrame - timeSinceLastEnemyThought > 1.0f && !playerCurrentlyFighting && !enemyFightingToggle){
+            if (distanceFromPlayer < 1.0f && !enemyFightingToggle){ // every half second there is a 20% chance of attack
+                    if (currentFrame - timeSinceLastEnemyThought > 0.5f && !playerCurrentlyFighting && !enemyFightingToggle){
                         timeSinceLastEnemyThought = glfwGetTime();
                         int randomChance = randomInRange(0.0f, 100.0f);
-                        if (randomChance <= 30.0f){
+                        if (randomChance <= 20.0f){
                             if (playerShieldEnabled)
                                 playerShieldToggle = true;
                             else
@@ -358,9 +386,18 @@ int main(){
             }
 
 
-            if (enemyGoToDistance < 1.0f){
-                enemyGoTo = glm::vec3(randomInRange(-10, 10), 0, randomInRange(-10, 10));
-                enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+            if (enemyGoToDistance < 1.0f){ // enemy calculates where to go next
+                glm::vec3 oldEnemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+                glm::vec3 newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
+                float distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
+                int attempts = 0;
+                while (distanceFromPos > 100.0f && attempts < 100){
+                    newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
+                    distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
+                    attempts += 1;
+                }
+                enemyGoTo = newEnemyPos;
+                enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + randomInRange(0.51f, 5.0f);
                 enemyWaitTime = glfwGetTime();
                 timeSinceLastEnemyWait = currentFrame;
             }
@@ -368,10 +405,6 @@ int main(){
 
         billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
-        determinedTime = 5.0f;
-            if (SLOW_MO){
-                determinedTime *= SLOW_MO_MULTIPLIER;
-        }
 
 
         setTextureUV(billboardShader, playerUV, false);
@@ -388,70 +421,6 @@ int main(){
 
             phongShader.setMat4("model", terrains[i].modelMatrix);
             glDrawElements(GL_TRIANGLES, phongTerrainIndicesVector.size(), GL_UNSIGNED_INT, 0);
-        }
-
-        // ### BOXES
-        for (int i = 0; i < boxesArraySize; i++){
-            phongShader.use();
-            glBindVertexArray(phongBoxVAO);
-            setTextureUV(phongShader, boxAtlasUV, false);
-            if (i == 1){
-                setTextureUV(phongShader, oceroAtlasUV, false);
-            }
-            phongShader.setMat4("model", boxes[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-
-        // ### PYRAMIDS
-        phongShader.use();
-        glBindVertexArray(phongPyramidVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < pyramidsArraySize; i++){
-
-            phongShader.setMat4("model", pyramids[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLES, 0, 18);
-        }
-
-        // ### SPHERES
-        phongShader.use();
-        glBindVertexArray(phongSphereVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < spheresArraySize; i++){
-
-            phongShader.setMat4("model", spheres[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongSphereVerticesArraySize);
-        }
-
-        // ### CONES
-        phongShader.use();
-        glBindVertexArray(phongConeVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < conesArraySize; i++){
-
-            phongShader.setMat4("model", cones[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongConeVerticesArraySize);
-        }
-
-        // ### TUBES
-        phongShader.use();
-        glBindVertexArray(phongCylinderVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < tubesArraySize; i++){
-
-            phongShader.setMat4("model", tubes[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
-        }
-
-        // ### BILLBOARDS
-        billboardShader.use();
-        glBindVertexArray(phongBillboardVAO);
-        setTextureUV(billboardShader, oceroAtlasUV, false);
-        for (int i = 0; i < billboardsArraySize; i++){
-            billboards[i].modelMatrix[3][1] += 1 * deltaTime;
-            billboards[i].modelMatrix[3][2] += -1 * deltaTime;
-
-            billboardShader.setMat4("model", billboards[i].modelMatrix);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
 
         // ### TREES
@@ -474,8 +443,6 @@ int main(){
         }
             phongShader.setBool("isTree", false);
 
-
-
         // ### RAIN
         if (IS_RAINING){
             billboardShader.use();
@@ -484,14 +451,19 @@ int main(){
             for (int i = 0; i < rainDropsArraySize; i++){
                 rainDrops[i].modelMatrix[3][1] -= rainDrops[i].speed * deltaTime;
 
-                if (rainDrops[i].modelMatrix[3][1] < player[3][1] - 5){
-                    std::mt19937 generator(i);
-                    rainDrops[i].modelMatrix[3][0] = player[3][0] + randomInRange(-8.0f, 8.0f);
-                    rainDrops[i].modelMatrix[3][1] = player[3][1] + 5;
-                    rainDrops[i].initialY = rainDrops[i].modelMatrix[3][1] + randomInRange(-1.0f, 1.0f);
-                    rainDrops[i].speed = randomInRange(5.0f, 8.0f);
-                    rainDrops[i].modelMatrix[3][2] = player[3][2] + randomInRange(-8.0f, 8.0f);
+                if (rainDrops[i].modelMatrix[3][1] < player[3][1] - 5.0f){ // check if rain is below player first before performing other checks
+                    setRainLocation(rainDrops[i]);
                 }
+                else{
+                    float distanceFromPlayerZ = std::fabs(rainDrops[i].modelMatrix[3][2] - player[3][2]);
+                    float distanceFromPlayerX = std::fabs(rainDrops[i].modelMatrix[3][0] - player[3][0]);
+
+                    if (distanceFromPlayerZ > 15.0f || distanceFromPlayerX > 15.0f){
+                        setRainLocation(rainDrops[i]);
+                    }
+                }
+
+
 
                 billboardShader.setMat4("model", rainDrops[i].modelMatrix);
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -501,7 +473,7 @@ int main(){
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector, SLOW_MO);
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v2.3.1"
+        std::string text =      "\\ocero 3d game alpha v2.4.0"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
@@ -510,10 +482,18 @@ int main(){
                                 //    text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
                                 //}
         float waitingTime = glfwGetTime() - timeSinceLastInput;
+        if (allowPlayerTeleportation){
+            text += "\\\\\\                              press space to teleport!";
+        }
         if (waitingTime < 1.0f){
-            for (int i = 0; i < 10; i++){
+            if (allowPlayerTeleportation)
+                text += "\\\\\\\\\\\\\\";
+            else{
+                for (int i = 0; i < 10; i++){
                 text += "\\";
+                }
             }
+
             text += "                                      ";
             text += std::to_string(waitingTime);
         }

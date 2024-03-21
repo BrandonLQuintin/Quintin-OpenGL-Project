@@ -1,0 +1,65 @@
+CODE DURING main() @ ----- RENDER OBJECTS -----
+
+        // ### BOXES
+        for (int i = 0; i < boxesArraySize; i++){
+            phongShader.use();
+            glBindVertexArray(phongBoxVAO);
+            setTextureUV(phongShader, boxAtlasUV, false);
+            if (i == 1){
+                setTextureUV(phongShader, oceroAtlasUV, false);
+            }
+            phongShader.setMat4("model", boxes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        // ### PYRAMIDS
+        phongShader.use();
+        glBindVertexArray(phongPyramidVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < pyramidsArraySize; i++){
+
+            phongShader.setMat4("model", pyramids[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 18);
+        }
+
+        // ### SPHERES
+        phongShader.use();
+        glBindVertexArray(phongSphereVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < spheresArraySize; i++){
+
+            phongShader.setMat4("model", spheres[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongSphereVerticesArraySize);
+        }
+
+        // ### CONES
+        phongShader.use();
+        glBindVertexArray(phongConeVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < conesArraySize; i++){
+
+            phongShader.setMat4("model", cones[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongConeVerticesArraySize);
+        }
+
+        // ### TUBES
+        phongShader.use();
+        glBindVertexArray(phongCylinderVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < tubesArraySize; i++){
+
+            phongShader.setMat4("model", tubes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
+        }
+
+        // ### BILLBOARDS
+        billboardShader.use();
+        glBindVertexArray(phongBillboardVAO);
+        setTextureUV(billboardShader, oceroAtlasUV, false);
+        for (int i = 0; i < billboardsArraySize; i++){
+            billboards[i].modelMatrix[3][1] += 1 * deltaTime;
+            billboards[i].modelMatrix[3][2] += -1 * deltaTime;
+
+            billboardShader.setMat4("model", billboards[i].modelMatrix);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        }
