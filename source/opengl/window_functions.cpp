@@ -138,11 +138,11 @@ void processInput(GLFWwindow* window){
                                          cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
-            movePlayerToPoint(deltaTime, CAMERA_SPEED);
+            movePlayerToPoint(deltaTime, MOVEMENT_SPEED);
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
-            movePlayerToPoint(deltaTime, -CAMERA_SPEED);
+            movePlayerToPoint(deltaTime, -MOVEMENT_SPEED);
         }
 
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && timeElapsed > 1.0f){
@@ -175,11 +175,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f) {
         initializeFightAnimation = true;
     }
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && allowPlayerTeleportation){
+        teleportKeyPressed = true;
+    }
+
+
     if (key == GLFW_KEY_K && action == GLFW_RELEASE && !enemyFightingToggle) {
         timeSinceLastInput = glfwGetTime();
     }
     if (key == GLFW_KEY_L && action == GLFW_RELEASE && !enemyFightingToggle) {
         timeSinceLastInput = glfwGetTime();
+    }
+
+    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
+        teleportKeyPressed = false;
     }
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
         mainMenu = true;

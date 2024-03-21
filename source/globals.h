@@ -14,6 +14,7 @@ float randomInRange(float min, float max);
 
 // game settings
 extern bool mainMenu;
+const float MOVEMENT_SPEED = 15.0f;
 
 extern bool FREECAM_CONTROLS_ENABLED;
 extern bool IS_RAINING;
@@ -52,9 +53,11 @@ extern bool initializeFightAnimation;
 extern bool punchFrameToggle;
 extern bool playerShieldEnabled;
 extern bool playerShieldToggle;
+extern bool allowPlayerTeleportation;
 
 // controls
 extern float timeSinceLastInput;
+extern bool teleportKeyPressed;
 
 // enemy variables
 extern glm::mat4 enemy;
@@ -72,13 +75,13 @@ const bool ENEMY_MOVMENT = true;
 const unsigned int SCREEN_WIDTH = 1280;
 const unsigned int SCREEN_HEIGHT = 720;
 const float CAMERA_SPEED = 5.0f;
-const float CAMERA_ROTATE_SPEED = 100.0f;
+const float CAMERA_ROTATE_SPEED = 150.0f;
 extern float fov;
 
 // timing
 extern float deltaTime;
 extern float lastFrame;
-const float SLOW_MO_MULTIPLIER = 1.75f;
+const float SLOW_MO_MULTIPLIER = 1.3f;
 
 // mouse controls
 extern float lastX;

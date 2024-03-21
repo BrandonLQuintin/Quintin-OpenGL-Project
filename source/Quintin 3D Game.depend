@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1711040097 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1711043381 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1711039384 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1711051266 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -2161,7 +2161,7 @@
 	"textures.h"
 	<iostream>
 
-1711040183 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1711044467 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
@@ -2209,10 +2209,11 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1711040059 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1711050763 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
+	<cmath>
 	<glad/glad.h>
 	<GLFW/glfw3.h>
 	<SFML/Audio.hpp>
@@ -2236,12 +2237,13 @@
 	"shapes/terrain.h"
 	"game/sound.h"
 
-1710217842 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
+1711050536 source:c:\users\brand\desktop\quintin-opengl-project\source\game\entity.cpp
 	"entity.h"
 
-1710284944 c:\users\brand\desktop\quintin-opengl-project\source\game\entity.h
+1711050422 c:\users\brand\desktop\quintin-opengl-project\source\game\entity.h
 	"../shapes/shapes.h"
 	"../opengl/camera_variables.h"
+	"../globals.h"
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
@@ -2256,11 +2258,12 @@
 1709437119 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.cpp
 	"initialize_shape_vertices.h"
 
-1710613577 source:c:\users\brand\desktop\quintin-opengl-project\source\game\calculate_fps.cpp
+1711047680 source:c:\users\brand\desktop\quintin-opengl-project\source\game\calculate_fps.cpp
 	"calculate_fps.h"
 
-1710613342 c:\users\brand\desktop\quintin-opengl-project\source\game\calculate_fps.h
+1711047700 c:\users\brand\desktop\quintin-opengl-project\source\game\calculate_fps.h
 	<vector>
+	"../globals.h"
 	<GLFW/glfw3.h>
 	<iostream>
 
@@ -2320,7 +2323,7 @@
 1710604348 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
 	"player.h"
 
-1710798955 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
+1711051266 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
 	"gameplay.h"
 
 1710796577 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h

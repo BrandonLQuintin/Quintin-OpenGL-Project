@@ -98,6 +98,7 @@
 		<Unit filename="shapes/shapes.h" />
 		<Unit filename="shapes/terrain.cpp" />
 		<Unit filename="shapes/terrain.h" />
+		<Unit filename="unused_code.txt" />
 		<Extensions>
 			<AutoVersioning>
 				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />

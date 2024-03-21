@@ -12,7 +12,21 @@ void setShadowLocation(shape &shape, glm::vec3 targetPos, float groundY){
         shape.modelMatrix[1][1] = shadowSize / targetPos.y;  // y
         shape.modelMatrix[2][2] = shadowSize / targetPos.y;  // z
     }
-};
+}
+
+void setRainLocation(rainEntity &rain){
+    rain.modelMatrix[3][0] = player[3][0] + randomInRange(-30.0f, 30.0f);
+    rain.modelMatrix[3][1] = player[3][1] + 15;
+    rain.speed = randomInRange(10.0f, 15.0f);
+    rain.modelMatrix[3][2] = player[3][2] + randomInRange(-30.0f, 30.0f);
+}
+
+void initializeRainLocation(rainEntity &rain){
+    rain.modelMatrix[3][0] = cameraPos.x + randomInRange(-10.0f, 10.0f);
+    rain.modelMatrix[3][1] = cameraPos.y + randomInRange(-5.0f, 15.0f);
+    rain.speed = randomInRange(10.0f, 15.0f);
+    rain.modelMatrix[3][2] = cameraPos.z + randomInRange(-10.0f, 10.0f);
+}
 // UNUSED SHADOW CODE
 /*
 

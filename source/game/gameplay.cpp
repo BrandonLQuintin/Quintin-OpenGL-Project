@@ -36,6 +36,7 @@ void rotatePlayerAroundEnemy(float deltaTime, bool isPlayer){
     glm::vec3 rotatedVector = glm::vec3(rotation * glm::vec4(toPlayer, 1.0f));
 
     playerPos = enemyPos + rotatedVector;
+
     if (isPlayer){
         player[3][0] = playerPos.x;
         player[3][1] = playerPos.y;
@@ -48,6 +49,11 @@ void rotatePlayerAroundEnemy(float deltaTime, bool isPlayer){
         cameraPos.x = player[3][0];
         cameraPos.y = player[3][1];
         cameraPos.z = player[3][2] + 3.5f;
+
+        float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
+
+        if (cameraPos.y < cameraHeightAboveTerrain + 1.0f)
+            cameraPos.y = cameraHeightAboveTerrain + 1.0f;
     }
 
     else{
@@ -62,6 +68,11 @@ void rotatePlayerAroundEnemy(float deltaTime, bool isPlayer){
         cameraPos.x = player[3][0];
         cameraPos.y = player[3][1];
         cameraPos.z = player[3][2] + 2.5f;
+
+        float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
+
+        if (cameraPos.y < cameraHeightAboveTerrain + 1.0f)
+            cameraPos.y = cameraHeightAboveTerrain + 1.0f;
     }
 
 }
@@ -86,6 +97,11 @@ void moveEnemyToPoint(const glm::vec3 destinationPos, float deltaTime, float spe
     enemy[3][0] = enemyPos.x;
     enemy[3][1] = enemyPos.y;
     enemy[3][2] = enemyPos.z;
+
+    float enemyHeightAboveTerrain = getHeight(enemyPos.x, enemyPos.z);
+    if (enemyPos.y < enemyHeightAboveTerrain + 0.5f){
+        enemy[3][1] = enemyHeightAboveTerrain + 0.5f;
+    }
 }
 
 float calculateDistance(glm::vec3 objectPos, glm::vec3 destinationPos){
@@ -106,18 +122,11 @@ void movePlayerToPoint(float deltaTime, float speed){
     if (distanceFromEnemy > 1.0f || speed < 0){
             moveToPoint(playerPos, destinationPos, deltaTime, speed);
     }
-
-    float playerHeightAboveTerrain = getHeight(player[3][0], player[3][2]) + 0.5f;
-
     player[3][0] = playerPos.x;
     player[3][1] = playerPos.y;
     player[3][2] = playerPos.z;
     glm::vec3 playerMovement = playerPos - oldPlayerPos;
     cameraPos += playerMovement;
-
-    if (playerPos.y < playerHeightAboveTerrain){
-        player[3][1] = playerHeightAboveTerrain;
-    }
 }
 
 int calculateOrientationSpriteIndex(const glm::mat4 &transformationMatrix, const glm::vec3 &characterVertex, const glm::vec3 &targetVertex){
