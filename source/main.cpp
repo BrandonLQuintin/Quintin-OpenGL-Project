@@ -509,16 +509,24 @@ int main(){
                                 //if (IS_RAINING){
                                 //    text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
                                 //}
-                                if(SLOW_MO)
-                                    text += dialogue;
-                                else
-                                    dialogue = "";
+        float waitingTime = glfwGetTime() - timeSinceLastInput;
+        if (waitingTime < 1.0f){
+            for (int i = 0; i < 10; i++){
+                text += "\\";
+            }
+            text += "                                      ";
+            text += std::to_string(waitingTime);
+        }
 
-                                if (FREECAM_CONTROLS_ENABLED){
-                                    text += "\\\\freecam mode";
-                                    text += "\\camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
-                                }
+        if(SLOW_MO)
+            text += dialogue;
+        else
+            dialogue = "";
 
+        if (FREECAM_CONTROLS_ENABLED){
+            text += "\\\\freecam mode";
+            text += "\\camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
+        }
 
         renderText(t, text);
 
