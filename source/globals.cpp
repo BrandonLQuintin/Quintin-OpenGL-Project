@@ -42,9 +42,11 @@ bool punchAnimationBounceBack = false;
 bool initializeFightAnimation = false;
 bool playerShieldEnabled = false;
 bool playerShieldToggle = false;
+bool allowPlayerTeleportation = false;
 
 // controls
 float timeSinceLastInput = 0.0f;
+bool teleportKeyPressed = false;
 
 // enemy
 glm::mat4 enemy = glm::mat4(1.0f);

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "../globals.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
