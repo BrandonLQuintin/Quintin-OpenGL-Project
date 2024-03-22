@@ -38,6 +38,7 @@ extern unsigned int terrainIndicesArraySize;
 
 
 extern unsigned int textVAO, textVBO, textEBO;
+extern unsigned int healthVAO, healthVBO, healthEBO;
 extern unsigned int boxVAO, boxVBO;
 extern unsigned int pyramidVAO, pyramidVBO;
 extern unsigned int sphereVAO, sphereVBO;

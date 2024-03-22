@@ -1,4 +1,5 @@
 #pragma once
+#include "../globals.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
@@ -11,6 +12,11 @@ extern float textVertices[];
 extern unsigned int textIndices[];
 extern unsigned int textVerticesByteSize;
 extern unsigned int textIndicesByteSize;
+
+extern float healthVertices[];
+extern unsigned int healthIndices[];
+extern unsigned int healthVerticesByteSize;
+extern unsigned int healthIndicesByteSize;
 
 extern float phongBillboardVertices[];
 extern unsigned int phongBillboardIndices[];
