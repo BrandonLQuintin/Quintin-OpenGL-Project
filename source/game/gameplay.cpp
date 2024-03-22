@@ -236,6 +236,10 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                 punchAnimationBounceBack = false;
             }
         }
+        float terrainY = getHeight(playerPos.x, playerPos.z);
+        if (playerPos.y < terrainY + 0.5f){
+            playerPos.y = terrainY + 0.5f;
+        }
 
         // set player position BEFORE rotation!
         if (isPlayer){
