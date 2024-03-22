@@ -10,6 +10,7 @@ uniform vec2 u;
 uniform vec2 v;
 
 uniform bool invertColor;
+uniform bool blueColor;
 uniform bool firstTextureAtlas;
 
 void main()
@@ -31,6 +32,9 @@ void main()
 
     if (invertColor){
         texelColor.rgb = vec3(0.5f, 0.0f, 0.0f);
+    }
+    else if (blueColor){
+        texelColor.rgb = vec3(0.0f, 0.0f, 0.5f);
     }
     else {
         texelColor.rgb = vec3(0.9f);

@@ -268,6 +268,15 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
             if (firstPunchFrame){
                 if (punchFrameToggle){
                     calculatePunchParticles(true, playerPos, enemyPos); // before punching enemy, generate punch particles.
+                    if (isPlayer)
+                        health += 1;
+                    else
+                        if (!playerShieldToggle)
+                            health -= 1;
+                    normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
+                    healthVertices[10] = normalizedScore;
+                    healthVertices[15] = normalizedScore;
+                    generateVAOandEBO(healthVAO, healthVBO, healthEBO, healthVerticesByteSize, healthIndicesByteSize, healthVertices, healthIndices);
                     if (ENABLE_SOUND)
                         playSound();
                     }
@@ -280,6 +289,15 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
             if (firstPunchFrame){
                 if (punchFrameToggle){
                     calculatePunchParticles(false, playerPos, enemyPos);
+                    if (isPlayer)
+                        health += 1;
+                    else
+                        if (!playerShieldToggle)
+                            health -= 1;
+                    normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
+                    healthVertices[10] = normalizedScore;
+                    healthVertices[15] = normalizedScore;
+                    generateVAOandEBO(healthVAO, healthVBO, healthEBO, healthVerticesByteSize, healthIndicesByteSize, healthVertices, healthIndices);
                     if (ENABLE_SOUND)
                         playSound();
                     }

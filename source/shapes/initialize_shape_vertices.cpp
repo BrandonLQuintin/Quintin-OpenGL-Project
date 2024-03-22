@@ -1,6 +1,7 @@
 #include "initialize_shape_vertices.h"
 
 unsigned int textVAO, textVBO, textEBO;
+unsigned int healthVAO, healthVBO, healthEBO;
 unsigned int boxVAO, boxVBO;
 unsigned int pyramidVAO, pyramidVBO;
 unsigned int sphereVAO, sphereVBO;
@@ -84,6 +85,7 @@ void initializeAllShapes(){
 
 
     generateVAOandEBO(textVAO, textVBO, textEBO, textVerticesByteSize, textIndicesByteSize, textVertices, textIndices);
+    generateVAOandEBO(healthVAO, healthVBO, healthEBO, healthVerticesByteSize, healthIndicesByteSize, healthVertices, healthIndices);
     generateVAO(boxVAO, boxVBO, boxVerticesByteSize, boxVertices);
     generateVAO(pyramidVAO, pyramidVBO, pyramidVerticesByteSize, pyramidVertices);
     generateVAO(sphereVAO, sphereVBO, sphereVerticesByteSize, sphereVertices);
