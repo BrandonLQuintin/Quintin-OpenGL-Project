@@ -142,7 +142,8 @@ void processInput(GLFWwindow* window){
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
-            movePlayerToPoint(deltaTime, -MOVEMENT_SPEED);
+            if (player[3][0] < 400.0f && player[3][0] > -400.0f && player[3][2] < 400.0f && player[3][2] > -400.0f)
+                movePlayerToPoint(deltaTime, -MOVEMENT_SPEED);
         }
 
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && timeElapsed > 1.0f){
