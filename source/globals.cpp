@@ -14,6 +14,9 @@ bool ENABLE_SOUND = true;
 bool text = true;
 bool FREECAM_CONTROLS_ENABLED = false;
 
+int health = 0;
+float normalizedScore = 0.0f;
+
 float VIEW_DISTANCE = 100.0f;
 float DESPAWN_DISTANCE = 60.0f;
 float FOG_DENSITY = 0.001f;
@@ -57,6 +60,7 @@ float timeSinceLastEnemyWait = 0.0f;
 float timeSinceLastEnemyThought = 0.0f;
 bool enemyFightingToggle = false;
 float timeSinceEnemyFightInit = 0.0f;
+bool enemyOffensiveMode = false;
 
 
 

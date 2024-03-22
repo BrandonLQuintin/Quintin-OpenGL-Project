@@ -6,10 +6,10 @@
 
 float textVertices[] = {
     // xyz, tex coords
-     0.025f/2,  0.025f, 0.0f,     1.0f, 1.0f,
-     0.025f/2, -0.025f, 0.0f,     1.0f, 0.0f,
-    -0.025f/2, -0.025f, 0.0f,     0.0f, 0.0f,
-    -0.025f/2,  0.025f, 0.0f,     0.0f, 1.0f
+     0.0125,  0.025f, 0.0f,     1.0f, 1.0f,
+     0.0125, -0.025f, 0.0f,     1.0f, 0.0f,
+    -0.0125, -0.035f, 0.0f,     0.0f, 0.0f,
+    -0.0125,  0.035f, 0.0f,     0.0f, 1.0f
 };
 
 unsigned int textIndices[] = {
@@ -19,6 +19,24 @@ unsigned int textIndices[] = {
 
 unsigned int textVerticesByteSize = sizeof(textVertices);
 unsigned int textIndicesByteSize = sizeof(textIndices);
+
+float healthVertices[] = {
+    // xyz, tex coords
+     0.0,  0.025f, 0.0f,     1.0f, 1.0f,
+     0.0, -0.025f, 0.0f,     1.0f, 0.0f,
+     0.0, -0.05f, 0.0f,     0.0f, 0.0f,
+     0.0,  0.05f, 0.0f,     0.0f, 1.0f
+};
+
+unsigned int healthIndices[] = {
+    0, 1, 3,
+    1, 2, 3
+};
+
+unsigned int healthVerticesByteSize = sizeof(healthVertices);
+unsigned int healthIndicesByteSize = sizeof(healthIndices);
+
+
 
 float phongBillboardVertices[] = {
     // xyz, normals, tex coords

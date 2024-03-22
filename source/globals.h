@@ -16,6 +16,9 @@ float randomInRange(float min, float max);
 extern bool mainMenu;
 const float MOVEMENT_SPEED = 12.0f;
 
+extern int health;
+extern float normalizedScore;
+
 extern bool FREECAM_CONTROLS_ENABLED;
 extern bool IS_RAINING;
 extern bool SLOW_MO;
@@ -66,6 +69,7 @@ extern bool enemyReachedDestination;
 extern float enemyWaitTime;
 extern float timeSinceLastEnemyWait;
 extern float timeSinceLastEnemyThought;
+extern bool enemyOffensiveMode;
 
 extern bool enemyFightingToggle;
 extern float timeSinceEnemyFightInit;

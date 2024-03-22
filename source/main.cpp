@@ -98,6 +98,8 @@ int main(){
     std::vector<float> playerInjuryUV = returnTextureUV(1, 5);
     std::vector<float> playerShieldUV = returnTextureUV(0, 1);
 
+    std::vector<float> redSquareUV = returnTextureUV(1, 1);
+
     std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f}; // these textures take up multiple 64x64 pixel grids so I gave it hard coded numbers.
     std::vector<float> treeAtlasUV = {0.75f, 1.0f, 0.0625f, 0.25f};
 
@@ -327,8 +329,8 @@ int main(){
 
         // ### ENEMY
         float enemyHeightAboveTerrain = getHeight(enemy[3][0], enemy[3][2]);
-        if (enemy[3][1] < playerHeightAboveTerrain + 0.5f){
-            enemy[3][1] = playerHeightAboveTerrain + 0.5f;
+        if (enemy[3][1] < enemyHeightAboveTerrain + 0.5f){
+            enemy[3][1] = enemyHeightAboveTerrain + 0.5f;
         }
 
         float determinedTime = 10.0f;
@@ -359,7 +361,7 @@ int main(){
                     if (currentFrame - timeSinceLastEnemyThought > 0.5f && !playerCurrentlyFighting && !enemyFightingToggle){
                         timeSinceLastEnemyThought = glfwGetTime();
                         int randomChance = randomInRange(0.0f, 100.0f);
-                        if (randomChance <= 20.0f){
+                        if (randomChance <= 20.0f || enemyOffensiveMode){
                             if (playerShieldEnabled)
                                 playerShieldToggle = true;
                             else
@@ -387,19 +389,32 @@ int main(){
 
 
             if (enemyGoToDistance < 1.0f){ // enemy calculates where to go next
-                glm::vec3 oldEnemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
-                glm::vec3 newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
-                float distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
-                int attempts = 0;
-                while (distanceFromPos > 100.0f && attempts < 100){
-                    newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
-                    distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
-                    attempts += 1;
+                // calculate whether the enemy will be offensive or defensive
+                float chance = randomInRange(0.0f, 100.0f);
+                if (chance > 20.0f)
+                    enemyOffensiveMode = true;
+                else
+                    enemyOffensiveMode = false;
+                if (!enemyOffensiveMode){
+                    glm::vec3 oldEnemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+                    glm::vec3 newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
+                    float distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
+                    int attempts = 0;
+                    while (distanceFromPos > 100.0f && attempts < 100){
+                        newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
+                        distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
+                        attempts += 1;
+                    }
+                    enemyGoTo = newEnemyPos;
+                    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + randomInRange(0.51f, 5.0f);
                 }
-                enemyGoTo = newEnemyPos;
-                enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + randomInRange(0.51f, 5.0f);
+
+
                 enemyWaitTime = glfwGetTime();
                 timeSinceLastEnemyWait = currentFrame;
+            }
+            if (enemyOffensiveMode){
+                enemyGoTo = glm::vec3(player[3][0], player[3][1], player[3][2]);
             }
         }
 
@@ -509,6 +524,27 @@ int main(){
         }
 
         renderText(t, text);
+
+        // ----- HEALTH BAR ----- (code is weird because it uses the text renderer to render both text and health bar)
+
+        glDisable(GL_DEPTH_TEST);
+        t.use();
+        if (health < 0)
+            t.setBool("invertColor", true);
+        else
+            t.setBool("blueColor", true);
+        t.setFloat("textXOffset", 1.0f);
+        t.setFloat("textYOffset", -1.8f);
+
+        glBindVertexArray(healthVAO);
+        setTextureUV(t, redSquareUV, false);
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glEnable(GL_DEPTH_TEST);
+        t.setBool("blueColor", false);
+        renderText(t, "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\                             *enemy               player*");
+
+        // end of a frame
 
         glfwSwapBuffers(window);
         glfwPollEvents();

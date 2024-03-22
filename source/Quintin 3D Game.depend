@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1711043381 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1711142762 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1711127777 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1711142772 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -2124,7 +2124,7 @@
 	<sstream>
 	<iostream>
 
-1710603599 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
+1711140732 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
 	"text_render.h"
 
 1710452252 c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.h
@@ -2161,7 +2161,7 @@
 	"textures.h"
 	<iostream>
 
-1711124579 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1711137185 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
@@ -2197,19 +2197,20 @@
 	<GL/gl.h>
 	<GL/glext.h>
 
-1710052625 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.cpp
+1711142250 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.cpp
 	"shapes.h"
 	"../globals.h"
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glad/glad.h>
 
-1709580894 c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.h
+1711139639 c:\users\brand\desktop\quintin-opengl-project\source\shapes\shapes.h
+	"../globals.h"
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1711127837 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1711142791 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2249,13 +2250,13 @@
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 
-1709437191 c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.h
+1711139295 c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.h
 	<vector>
 	"../globals.h"
 	"shapes.h"
 	"terrain.h"
 
-1709437119 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.cpp
+1711139328 source:c:\users\brand\desktop\quintin-opengl-project\source\shapes\initialize_shape_vertices.cpp
 	"initialize_shape_vertices.h"
 
 1711047680 source:c:\users\brand\desktop\quintin-opengl-project\source\game\calculate_fps.cpp
@@ -2323,7 +2324,7 @@
 1710604348 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
 	"player.h"
 
-1711129600 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
+1711142786 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
 	"gameplay.h"
 
 1710796577 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h
