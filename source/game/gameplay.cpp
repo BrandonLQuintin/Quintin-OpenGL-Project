@@ -276,7 +276,7 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                     normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
                     healthVertices[10] = normalizedScore;
                     healthVertices[15] = normalizedScore;
-                    generateVAOandEBO(healthVAO, healthVBO, healthEBO, healthVerticesByteSize, healthIndicesByteSize, healthVertices, healthIndices);
+
                     if (ENABLE_SOUND)
                         playSound();
                     }
@@ -297,7 +297,7 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                     normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
                     healthVertices[10] = normalizedScore;
                     healthVertices[15] = normalizedScore;
-                    generateVAOandEBO(healthVAO, healthVBO, healthEBO, healthVerticesByteSize, healthIndicesByteSize, healthVertices, healthIndices);
+
                     if (ENABLE_SOUND)
                         playSound();
                     }

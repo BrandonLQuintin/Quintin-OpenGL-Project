@@ -535,7 +535,7 @@ int main(){
             t.setBool("blueColor", true);
         t.setFloat("textXOffset", 1.0f);
         t.setFloat("textYOffset", -1.8f);
-
+        generateVAOandEBO(healthVAO, healthVBO, healthEBO, healthVerticesByteSize, healthIndicesByteSize, healthVertices, healthIndices);
         glBindVertexArray(healthVAO);
         setTextureUV(t, redSquareUV, false);
 
