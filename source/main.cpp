@@ -218,6 +218,7 @@ int main(){
     while (!glfwWindowShouldClose(window)){
         while (mainMenu){
             processMainMenu(window, t, menuChoice);
+            timeSinceLastEnemyWait = glfwGetTime();
         }
 
         float currentFrame = glfwGetTime();
