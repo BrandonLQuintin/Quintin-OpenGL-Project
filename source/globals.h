@@ -13,13 +13,19 @@
 float randomInRange(float min, float max);
 
 // game settings
+extern bool restartGame;
 extern bool mainMenu;
 const float MOVEMENT_SPEED = 12.0f;
+extern bool gameOver;
 
-extern int health;
+extern int playerLives;
+extern int enemyLives;
+
+extern float health;
 extern float normalizedScore;
 
 extern bool FREECAM_CONTROLS_ENABLED;
+extern bool CONTROLS_ENABLED;
 extern bool IS_RAINING;
 extern bool SLOW_MO;
 extern bool DISABLE_SLOW_MO;
@@ -73,7 +79,12 @@ extern bool enemyOffensiveMode;
 
 extern bool enemyFightingToggle;
 extern float timeSinceEnemyFightInit;
-const bool ENEMY_MOVMENT = true;
+extern bool ENEMY_MOVMENT;
+
+// animation mode
+extern bool animationModeActivate;
+extern float timeSinceAnimationActivation;
+extern float animationDeltaTime;
 
 // screen settings
 const unsigned int SCREEN_WIDTH = 1280;
