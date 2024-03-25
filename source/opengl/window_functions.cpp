@@ -106,7 +106,7 @@ void processInput(GLFWwindow* window){
         }
     }
 
-    if (!FREECAM_CONTROLS_ENABLED){
+    if (CONTROLS_ENABLED && !FREECAM_CONTROLS_ENABLED){
         float timeElapsed = glfwGetTime() - timeSinceLastInput;
 
         if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f){
@@ -173,22 +173,25 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             menuChoice += 1;
         }
     }
-    if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f) {
+    if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f && CONTROLS_ENABLED) {
         initializeFightAnimation = true;
     }
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && allowPlayerTeleportation){
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && allowPlayerTeleportation && CONTROLS_ENABLED){
         teleportKeyPressed = true;
     }
-
-
-    if (key == GLFW_KEY_K && action == GLFW_RELEASE && !enemyFightingToggle) {
-        timeSinceLastInput = glfwGetTime();
-    }
-    if (key == GLFW_KEY_L && action == GLFW_RELEASE && !enemyFightingToggle) {
-        timeSinceLastInput = glfwGetTime();
+    if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS && gameOver){
+       restartGame = true;
     }
 
-    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
+
+    if (key == GLFW_KEY_K && action == GLFW_RELEASE && !enemyFightingToggle && CONTROLS_ENABLED) {
+        timeSinceLastInput = glfwGetTime();
+    }
+    if (key == GLFW_KEY_L && action == GLFW_RELEASE && !enemyFightingToggle && CONTROLS_ENABLED) {
+        timeSinceLastInput = glfwGetTime();
+    }
+
+    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE && CONTROLS_ENABLED) {
         teleportKeyPressed = false;
     }
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {

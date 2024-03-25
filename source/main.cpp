@@ -221,7 +221,20 @@ int main(){
         }
 
         float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
+        std::string animationText;
+        if (gameOver){
+            handleGameOver(player, enemy, animationText);
+
+        }
+        else if (animationModeActivate){  // animation mode! (executes when health is less than -300 or greater than 300)
+            animationDeltaTime = currentFrame - lastFrame;
+            handleAnimationMode(animationText);
+        }
+        else{
+            deltaTime = currentFrame - lastFrame;
+        }
+
+
         if (SLOW_MO)
             deltaTime /= SLOW_MO_MULTIPLIER;
         lastFrame = currentFrame;
@@ -422,6 +435,10 @@ int main(){
         glBindVertexArray(phongBillboardVAO);
 
 
+        if (animationModeActivate){
+            if (health >= 300.0f)
+                playerUV = playerInjuryUV;
+        }
         setTextureUV(billboardShader, playerUV, false);
         billboardShader.setMat4("model", enemy);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -488,7 +505,7 @@ int main(){
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector, SLOW_MO);
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v2.4.0"
+        std::string text =      "\\ocero 3d game alpha v3.0.0"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
@@ -524,6 +541,7 @@ int main(){
         }
 
         renderText(t, text);
+        renderText(t, animationText);
 
         // ----- HEALTH BAR ----- (code is weird because it uses the text renderer to render both text and health bar)
 

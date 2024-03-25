@@ -4,6 +4,7 @@ std::random_device rd;
 std::mt19937 gen(rd()); // for use with random
 
 // game settings
+bool restartGame = false;
 bool IS_RAINING = true;
 bool SLOW_MO = false;
 bool DISABLE_SLOW_MO = false;
@@ -13,8 +14,14 @@ bool ENABLE_TEXT = true;
 bool ENABLE_SOUND = true;
 bool text = true;
 bool FREECAM_CONTROLS_ENABLED = false;
+bool CONTROLS_ENABLED = true;
 
-int health = 0;
+bool gameOver = false;
+
+int playerLives = 3;
+int enemyLives = 3;
+
+float health = 0.0f;
 float normalizedScore = 0.0f;
 
 float VIEW_DISTANCE = 100.0f;
@@ -61,11 +68,15 @@ float timeSinceLastEnemyThought = 0.0f;
 bool enemyFightingToggle = false;
 float timeSinceEnemyFightInit = 0.0f;
 bool enemyOffensiveMode = false;
-
-
+bool ENEMY_MOVMENT = true;
 
 float lastX = 0;
 float lastY = 0;
+
+// animation mode
+bool animationModeActivate = false;
+float timeSinceAnimationActivation = 0.0f;
+float animationDeltaTime = 0.0f;
 
 glm::vec3 direction; // used for camera rotation (in mouseCallback)
 float yaw = -90.0f;

@@ -28,4 +28,8 @@ void calculatePunchParticles(bool leftSide, glm::vec3 playerPos, glm::vec3 enemy
 
 void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV, bool isPlayer);
 
+void handleAnimationMode(std::string &outputText);
+
+void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationText);
+
 extern std::vector<punchEntity> existingPunches;

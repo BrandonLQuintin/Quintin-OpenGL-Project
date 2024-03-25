@@ -269,16 +269,34 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                 if (punchFrameToggle){
                     calculatePunchParticles(true, playerPos, enemyPos); // before punching enemy, generate punch particles.
                     if (isPlayer)
-                        health += 1;
+                        health += 1.0f;
                     else
                         if (!playerShieldToggle)
-                            health -= 1;
+                            health -= 1.0f;
                     normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
                     healthVertices[10] = normalizedScore;
                     healthVertices[15] = normalizedScore;
 
                     if (ENABLE_SOUND)
                         playSound();
+
+                    if (health >= 300 || health <= -300){
+                        if (health >= 300){
+                            enemyLives -= 1;
+                            if (enemyLives < 0)
+                                gameOver = true;
+                            dialogue = "";
+                        }
+                        else
+                            playerLives -=1;
+                            if (playerLives < 0)
+                                gameOver = true;
+                        animationModeActivate = true;
+                        timeSinceAnimationActivation = glfwGetTime();
+                    }
+
+
+
                     }
                 playerUV = returnTextureUV(2,4);
                 }
@@ -290,16 +308,33 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                 if (punchFrameToggle){
                     calculatePunchParticles(false, playerPos, enemyPos);
                     if (isPlayer)
-                        health += 1;
+                        health += 1.0f;
                     else
                         if (!playerShieldToggle)
-                            health -= 1;
+                            health -= 1.0f;
                     normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
                     healthVertices[10] = normalizedScore;
                     healthVertices[15] = normalizedScore;
 
                     if (ENABLE_SOUND)
                         playSound();
+
+                    if (health > 300 || health < -300){
+                        if (health >= 300){
+                            enemyLives -= 1;
+                            if (enemyLives < 0)
+                                gameOver = true;
+                            dialogue = "";
+                        }
+                        else
+                            playerLives -=1;
+                            if (playerLives < 0)
+                                gameOver = true;
+                        animationModeActivate = true;
+                        timeSinceAnimationActivation = glfwGetTime();
+                    }
+
+
                     }
                     playerUV = returnTextureUV(2,6);
                 }
@@ -312,3 +347,106 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
     }
 }
 
+
+void handleAnimationMode(std::string &outputText){
+    CONTROLS_ENABLED = false;
+    ENEMY_MOVMENT = false;
+    playerCurrentlyFighting = false;
+    playerFightingToggle = false;
+
+    float currentFrame = glfwGetTime();
+    deltaTime = 0.0f;
+    float adjustedDeltaTime = currentFrame - lastFrame;
+    lastFrame = glfwGetTime();
+
+    bool playerIsLoser = false;
+    if (health >= 300)
+        playerIsLoser = false;
+    else
+        playerIsLoser = true;
+
+    glm::vec3 playerPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+    glm::vec3 enemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
+
+    float playerTerrainY = getHeight(playerPos.x, playerPos.z);
+    float enemyTerrainY = getHeight(enemyPos.x, enemyPos.z);
+
+    if (!playerIsLoser && enemyPos.y > enemyTerrainY + 0.5f){
+            enemyPos.y -= 3.0f * adjustedDeltaTime;
+            enemy[3][1] = enemyPos.y;
+    }
+
+
+    if (playerIsLoser && playerPos.y > playerTerrainY + 0.5f){
+            playerPos.y -= 3.0f * adjustedDeltaTime;
+            player[3][1] = playerPos.y;
+    }
+    rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
+                                cameraPos, adjustedDeltaTime, -CAMERA_ROTATE_SPEED * 0.5);
+
+    if ((currentFrame - timeSinceAnimationActivation) > 5.0f && playerIsLoser){
+        outputText = "\\\\\\\\\\\\\\                                  remaining lives: " + std::to_string(playerLives);
+    }
+    if ((currentFrame - timeSinceAnimationActivation) > 5.0f && !playerIsLoser){
+        outputText = "\\\\\\\\\\\\\\                                remaining enemy lives: " + std::to_string(enemyLives);
+    }
+
+    if ((currentFrame - timeSinceAnimationActivation) > 10.0f){
+        CONTROLS_ENABLED = true;
+        ENEMY_MOVMENT = true;
+        animationModeActivate = false;
+
+        health = 0;
+
+        float normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
+        healthVertices[10] = normalizedScore;
+        healthVertices[15] = normalizedScore;
+    }
+}
+
+void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationText){
+    health = 0.0f;
+    CONTROLS_ENABLED = false;
+    ENEMY_MOVMENT = false;
+    playerCurrentlyFighting = false;
+    playerFightingToggle = false;
+    bool playerWin;
+    if (playerLives > enemyLives)
+        playerWin = true;
+    else
+        playerWin = false;
+    animationText = "\\\\\\\\\\\\                       game over! press backspace to play again!";
+    if (playerWin)
+        animationText += "\\                                     player win!";
+    if (!playerWin)
+        animationText += "\\                                     enemy win!";
+
+    if (restartGame){
+        restartGame = false;
+        gameOver = false;
+        animationModeActivate = false;
+        CONTROLS_ENABLED = true;
+        ENEMY_MOVMENT = true;
+        timeSinceAnimationActivation = 0.0f;
+        playerLives = 3;
+        enemyLives = 3;
+
+        player[3][0] = 0.0f;
+        player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
+        player[3][2] = -3.5f;
+
+        enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
+        enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+        enemy[3][0] = enemyGoTo.x;
+        enemy[3][1] = enemyGoTo.y;
+        enemy[3][2] = enemyGoTo.z;
+
+        cameraPos.x = player[3][0];
+        cameraPos.y = player[3][1];
+        cameraPos.z = player[3][2] + 3.5f;
+
+        normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
+        healthVertices[10] = normalizedScore;
+        healthVertices[15] = normalizedScore;
+    }
+}

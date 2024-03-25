@@ -6,8 +6,12 @@ int calculateAverageFPS(float &timeSinceCalculation, float deltaTime, std::vecto
     if (elapsedTime > 0.1f){
         timeSinceCalculation = glfwGetTime();
         int fps;
-        if (isSlowMO)
+        if (gameOver)
+            fps = 404;
+        else if (isSlowMO && !animationModeActivate)
             fps = 1.0f / (deltaTime * SLOW_MO_MULTIPLIER);
+        else if (animationModeActivate)
+            fps = 1.0f / (animationDeltaTime);
         else
             fps = 1.0f / deltaTime;
         fpsArray.push_back(fps);
