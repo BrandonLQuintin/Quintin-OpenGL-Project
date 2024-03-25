@@ -431,6 +431,8 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         playerLives = 3;
         enemyLives = 3;
 
+        timeSinceLastEnemyWait = glfwGetTime();
+
         player[3][0] = 0.0f;
         player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
         player[3][2] = -3.5f;
