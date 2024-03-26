@@ -1126,7 +1126,7 @@
 	<inttypes.h>
 	<stdint.h>
 
-1711332543 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1711398623 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
 1711330602 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
@@ -2161,7 +2161,7 @@
 	"textures.h"
 	<iostream>
 
-1711330602 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1711424575 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
@@ -2210,7 +2210,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1711332543 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1711398554 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2283,9 +2283,10 @@
 1710799084 source:c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.cpp
 	"main_menu.h"
 
-1710091488 c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.h
+1711423492 c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.h
 	<string>
 	<glad/glad.h>
+	<windows.h>
 	<GLFW/glfw3.h>
 	<shader_m.h>
 	"../globals.h"
@@ -2324,7 +2325,7 @@
 1710604348 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
 	"player.h"
 
-1711332413 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
+1711398554 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
 	"gameplay.h"
 
 1711331333 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h
@@ -4000,4 +4001,11 @@
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glad/glad.h>
+
+1711422297 source:c:\users\brand\desktop\quintin-opengl-project\source\icon.rc
+
+1711423295 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\icon.rc
+	"resource.h"
+
+1711423137 c:\users\brand\desktop\quintin-opengl-project\source\opengl\resource.h
 
