@@ -19,6 +19,12 @@ GLFWwindow* createWindow(){
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
     }
+    GLFWimage images[1];
+    images[0].pixels = stbi_load("./game/icon.png", &images[0].width, &images[0].height, 0, 4); //rgba channels
+    glfwSetWindowIcon(window, 1, images);
+    stbi_image_free(images[0].pixels);
+
+
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
@@ -88,7 +94,6 @@ void processInput(GLFWwindow* window){
             }
         }
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
-
             cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
             if (cameraPos.y <= collisionLimit){
                 cameraPos.y = (collisionLimit);
@@ -131,11 +136,11 @@ void processInput(GLFWwindow* window){
 
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !enemyFightingToggle){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
-                                         cameraPos, adjustedDeltaTime, -CAMERA_ROTATE_SPEED);
+                                         cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !enemyFightingToggle){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
-                                         cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
+                                         cameraPos, adjustedDeltaTime, -CAMERA_ROTATE_SPEED);
         }
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
             movePlayerToPoint(deltaTime, MOVEMENT_SPEED);
