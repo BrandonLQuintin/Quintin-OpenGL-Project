@@ -83,7 +83,7 @@
 		<Unit filename="opengl/window_functions.cpp" />
 		<Unit filename="opengl/window_functions.h" />
 		<Unit filename="resources/heightmap.png" />
-		<Unit filename="resources/sounds/punch.mp3" />
+		<Unit filename="resources/sounds/punch.wav" />
 		<Unit filename="resources/textures/GrassTiles.png" />
 		<Unit filename="resources/textures/TextAtlas.png" />
 		<Unit filename="resources/textures/TextureAtlas.png" />

@@ -65,7 +65,7 @@ void main()
         result = mix(texelColor.rgb * objectColor, fogColor, fogFactor);
     }
     else if (!firstTextureAtlas){
-        result = mix(texelColor.rgb * (ambient + diffuse) * objectColor, fogColor, fogFactor);
+        result = mix(texelColor.rgb * (ambient + diffuse + specular) * objectColor, fogColor, fogFactor);
     }
     else if (isRaining){
         result = mix(texelColor.rgb * (ambient + diffuse + specular) * objectColor, fogColor, fogFactor);
