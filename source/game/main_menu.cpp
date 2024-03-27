@@ -17,9 +17,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += "\\  play game";
 
     if (choice == 1)
-        outputText += std::string("\\x freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
+        outputText += std::string("\\\\x freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
     else
-        outputText += std::string("\\  freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
+        outputText += std::string("\\\\  freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
 
     if (choice == 2)
         outputText += std::string("\\x is_raining: ") + (IS_RAINING ? "true" : "false");
