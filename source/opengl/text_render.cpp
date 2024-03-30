@@ -64,7 +64,7 @@ std::map<char, std::vector<float>> characterUV = {
 };
 
 std::map<int, std::string> textOptions = {
-    {1, "\\\\\\\\\\                                  take that, ocero!"},
+    {1, "\\\\\\\\\\                                  take that, kuro!"},
     {2, "\\\\\\\\\\                                   whisker punch!"},
     {3, "\\\\\\\\\\                                    slow motion!"},
     {4, "\\\\\\\\\\                                      whiskers!"},

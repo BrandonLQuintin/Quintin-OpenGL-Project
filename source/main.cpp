@@ -98,6 +98,13 @@ int main(){
     std::vector<float> playerInjuryUV = returnTextureUV(1, 5);
     std::vector<float> playerShieldUV = returnTextureUV(0, 1);
 
+    std::vector<float> enemyBackUV = returnTextureUV(0, 7);
+    std::vector<float> enemyRightUV = returnTextureUV(0, 8);
+    std::vector<float> enemyFrontUV = returnTextureUV(0, 9);
+    std::vector<float> enemyLeftUV = returnTextureUV(0, 10);
+
+    std::vector<float> enemyInjuryUV = returnTextureUV(1, 9);
+
     std::vector<float> redSquareUV = returnTextureUV(1, 1);
 
     std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f}; // these textures take up multiple 64x64 pixel grids so I gave it hard coded numbers.
@@ -347,18 +354,18 @@ int main(){
             enemy[3][1] = enemyHeightAboveTerrain + 0.5f;
         }
 
-        float determinedTime = 10.0f;
+        float determinedTime = 3.0f;
         if (SLOW_MO){
             determinedTime *= SLOW_MO_MULTIPLIER;
         }
         if (playerFightingToggle && distanceFromEnemy < 1.3f && !(enemyWaitTime > determinedTime)) // if enemy is getting damaged
-            playerUV = playerInjuryUV;
+            playerUV = enemyInjuryUV;
         else{
             orientation = calculateOrientationSpriteIndex(view, glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]), glm::vec3(player[3][0], player[3][1], player[3][2]));
-            playerUV = returnTextureUV(0, 3 + orientation);
+            playerUV = returnTextureUV(0, 7 + orientation);
         }
 
-        if (ENEMY_MOVMENT){
+        if (ENEMY_MOVMENT && !FREECAM_CONTROLS_ENABLED){
             float enemyGoToDistance = calculateDistance(enemyPos, enemyGoTo);
             float distanceFromPlayer = calculateDistance(enemyPos, playerPos);
             enemyWaitTime = currentFrame - timeSinceLastEnemyWait;
@@ -438,7 +445,7 @@ int main(){
 
         if (animationModeActivate){
             if (health >= 300.0f)
-                playerUV = playerInjuryUV;
+                playerUV = enemyInjuryUV;
         }
         setTextureUV(billboardShader, playerUV, false);
         billboardShader.setMat4("model", enemy);
@@ -506,11 +513,11 @@ int main(){
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector, SLOW_MO);
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\ocero 3d game alpha v3.0.0"
+        std::string text =      "\\"
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
-                                "\\framerate: " + std::to_string(fps) + " fps";
+                                "\\" + std::to_string(fps) + " fps";
                                 //if (IS_RAINING){
                                 //    text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
                                 //}
@@ -537,7 +544,6 @@ int main(){
             dialogue = "";
 
         if (FREECAM_CONTROLS_ENABLED){
-            text += "\\\\freecam mode";
             text += "\\camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
         }
 

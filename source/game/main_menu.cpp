@@ -27,9 +27,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += std::string("\\  is_raining: ") + (IS_RAINING ? "true" : "false");
 
     if (choice == 3)
-        outputText += std::string("\\x enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
-    else // REMOVE glfwSwapInterval(0); CODE FROM WINDOW FUNCTIONS TO RESTORE FUNCTIONALITY
-        outputText += std::string("\\  enable_vsync (disabled for now): ") + (ENABLE_VSYNC ? "true" : "false");
+        outputText += std::string("\\x enable_vsync: ") + (ENABLE_VSYNC ? "true" : "false");
+    else
+        outputText += std::string("\\  enable_vsync: ") + (ENABLE_VSYNC ? "true" : "false");
 
     if (choice == 4)
         outputText += std::string("\\x disable_slow_mo: ") + (DISABLE_SLOW_MO ? "true" : "false");
@@ -81,6 +81,8 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
             if (!ENABLE_VSYNC){
                 glfwSwapInterval(0); // uncapped framerate
             }
+            else
+                glfwSwapInterval(1);
             ENABLE_TEXT = text;
             mainMenu = false;
             lastFrame = glfwGetTime();

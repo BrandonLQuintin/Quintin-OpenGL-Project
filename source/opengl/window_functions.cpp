@@ -31,9 +31,6 @@ GLFWwindow* createWindow(){
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouseCallback);
 
-
-    glfwSwapInterval(0); // uncapped framerate
-
     // glad: load all OpenGL function pointers
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
@@ -67,6 +64,12 @@ void processInput(GLFWwindow* window){
         while (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS){
             glfwPollEvents();
         }
+
+        if (!ENABLE_VSYNC){
+            glfwSwapInterval(0); // uncapped framerate
+        }
+        else
+            glfwSwapInterval(1);
     }
 
     if (FREECAM_CONTROLS_ENABLED){
@@ -112,9 +115,11 @@ void processInput(GLFWwindow* window){
     }
 
     if (CONTROLS_ENABLED && !FREECAM_CONTROLS_ENABLED){
-        float timeElapsed = glfwGetTime() - timeSinceLastInput;
+        float currentFrame = glfwGetTime();
+        float timeElapsed = currentFrame - timeSinceLastInput;
 
-        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f){
+        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f
+            && (currentFrame - timeSinceInitializePlayerFightAnimation) < 5.0f){
             playerFightingToggle = true;
             if (!DISABLE_SLOW_MO){
                 SLOW_MO = true;
@@ -180,6 +185,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
     if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f && CONTROLS_ENABLED) {
         initializeFightAnimation = true;
+        timeSinceInitializePlayerFightAnimation = glfwGetTime();
     }
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && allowPlayerTeleportation && CONTROLS_ENABLED){
         teleportKeyPressed = true;

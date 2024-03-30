@@ -269,10 +269,10 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                 if (punchFrameToggle){
                     calculatePunchParticles(true, playerPos, enemyPos); // before punching enemy, generate punch particles.
                     if (isPlayer)
-                        health += 1.0f;
+                        health += 2.0f;
                     else
                         if (!playerShieldToggle)
-                            health -= 1.0f;
+                            health -= 3.0f;
                     normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
                     healthVertices[10] = normalizedScore;
                     healthVertices[15] = normalizedScore;
@@ -298,20 +298,27 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
 
 
                     }
-                playerUV = returnTextureUV(2,4);
+                if (isPlayer)
+                    playerUV = returnTextureUV(2,4);
+                else
+                    playerUV = returnTextureUV(2,8);
                 }
+            else{
+            if (isPlayer)
+                playerUV = returnTextureUV(3,4);
             else
-            playerUV = returnTextureUV(3,4);
+                playerUV = returnTextureUV(3,8);
+            }
         }
         else{
             if (firstPunchFrame){
                 if (punchFrameToggle){
                     calculatePunchParticles(false, playerPos, enemyPos);
                     if (isPlayer)
-                        health += 1.0f;
+                        health += 2.0f;
                     else
                         if (!playerShieldToggle)
-                            health -= 1.0f;
+                            health -= 3.0f;
                     normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
                     healthVertices[10] = normalizedScore;
                     healthVertices[15] = normalizedScore;
@@ -336,10 +343,17 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
 
 
                     }
-                    playerUV = returnTextureUV(2,6);
-                }
-                else
+                    if (isPlayer)
+                        playerUV = returnTextureUV(2,6);
+                    else
+                        playerUV = returnTextureUV(2,10);
+                    }
+                else{
+                if (isPlayer)
                     playerUV = returnTextureUV(3,6);
+                else
+                    playerUV = returnTextureUV(3,10);
+                }
         }
     }
     else{ // if player is not in range of enemy
