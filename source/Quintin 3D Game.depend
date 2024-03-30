@@ -1126,10 +1126,10 @@
 	<inttypes.h>
 	<stdint.h>
 
-1711398623 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
+1711770407 source:c:\users\brand\desktop\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1711330602 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
+1711769549 c:\users\brand\desktop\quintin-opengl-project\source\globals.h
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
@@ -2124,7 +2124,7 @@
 	<sstream>
 	<iostream>
 
-1711140732 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
+1711770166 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
 	"text_render.h"
 
 1710452252 c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.h
@@ -2161,7 +2161,7 @@
 	"textures.h"
 	<iostream>
 
-1711424575 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
+1711770969 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
@@ -2210,7 +2210,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1711558200 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1711771444 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2280,7 +2280,7 @@
 	"../opengl/textures.h"
 	"../globals.h"
 
-1711554011 source:c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.cpp
+1711771019 source:c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.cpp
 	"main_menu.h"
 
 1711423492 c:\users\brand\desktop\quintin-opengl-project\source\game\main_menu.h
@@ -2325,7 +2325,7 @@
 1710604348 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
 	"player.h"
 
-1711398554 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
+1711769289 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
 	"gameplay.h"
 
 1711331333 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h

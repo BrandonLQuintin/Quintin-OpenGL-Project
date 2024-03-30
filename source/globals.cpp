@@ -50,6 +50,7 @@ bool firstPunchFrame = false;
 bool punchFrameToggle = true; // this makes it so the hit registration doesnt count hundreds of time per second
 bool punchAnimationBounceBack = false;
 bool initializeFightAnimation = false;
+float timeSinceInitializePlayerFightAnimation = 0.0f;
 bool playerShieldEnabled = false;
 bool playerShieldToggle = false;
 bool allowPlayerTeleportation = false;
