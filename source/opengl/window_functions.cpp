@@ -119,7 +119,7 @@ void processInput(GLFWwindow* window){
         float timeElapsed = currentFrame - timeSinceLastInput;
 
         if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f
-            && (currentFrame - timeSinceInitializePlayerFightAnimation) < 5.0f){
+            && (currentFrame - timeSinceInitializePlayerFightAnimation) < 5.0f && playerFightRangeInitializeCheck){
             playerFightingToggle = true;
             if (!DISABLE_SLOW_MO){
                 SLOW_MO = true;
@@ -177,13 +177,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         if(menuChoice > 0){
             menuChoice -= 1;
         }
+        else
+            menuChoice = 7;
     }
     if (key == GLFW_KEY_DOWN && action == GLFW_PRESS && !enterKeyPressed) {
-        if(menuChoice < 6){
+        if(menuChoice < 7){
             menuChoice += 1;
         }
+        else
+            menuChoice = 0;
     }
     if (key == GLFW_KEY_K && action == GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f && CONTROLS_ENABLED) {
+        float playerToEnemyDistance = calculateDistance(glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
+        if (playerToEnemyDistance < 2.5f)
+            playerFightRangeInitializeCheck = true;
+        else
+            playerFightRangeInitializeCheck = false;
         initializeFightAnimation = true;
         timeSinceInitializePlayerFightAnimation = glfwGetTime();
     }

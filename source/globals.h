@@ -35,6 +35,7 @@ extern bool HIGH_RENDER_DISTANCE;
 extern bool ENABLE_VSYNC;
 extern bool ENABLE_TEXT;
 extern bool ENABLE_SOUND;
+extern bool SHOW_FPS;
 extern bool text;
 
 const float PI = 3.14159265358979323846f;
@@ -70,6 +71,7 @@ extern bool allowPlayerTeleportation;
 // controls
 extern float timeSinceLastInput;
 extern bool teleportKeyPressed;
+extern bool playerFightRangeInitializeCheck;
 
 // enemy variables
 extern glm::mat4 enemy;

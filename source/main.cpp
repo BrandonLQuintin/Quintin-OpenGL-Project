@@ -517,11 +517,13 @@ int main(){
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector, SLOW_MO);
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
-        std::string text =      "\\"
+        std::string text =      "\\\\";
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
-                                "\\" + std::to_string(fps) + " fps";
+                                //+ std::to_string(calculateDistance(glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]))) +
+        if (SHOW_FPS)
+            text += "\\" + std::to_string(fps) + " fps";
                                 //if (IS_RAINING){
                                 //    text += "\\" + std::to_string(rainDropsArraySize) + " active rain drops";
                                 //}
