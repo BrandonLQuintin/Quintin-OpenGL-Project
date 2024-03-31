@@ -1,5 +1,8 @@
-# The Game Engine Now (1 month of progress)!
+# A 3D Game Made From Scratch!
 ![Screenshot 2024-03-07 212524](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/b184681c-8144-431b-b95e-373e22e6d492)
+
+# Can You Beat Kuro in the Ocero Fighter Game?
+![Fighter 3](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/4acfe05a-e80f-4a38-bfdf-d0161acabc34)
 
 
 # Quintin-Professional-Programming-Project
