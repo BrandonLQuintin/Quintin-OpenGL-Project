@@ -16,6 +16,8 @@ bool text = true;
 bool FREECAM_CONTROLS_ENABLED = false;
 bool CONTROLS_ENABLED = true;
 
+sf::Music music;
+
 bool gameOver = false;
 
 int playerLives = 3;

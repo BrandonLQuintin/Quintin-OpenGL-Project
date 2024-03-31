@@ -18,6 +18,8 @@ extern bool mainMenu;
 const float MOVEMENT_SPEED = 12.0f;
 extern bool gameOver;
 
+extern sf::Music music;
+
 extern int playerLives;
 extern int enemyLives;
 
