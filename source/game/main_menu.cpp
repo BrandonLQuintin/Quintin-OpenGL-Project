@@ -9,7 +9,7 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     std::string outputText;
 
-    outputText = "press enter to select\\";
+    outputText = "'k' to attack\\'l' to block\\'w' to move forward\\'d' to move backwards\\press enter to select\\";
 
     if (choice == 0)
         outputText += "\\x play game";
@@ -44,6 +44,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += std::string("\\x enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
     else
         outputText += std::string("\\  enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
+    if (choice == 7)
+        outputText += std::string("\\x show_fps: ") + (SHOW_FPS ? "true" : "false");
+    else
+        outputText += std::string("\\  show_fps: ") + (SHOW_FPS ? "true" : "false");
 
     renderText(t, outputText);
 
@@ -70,6 +74,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         }
         else if (choice == 6){
             ENABLE_SOUND = !ENABLE_SOUND;
+            enterKeyPressed = false;
+        }
+        else if (choice == 7){
+            SHOW_FPS = !SHOW_FPS;
             enterKeyPressed = false;
         }
         else{

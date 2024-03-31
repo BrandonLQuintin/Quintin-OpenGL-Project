@@ -15,6 +15,7 @@ bool ENABLE_SOUND = true;
 bool text = true;
 bool FREECAM_CONTROLS_ENABLED = false;
 bool CONTROLS_ENABLED = true;
+bool SHOW_FPS = false;
 
 sf::Music music;
 
@@ -60,6 +61,7 @@ bool allowPlayerTeleportation = false;
 // controls
 float timeSinceLastInput = 0.0f;
 bool teleportKeyPressed = false;
+bool playerFightRangeInitializeCheck = false;
 
 // enemy
 glm::mat4 enemy = glm::mat4(1.0f);
