@@ -116,6 +116,10 @@ int main(){
         return -1;
     }
     playSoundSilentlyMultipleTimes(30);
+    music.openFromFile("resources/music/Dual-Dragon.wav");
+    music.setVolume(30.0f);
+
+    music.setLoop(true);
 
     // ----- INITIALIZE OBJECTS -----
 

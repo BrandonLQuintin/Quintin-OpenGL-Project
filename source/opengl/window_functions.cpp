@@ -206,6 +206,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         teleportKeyPressed = false;
     }
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
+        music.pause();
         mainMenu = true;
         enterKeyPressed = false;
         ENABLE_TEXT = true;
