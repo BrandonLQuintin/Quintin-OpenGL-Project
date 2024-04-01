@@ -369,7 +369,6 @@ void handleAnimationMode(std::string &outputText){
     playerFightingToggle = false;
 
     float currentFrame = glfwGetTime();
-    deltaTime = 0.0f;
     float adjustedDeltaTime = currentFrame - lastFrame;
     lastFrame = glfwGetTime();
 
@@ -429,11 +428,12 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         playerWin = true;
     else
         playerWin = false;
-    animationText = "\\\\\\\\\\\\                       game over! press backspace to play again!";
+    animationText = "\\\\\\\\\\";
     if (playerWin)
-        animationText += "\\                                     player win!";
+        animationText += "\\                                     player win!\\";
     if (!playerWin)
-        animationText += "\\                                     enemy win!";
+        animationText += "\\                                     enemy win!\\";
+    animationText += "                            press backspace to play again!";
 
     if (restartGame){
         restartGame = false;

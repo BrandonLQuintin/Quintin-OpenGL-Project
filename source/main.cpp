@@ -236,10 +236,14 @@ int main(){
         std::string animationText;
         if (gameOver){
             handleGameOver(player, enemy, animationText);
-
+            if (!gameOver){
+                for (int i = 0; i < rainDropsArraySize; i++)
+                    initializeRainLocation(rainDrops[i]);
+            }
         }
         else if (animationModeActivate){  // animation mode! (executes when health is less than -300 or greater than 300)
             animationDeltaTime = currentFrame - lastFrame;
+            deltaTime = currentFrame - lastFrame;
             handleAnimationMode(animationText);
         }
         else{
