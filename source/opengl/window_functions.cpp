@@ -112,6 +112,7 @@ void processInput(GLFWwindow* window){
                 }
             }
         }
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
     }
 
     if (CONTROLS_ENABLED && !FREECAM_CONTROLS_ENABLED){
@@ -253,6 +254,7 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos)
         direction.y = sin(glm::radians(pitch));
         direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
         cameraFront = glm::normalize(direction);
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         }
 
 }

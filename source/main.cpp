@@ -260,8 +260,11 @@ int main(){
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
-        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        if (!FREECAM_CONTROLS_ENABLED){
+            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+            view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        }
+
 
         billboardShader.use();
         billboardShader.setMat4("view", view);
@@ -320,6 +323,9 @@ int main(){
             if (!enemyFightingToggle){
                 handleFightAnimations(distanceFromEnemy, currentFrame, playerUV, true);
             }
+
+            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
+            view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         }
 
         // render all punches
