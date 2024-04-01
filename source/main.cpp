@@ -258,9 +258,9 @@ int main(){
 
         glClearColor(0.792f, 0.957f, 1.00f, 1.0f);
 
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
         billboardShader.use();
@@ -320,8 +320,6 @@ int main(){
             if (!enemyFightingToggle){
                 handleFightAnimations(distanceFromEnemy, currentFrame, playerUV, true);
             }
-
-            cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
         }
 
         // render all punches
