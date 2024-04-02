@@ -235,6 +235,7 @@ int main(){
         float currentFrame = glfwGetTime();
         std::string animationText;
         if (gameOver){
+            deltaTime = 0.0f;
             handleGameOver(player, enemy, animationText);
             if (!gameOver){
                 for (int i = 0; i < rainDropsArraySize; i++)
@@ -244,6 +245,7 @@ int main(){
         else if (animationModeActivate){  // animation mode! (executes when health is less than -300 or greater than 300)
             animationDeltaTime = currentFrame - lastFrame;
             deltaTime = currentFrame - lastFrame;
+            deltaTime /= 3.0f;
             handleAnimationMode(animationText);
         }
         else{
@@ -430,11 +432,11 @@ int main(){
                     enemyOffensiveMode = false;
                 if (!enemyOffensiveMode){
                     glm::vec3 oldEnemyPos = glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]);
-                    glm::vec3 newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
+                    glm::vec3 newEnemyPos = glm::vec3(randomInRange(-100, 100) + enemy[3][0], 0, randomInRange(-100, 100) + enemy[3][2]);
                     float distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
                     int attempts = 0;
-                    while (distanceFromPos > 100.0f && attempts < 100){
-                        newEnemyPos = glm::vec3(randomInRange(-300, 300), 0, randomInRange(-300, 300));
+                    while (newEnemyPos.x > 300.0f || newEnemyPos.x < -300.0f || newEnemyPos.z > 300.0f || newEnemyPos.z < -300.0f && attempts < 100){
+                        newEnemyPos = glm::vec3(randomInRange(-100, 100) + enemy[3][0], 0, randomInRange(-100, 100) + enemy[3][2]);
                         distanceFromPos = calculateDistance(oldEnemyPos, newEnemyPos);
                         attempts += 1;
                     }
