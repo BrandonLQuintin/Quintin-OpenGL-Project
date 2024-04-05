@@ -19,6 +19,11 @@ struct punchEntity {
     int textureXCoord = 0;
 };
 
+struct dustEntity {
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    float timeSinceExistence = glfwGetTime();
+};
+
 
 void setShadowLocation(shape &shape, glm::vec3 targetPos, float groundY);
 

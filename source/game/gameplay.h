@@ -24,7 +24,7 @@ int calculateOrientationSpriteIndex(const glm::mat4 &transformationMatrix, const
 
 void calculateTimeSinceLastPunch(float &timeSinceSomething, float currentFrame, bool &toggle);
 
-void calculatePunchParticles(bool leftSide, glm::vec3 playerPos, glm::vec3 enemyPos);
+void calculatePunchParticles(bool leftSide, glm::vec3 playerPos, glm::vec3 enemyPos, float playerTerrainHeight);
 
 void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vector<float> &playerUV, bool isPlayer);
 
@@ -33,3 +33,4 @@ void handleAnimationMode(std::string &outputText);
 void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationText);
 
 extern std::vector<punchEntity> existingPunches;
+extern std::vector<dustEntity> existingDusts;

@@ -94,7 +94,6 @@ int main(){
     std::vector<float> playerRightUV = returnTextureUV(0, 4);
     std::vector<float> playerFrontUV = returnTextureUV(0, 5);
     std::vector<float> playerLeftUV = returnTextureUV(0, 6);
-
     std::vector<float> playerInjuryUV = returnTextureUV(1, 5);
     std::vector<float> playerShieldUV = returnTextureUV(0, 1);
 
@@ -102,8 +101,11 @@ int main(){
     std::vector<float> enemyRightUV = returnTextureUV(0, 8);
     std::vector<float> enemyFrontUV = returnTextureUV(0, 9);
     std::vector<float> enemyLeftUV = returnTextureUV(0, 10);
-
     std::vector<float> enemyInjuryUV = returnTextureUV(1, 9);
+
+    std::vector<float> dust1AtlasUV = returnTextureUV(13, 3);
+    std::vector<float> dust2AtlasUV = returnTextureUV(14, 3);
+    std::vector<float> dust3AtlasUV = returnTextureUV(15, 3);
 
     std::vector<float> redSquareUV = returnTextureUV(1, 1);
 
@@ -134,10 +136,15 @@ int main(){
 
     // enemy
     enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
-    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 0.51f;
     enemy[3][0] = enemyGoTo.x;
     enemy[3][1] = enemyGoTo.y;
     enemy[3][2] = enemyGoTo.z;
+
+    // player
+    player[3][0] = 0.0f;
+    player[3][1] = getHeight(0.0f, -5.0f) + 0.51f;
+    player[3][2] = -3.5f;
 
     // 1 terrain
     shape terrains[1];
@@ -210,10 +217,6 @@ int main(){
     int rainDropsArraySize = sizeof(rainDrops) / sizeof(rainDrops[0]);
     for (int i = 0; i < rainDropsArraySize; i++)
         initializeRainLocation(rainDrops[i]);
-
-    player[3][0] = 0.0f;
-    player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
-    player[3][2] = -3.5f;
 
     if (IS_RAINING){
         phongShader.use();
@@ -329,27 +332,6 @@ int main(){
             cameraFront = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - cameraPos);
             view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         }
-
-        // render all punches
-        for (int i = 0; i < existingPunches.size(); i++){
-            float timeMultiplier = 0.05f;
-            if (SLOW_MO){
-                timeMultiplier *= SLOW_MO_MULTIPLIER;
-            }
-
-            if (currentFrame - existingPunches[i].timeSinceExistence > timeMultiplier){
-                existingPunches.erase(existingPunches.begin() + i);
-            }
-
-            else{
-                std::vector<float> punchTexture = returnTextureUV(existingPunches[i].textureXCoord, 1);
-                setTextureUV(billboardShader, punchTexture, false);
-                billboardShader.setMat4("model", existingPunches[i].modelMatrix);
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            }
-
-        }
-
         // render player
         if (enemyFightingToggle && !playerShieldToggle)
             playerUV = playerInjuryUV;
@@ -441,7 +423,7 @@ int main(){
                         attempts += 1;
                     }
                     enemyGoTo = newEnemyPos;
-                    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + randomInRange(0.51f, 5.0f);
+                    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + randomInRange(0.51f, 2.9f);
                 }
 
 
@@ -464,6 +446,50 @@ int main(){
         setTextureUV(billboardShader, playerUV, false);
         billboardShader.setMat4("model", enemy);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        // ----- EFFECTS ------
+        // render all punches
+        for (int i = 0; i < existingPunches.size(); i++){
+            float timeMultiplier = 0.05f;
+            if (SLOW_MO){
+                timeMultiplier *= SLOW_MO_MULTIPLIER;
+            }
+
+            if (currentFrame - existingPunches[i].timeSinceExistence > timeMultiplier){
+                existingPunches.erase(existingPunches.begin() + i);
+            }
+
+            else{
+                std::vector<float> punchTexture = returnTextureUV(existingPunches[i].textureXCoord, 1);
+                setTextureUV(billboardShader, punchTexture, false);
+                billboardShader.setMat4("model", existingPunches[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+
+        }
+
+        // render all dusts
+        for (int i = 0; i < existingDusts.size(); i++){
+            float existingTime = currentFrame - existingDusts[i].timeSinceExistence;
+
+            if (existingTime < 0.2f){
+                setTextureUV(billboardShader, dust1AtlasUV, false);
+                billboardShader.setMat4("model", existingDusts[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else if (existingTime < 0.4f){
+                setTextureUV(billboardShader, dust2AtlasUV, false);
+                billboardShader.setMat4("model", existingDusts[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else if (existingTime < 0.6f){
+                setTextureUV(billboardShader, dust3AtlasUV, false);
+                billboardShader.setMat4("model", existingDusts[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else
+                existingDusts.erase(existingDusts.begin() + i);
+        }
 
         // ----- OBJECTS ------
 

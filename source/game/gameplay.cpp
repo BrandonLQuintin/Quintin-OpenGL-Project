@@ -1,6 +1,7 @@
 #include "gameplay.h"
 
 std::vector<punchEntity> existingPunches;
+std::vector<dustEntity> existingDusts;
 
 void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed){ // chatGPT generated
     float angleRadians = glm::radians(rotationSpeed) * deltaTime;
@@ -165,17 +166,25 @@ void calculateTimeSinceLastPunch(float &timeSinceSomething, float currentFrame, 
     }
 }
 
-void calculatePunchParticles(bool leftSide, glm::vec3 playerPos, glm::vec3 enemyPos){
+void calculatePunchParticles(bool leftSide, glm::vec3 playerPos, glm::vec3 enemyPos, float playerTerrainHeight){
     punchEntity newPunch;
+    dustEntity newDust;
     float randXValue = randomInRange(13.0f, 16.0f);
     randXValue = std::floor(randXValue);
     newPunch.textureXCoord = randXValue;
+
+    newDust.modelMatrix[3][0] = playerPos.x;
+    newDust.modelMatrix[3][1] = playerTerrainHeight + 0.35f;
+    newDust.modelMatrix[3][2] = playerPos.z;
 
     if (leftSide){
         newPunch.modelMatrix[3][0] = enemyPos.x + randomInRange(-0.5f, 0.0f);
     }
     else{
         newPunch.modelMatrix[3][0] = enemyPos.x + randomInRange(0.0f, 0.5f);
+    }
+    if (playerPos.y < playerTerrainHeight + 3.0f){
+        existingDusts.push_back(newDust);
     }
     newPunch.modelMatrix[3][1] = enemyPos.y + randomInRange(-0.5f, 0.5f);
     newPunch.modelMatrix[3][2] = playerPos.z;
@@ -267,7 +276,7 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
         if (playerPos.x < enemyPos.x){ // if player is left, show the player punching from the left side
             if (firstPunchFrame){
                 if (punchFrameToggle){
-                    calculatePunchParticles(true, playerPos, enemyPos); // before punching enemy, generate punch particles.
+                    calculatePunchParticles(true, playerPos, enemyPos, terrainY); // before punching enemy, generate punch particles.
                     if (isPlayer)
                         health += 2.0f;
                     else
@@ -313,7 +322,7 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
         else{
             if (firstPunchFrame){
                 if (punchFrameToggle){
-                    calculatePunchParticles(false, playerPos, enemyPos);
+                    calculatePunchParticles(false, playerPos, enemyPos, terrainY);
                     if (isPlayer)
                         health += 2.0f;
                     else

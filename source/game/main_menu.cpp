@@ -9,7 +9,7 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     std::string outputText;
 
-    outputText =  "'k' to attack (hold the button)\\'l' to block\\'w' to move forward\\'d' to move backwards";
+    outputText =  "'k' to attack (hold the button)\\'l' to block (hold the button)\\'w' to move forward\\'d' to move backwards";
     outputText += "\\if the enemy charges to attack, try to hold the attack button right      before they reach you!\\";
     outputText += "try to get as close as you can to the enemy's range without getting hit, you have a slightly longer reach than them!\\";
     outputText += "\\press enter to select\\";
