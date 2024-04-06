@@ -633,6 +633,10 @@ int main(){
             t.setBool("blueColor", true);
         t.setFloat("textXOffset", 1.0f);
         t.setFloat("textYOffset", -1.8f);
+
+        glDeleteVertexArrays(1, &healthVAO); // delete here to prevent memory leak in generateVAOandEBO call
+        glDeleteBuffers(1, &healthVBO);
+        glDeleteBuffers(1, &healthEBO);
         generateVAOandEBO(healthVAO, healthVBO, healthEBO, healthVerticesByteSize, healthIndicesByteSize, healthVertices, healthIndices);
         glBindVertexArray(healthVAO);
         setTextureUV(t, redSquareUV, false);
