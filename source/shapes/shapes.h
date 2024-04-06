@@ -8,6 +8,12 @@ struct shape {
     glm::mat4 modelMatrix = glm::mat4(1.0f); // initialized to an identity matrix
 };
 
+struct tree {
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    glm::mat4 cloneModelMatrix = glm::mat4(1.0f);
+    float distanceFromCamera = 0.0f;
+};
+
 extern float textVertices[];
 extern unsigned int textIndices[];
 extern unsigned int textVerticesByteSize;

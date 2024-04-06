@@ -105,6 +105,6 @@ float barryCentric(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3
     return l1 * p1.y + l2 * p2.y + l3 * p3.y;
 }
 
-bool renderDistanceCheck(const glm::vec3& playerPos, const glm::vec3& treePos){
-    return glm::distance(playerPos, treePos) < DESPAWN_DISTANCE;
+float renderDistanceCheck(const glm::vec3& playerPos, const glm::vec3& treePos){
+    return glm::distance(playerPos, treePos);
 }

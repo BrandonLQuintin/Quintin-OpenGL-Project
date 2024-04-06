@@ -42,6 +42,7 @@
 int main(){
     GLFWwindow* window = createWindow();
     glEnable(GL_DEPTH_TEST);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     Shader billboardShader("shaders/billboard_shader.vs", "shaders/billboard_shader.fs");
     Shader phongShader("shaders/phong_lighting.vs", "shaders/phong_lighting.fs");
     Shader t("shaders/text_shader.vs", "shaders/text_shader.fs"); // variable name shortened so I can call it faster with renderText()
@@ -151,24 +152,26 @@ int main(){
     int terrainsArraySize = sizeof(terrains) / sizeof(terrains[0]);
 
     // 100 trees
-    shape trees[5000];
-    int treesArraySize = sizeof(trees) / sizeof(trees[0]);
+    tree treesArray[5000];
+    std::vector<tree> trees(std::begin(treesArray), std::end(treesArray));
+    std::vector<tree> activeTrees;
+
+
     const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
-    for (int i = 0; i < treesArraySize; i++){
+    for (int i = 0; i < trees.size(); i++){
         trees[i].modelMatrix[3][0] = cameraPos.x + randomInRange(-HALF_CHUNK_SIZE, HALF_CHUNK_SIZE);
         trees[i].modelMatrix[3][2] = cameraPos.z + randomInRange(-HALF_CHUNK_SIZE, HALF_CHUNK_SIZE);
         trees[i].modelMatrix[3][1] = getHeight(trees[i].modelMatrix[3][0], trees[i].modelMatrix[3][2]) + 2.3f;
         trees[i].modelMatrix = glm::scale(trees[i].modelMatrix, glm::vec3(5.0f));
     }
-    shape clonedTree[treesArraySize];
-    for (int i = 0; i < treesArraySize; i++){
-        clonedTree[i].modelMatrix = trees[i].modelMatrix;
+    for (int i = 0; i < trees.size(); i++){
+        trees[i].cloneModelMatrix = trees[i].modelMatrix;
     }
-    for (int i = 0; i < treesArraySize; i++){
-        clonedTree[i].modelMatrix = glm::rotate(clonedTree[i].modelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        clonedTree[i].modelMatrix[3][0] = trees[i].modelMatrix[3][0] + 0.55f;
-        clonedTree[i].modelMatrix[3][1] = trees[i].modelMatrix[3][1];
-        clonedTree[i].modelMatrix[3][2] = trees[i].modelMatrix[3][2] + 0.55f;
+    for (int i = 0; i < trees.size(); i++){
+        trees[i].cloneModelMatrix = glm::rotate(trees[i].cloneModelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        trees[i].cloneModelMatrix[3][0] = trees[i].modelMatrix[3][0] + 0.55f;
+        trees[i].cloneModelMatrix[3][1] = trees[i].modelMatrix[3][1];
+        trees[i].cloneModelMatrix[3][2] = trees[i].modelMatrix[3][2] + 0.55f;
     }
 
     // 2 boxes
@@ -506,22 +509,50 @@ int main(){
         // ### TREES
         phongShader.use();
         phongShader.setBool("isTree", true);
+
+        glEnable(GL_BLEND);
         glBindVertexArray(phongBillboardVAO);
         setTextureUV(phongShader, treeAtlasUV, false);
-        for (int i = 0; i < treesArraySize; i++) {
-        glm::vec3 treePosition = glm::vec3(trees[i].modelMatrix[3]);
 
-        if (renderDistanceCheck(cameraPos, treePosition)) {
-            phongShader.setMat4("model", trees[i].modelMatrix);
+        // uses binary search to insert in correct order instead of sorting every frame
+        for (int i = 0; i < trees.size(); i++) { // Adds activeTrees based on distance (before rendering) so transparency occurs correctly. chatGPT generated
+            glm::vec3 treePosition = glm::vec3(trees[i].modelMatrix[3]);
+            trees[i].distanceFromCamera = renderDistanceCheck(cameraPos, treePosition);
 
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-            phongShader.setMat4("model", clonedTree[i].modelMatrix);
-
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            if (trees[i].distanceFromCamera < DESPAWN_DISTANCE) {
+                bool inserted = false;
+                for (std::vector<tree>::iterator it = activeTrees.begin(); it != activeTrees.end(); ++it) {
+                    if (trees[i].distanceFromCamera > it->distanceFromCamera) {
+                        activeTrees.insert(it, trees[i]);
+                        inserted = true;
+                        break;
+                    }
+                }
+                if (!inserted) {
+                    activeTrees.push_back(trees[i]);
+                }
             }
         }
-            phongShader.setBool("isTree", false);
+        for (int i = 0; i < activeTrees.size(); i++) {
+            if (activeTrees[i].distanceFromCamera < 5.0f){
+                phongShader.setBool("isTransparent", true);
+                phongShader.setMat4("model", activeTrees[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                phongShader.setMat4("model", activeTrees[i].cloneModelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                phongShader.setBool("isTransparent", false);
+            }
+            else{
+                phongShader.setMat4("model", activeTrees[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                phongShader.setMat4("model", activeTrees[i].cloneModelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+        }
+        activeTrees.clear();
+        phongShader.setBool("isTree", false);
+
+        glDisable(GL_BLEND);
 
         // ### RAIN
         if (IS_RAINING){
