@@ -15,7 +15,7 @@ bool ENABLE_SOUND = true;
 bool text = true;
 bool FREECAM_CONTROLS_ENABLED = false;
 bool CONTROLS_ENABLED = true;
-bool SHOW_FPS = false;
+bool SHOW_FPS = true;
 
 sf::Music music;
 

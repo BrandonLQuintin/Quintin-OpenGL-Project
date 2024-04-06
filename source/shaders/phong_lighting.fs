@@ -14,6 +14,7 @@ uniform vec2 v;
 uniform bool firstTextureAtlas;
 uniform bool isRaining;
 uniform bool isTree;
+uniform bool isTransparent;
 
 uniform float fogDensity;
 
@@ -49,31 +50,32 @@ void main()
     vec2 uv = vec2(mix(u.x, u.y, TexCoord.x), mix(v.x, v.y, TexCoord.y));
     vec4 texelColor;
 
-    if (firstTextureAtlas){
+    if (firstTextureAtlas) {
         texelColor = texture(texture1, uv);
-    }
-    else{
+    } else {
         texelColor = texture(texture2, TexCoord);
     }
 
-    if (texelColor.a < 0.1){
+    if (texelColor.a < 0.1) {
         discard;
     }
 
     vec3 result;
-    if (isTree){
+    if (isTree) {
         result = mix(texelColor.rgb * objectColor, fogColor, fogFactor);
-    }
-    else if (!firstTextureAtlas){
+    } else if (!firstTextureAtlas) {
         result = mix(texelColor.rgb * (ambient + diffuse + specular) * objectColor, fogColor, fogFactor);
-    }
-    else if (isRaining){
+    } else if (isRaining) {
         result = mix(texelColor.rgb * (ambient + diffuse + specular) * objectColor, fogColor, fogFactor);
-    }
-    else{
+    } else {
         result = texelColor.rgb * (ambient + diffuse + specular) * objectColor;
     }
 
+    // Check if the object should be rendered as transparent
+    float alphaValue = 1.0; // Default to fully opaque
+    if (isTransparent) {
+        alphaValue = texelColor.a * 0.3;
+    }
 
-    FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, alphaValue);
 }
