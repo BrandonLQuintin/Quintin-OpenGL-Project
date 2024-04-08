@@ -15,9 +15,10 @@ bool ENABLE_SOUND = true;
 bool text = true;
 bool FREECAM_CONTROLS_ENABLED = false;
 bool CONTROLS_ENABLED = true;
-bool SHOW_FPS = true;
+bool SHOW_FPS = false;
 
 sf::Music music;
+sf::Music winSong;
 
 bool gameOver = false;
 

@@ -292,14 +292,23 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                     if (health >= 300 || health <= -300){
                         if (health >= 300){
                             enemyLives -= 1;
-                            if (enemyLives < 0)
+                            if (enemyLives < 0){
                                 gameOver = true;
+                                music.stop();
+                                winSong.play();
+                                sf::sleep(sf::milliseconds(8000));
+                            }
+
                             dialogue = "";
                         }
                         else
                             playerLives -=1;
-                            if (playerLives < 0)
+                            if (playerLives < 0){
                                 gameOver = true;
+                                music.stop();
+                                winSong.play();
+                                sf::sleep(sf::milliseconds(8000));
+                            }
                         animationModeActivate = true;
                         timeSinceAnimationActivation = glfwGetTime();
                     }
@@ -338,14 +347,22 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                     if (health > 300 || health < -300){
                         if (health >= 300){
                             enemyLives -= 1;
-                            if (enemyLives < 0)
+                            if (enemyLives < 0){
                                 gameOver = true;
+                                music.stop();
+                                winSong.play();
+                                sf::sleep(sf::milliseconds(8000));
+                            }
                             dialogue = "";
                         }
                         else
                             playerLives -=1;
-                            if (playerLives < 0)
+                            if (playerLives < 0){
                                 gameOver = true;
+                                music.stop();
+                                winSong.play();
+                                sf::sleep(sf::milliseconds(8000));
+                            }
                         animationModeActivate = true;
                         timeSinceAnimationActivation = glfwGetTime();
                     }
@@ -427,7 +444,6 @@ void handleAnimationMode(std::string &outputText){
 }
 
 void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationText){
-    health = 0.0f;
     CONTROLS_ENABLED = false;
     ENEMY_MOVMENT = false;
     playerCurrentlyFighting = false;
@@ -470,8 +486,13 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         cameraPos.y = player[3][1];
         cameraPos.z = player[3][2] + 3.5f;
 
+        health = 0.0f;
+
         normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
         healthVertices[10] = normalizedScore;
         healthVertices[15] = normalizedScore;
+
+
+        music.play();
     }
 }

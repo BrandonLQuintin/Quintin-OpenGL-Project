@@ -121,8 +121,10 @@ int main(){
     playSoundSilentlyMultipleTimes(30);
     music.openFromFile("resources/music/Dual-Dragon.wav");
     music.setVolume(30.0f);
-
     music.setLoop(true);
+
+    winSong.openFromFile("resources/music/WinSong.wav");
+    winSong.setVolume(30.0f);
 
     // ----- INITIALIZE OBJECTS -----
 
