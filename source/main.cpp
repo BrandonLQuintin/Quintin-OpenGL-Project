@@ -508,6 +508,33 @@ int main(){
             glDrawElements(GL_TRIANGLES, phongTerrainIndicesVector.size(), GL_UNSIGNED_INT, 0);
         }
 
+        // ### RAIN
+        if (IS_RAINING){
+            billboardShader.use();
+            glBindVertexArray(phongBillboardVAO);
+            setTextureUV(billboardShader, rainAtlasUV, false);
+            for (int i = 0; i < rainDropsArraySize; i++){
+                rainDrops[i].modelMatrix[3][1] -= rainDrops[i].speed * deltaTime;
+
+                if (rainDrops[i].modelMatrix[3][1] < player[3][1] - 5.0f){ // check if rain is below player first before performing other checks
+                    setRainLocation(rainDrops[i]);
+                }
+                else{
+                    float distanceFromPlayerZ = std::fabs(rainDrops[i].modelMatrix[3][2] - player[3][2]);
+                    float distanceFromPlayerX = std::fabs(rainDrops[i].modelMatrix[3][0] - player[3][0]);
+
+                    if (distanceFromPlayerZ > 15.0f || distanceFromPlayerX > 15.0f){
+                        setRainLocation(rainDrops[i]);
+                    }
+                }
+
+
+
+                billboardShader.setMat4("model", rainDrops[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+        }
+
         // ### TREES
         phongShader.use();
         phongShader.setBool("isTree", true);
@@ -555,33 +582,6 @@ int main(){
         phongShader.setBool("isTree", false);
 
         glDisable(GL_BLEND);
-
-        // ### RAIN
-        if (IS_RAINING){
-            billboardShader.use();
-            glBindVertexArray(phongBillboardVAO);
-            setTextureUV(billboardShader, rainAtlasUV, false);
-            for (int i = 0; i < rainDropsArraySize; i++){
-                rainDrops[i].modelMatrix[3][1] -= rainDrops[i].speed * deltaTime;
-
-                if (rainDrops[i].modelMatrix[3][1] < player[3][1] - 5.0f){ // check if rain is below player first before performing other checks
-                    setRainLocation(rainDrops[i]);
-                }
-                else{
-                    float distanceFromPlayerZ = std::fabs(rainDrops[i].modelMatrix[3][2] - player[3][2]);
-                    float distanceFromPlayerX = std::fabs(rainDrops[i].modelMatrix[3][0] - player[3][0]);
-
-                    if (distanceFromPlayerZ > 15.0f || distanceFromPlayerX > 15.0f){
-                        setRainLocation(rainDrops[i]);
-                    }
-                }
-
-
-
-                billboardShader.setMat4("model", rainDrops[i].modelMatrix);
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            }
-        }
 
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector, SLOW_MO);
