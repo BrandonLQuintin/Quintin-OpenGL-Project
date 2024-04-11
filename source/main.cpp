@@ -598,7 +598,7 @@ int main(){
                                 //}
         float waitingTime = glfwGetTime() - timeSinceLastInput;
         if (allowPlayerTeleportation){
-            text += "\\\\\\                              press space to teleport!";
+            text += "\\\\\\                           press space or \"b\" to teleport!";
         }
         if (waitingTime < 1.0f){
             if (allowPlayerTeleportation)

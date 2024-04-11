@@ -8,6 +8,24 @@
 
 extern bool firstMouse;
 
+extern bool dPadUp;
+extern bool prevButtonUp;
+extern bool dPadDown;
+extern bool prevButtonDown;
+extern bool dPadRight;
+extern bool dPadLeft;
+
+
+extern bool buttonX;
+extern bool prevButtonX;
+extern bool buttonA;
+extern bool prevButtonA;
+
+extern bool prevButtonB;
+extern bool prevButtonY;
+extern bool prevButtonStart;
+extern bool prevButtonSelect;
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
