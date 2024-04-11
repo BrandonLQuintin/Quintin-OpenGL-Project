@@ -3,6 +3,23 @@
 
 
 bool firstMouse = true;
+bool dPadUp = false;
+bool prevButtonUp = false;
+bool dPadDown = false;
+bool prevButtonDown = false;
+bool dPadRight = false;
+bool dPadLeft = false;
+
+bool buttonX = false;
+bool prevButtonX = false;
+bool buttonA = false;
+bool prevButtonA = false;
+bool prevButtonB = false;
+bool prevButtonY = false;
+bool prevButtonStart = false;
+bool prevButtonSelect = false;
+
+
 
 GLFWwindow* createWindow(){
     glfwInit();
@@ -37,11 +54,135 @@ GLFWwindow* createWindow(){
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
 
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor(); // fullscreens
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    if (glfwGetWindowMonitor(window) == nullptr){
+        glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
+        projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, VIEW_DISTANCE);
+        glViewport(0, 0, (*mode).width, (*mode).height);
+    }
+    else{
+        glfwSetWindowMonitor(window, nullptr, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, GLFW_DONT_CARE);
+        projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, VIEW_DISTANCE);
+        glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
     return window;
 
 }
 
 void processInput(GLFWwindow* window){
+    float currentFrame = glfwGetTime();
+    float timeElapsed = currentFrame - timeSinceLastInput;
+
+
+
+    if (glfwJoystickPresent(GLFW_JOYSTICK_1) == GLFW_TRUE){
+        GLFWgamepadstate state;
+        if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state)){
+
+            if (state.buttons[GLFW_GAMEPAD_BUTTON_X])
+                buttonX = true;
+            else
+                buttonX = false;
+
+            if (!prevButtonX && state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS){ // initialize fighting
+                if (!enemyFightingToggle && timeElapsed > 1.0f && CONTROLS_ENABLED) {
+                    float playerToEnemyDistance = calculateDistance(glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
+                    if (playerToEnemyDistance < 2.5f)
+                        playerFightRangeInitializeCheck = true;
+                    else
+                        playerFightRangeInitializeCheck = false;
+                    initializeFightAnimation = true;
+                    timeSinceInitializePlayerFightAnimation = glfwGetTime();
+                }
+            }
+            if (prevButtonX && state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_RELEASE){ // finalize fighting & start timer
+                if (!enemyFightingToggle && CONTROLS_ENABLED) {
+                    timeSinceLastInput = glfwGetTime();
+                }
+            }
+            prevButtonX = state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS; // checks if X button is initialized or finalized
+
+            if (state.buttons[GLFW_GAMEPAD_BUTTON_A])
+                buttonA = true;
+            else
+                buttonA = false;
+
+            if (prevButtonA && state.buttons[GLFW_GAMEPAD_BUTTON_A] == GLFW_RELEASE && !enemyFightingToggle && CONTROLS_ENABLED){
+                timeSinceLastInput = glfwGetTime();
+            }
+            prevButtonA = state.buttons[GLFW_GAMEPAD_BUTTON_A] == GLFW_PRESS;
+
+            if (!prevButtonB && state.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS && allowPlayerTeleportation && CONTROLS_ENABLED)
+                teleportKeyPressed = true;
+
+            if (prevButtonB && state.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_RELEASE && CONTROLS_ENABLED)
+                teleportKeyPressed = false;
+
+            prevButtonB = state.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS;
+
+            if (!prevButtonY && state.buttons[GLFW_GAMEPAD_BUTTON_Y] == GLFW_PRESS && gameOver)
+                restartGame = true;
+
+            prevButtonY = state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS;
+
+
+            if (state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_UP]) // gameplay
+                dPadUp = true;
+            else
+                dPadUp = false;
+
+            if (!prevButtonUp && state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_UP] == GLFW_PRESS && !enterKeyPressed){ // menu
+                if(menuChoice > 0){
+                    menuChoice -= 1;
+                }
+                else
+                    menuChoice = 7;
+            }
+            prevButtonUp = state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_UP] == GLFW_PRESS;
+
+            if (state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_DOWN])
+                dPadDown = true;
+            else
+                dPadDown = false;
+
+            if (!prevButtonDown && state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_DOWN] == GLFW_PRESS && !enterKeyPressed){
+                if(menuChoice < 7){
+                    menuChoice += 1;
+                }
+                else
+                    menuChoice = 0;
+            }
+            prevButtonDown = state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_DOWN] == GLFW_PRESS;
+
+            if (state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_RIGHT])
+                dPadRight = true;
+            else
+                dPadRight = false;
+
+            if (state.buttons[GLFW_GAMEPAD_BUTTON_DPAD_LEFT])
+                dPadLeft = true;
+            else
+                dPadLeft = false;
+
+        }
+
+        if (!prevButtonStart && state.buttons[GLFW_GAMEPAD_BUTTON_START] == GLFW_PRESS && !enterKeyPressed){
+                enterKeyPressed = true;
+            }
+            prevButtonStart = state.buttons[GLFW_GAMEPAD_BUTTON_START] == GLFW_PRESS;
+
+
+        if (!prevButtonSelect && state.buttons[GLFW_GAMEPAD_BUTTON_BACK] == GLFW_PRESS){
+                music.pause();
+                mainMenu = true;
+                enterKeyPressed = false;
+                ENABLE_TEXT = true;
+            }
+            prevButtonSelect = state.buttons[GLFW_GAMEPAD_BUTTON_BACK] == GLFW_PRESS;
+    }
+
     const float cameraSpeed = CAMERA_SPEED * deltaTime;
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -75,6 +216,18 @@ void processInput(GLFWwindow* window){
     if (FREECAM_CONTROLS_ENABLED){
         terrainCoordBelowCamera = getHeight(cameraPos.x, cameraPos.z);
         const float collisionLimit = terrainCoordBelowCamera + 1.0f;
+
+        if (glfwJoystickPresent(GLFW_JOYSTICK_1) == GLFW_TRUE){
+            GLFWgamepadstate state;
+            if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state)){
+                    if (state.buttons[GLFW_GAMEPAD_BUTTON_A]){
+                        cameraPos.y += (cameraSpeed);
+                    }
+                    if (state.buttons[GLFW_GAMEPAD_BUTTON_B]){
+                        cameraPos.y -= (cameraSpeed);
+                    }
+                }
+        }
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
             cameraPos += cameraSpeed * cameraFront;
@@ -116,10 +269,7 @@ void processInput(GLFWwindow* window){
     }
 
     if (CONTROLS_ENABLED && !FREECAM_CONTROLS_ENABLED){
-        float currentFrame = glfwGetTime();
-        float timeElapsed = currentFrame - timeSinceLastInput;
-
-        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f
+        if ((glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS || buttonX) && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f
             && (currentFrame - timeSinceInitializePlayerFightAnimation) < 5.0f && playerFightRangeInitializeCheck){
             playerFightingToggle = true;
             if (!DISABLE_SLOW_MO){
@@ -140,24 +290,24 @@ void processInput(GLFWwindow* window){
             adjustedDeltaTime *= SLOW_MO_MULTIPLIER;
         }
 
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !enemyFightingToggle){
+        if ((glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || dPadLeft) == GLFW_PRESS && !enemyFightingToggle){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !enemyFightingToggle){
+        if ((glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || dPadRight) && !enemyFightingToggle){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, -CAMERA_ROTATE_SPEED);
         }
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
+        if ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || dPadUp) && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
             movePlayerToPoint(deltaTime, MOVEMENT_SPEED);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
+        if ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || dPadDown) && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
             if (player[3][0] < 400.0f && player[3][0] > -400.0f && player[3][2] < 400.0f && player[3][2] > -400.0f)
                 movePlayerToPoint(deltaTime, -MOVEMENT_SPEED);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !playerFightingToggle && !enemyFightingToggle && timeElapsed > 1.0f){
+        if ((glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS || buttonA) && !playerFightingToggle && !enemyFightingToggle && timeElapsed > 1.0f){
             playerShieldEnabled = true;
         }
         else
@@ -168,6 +318,7 @@ void processInput(GLFWwindow* window){
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
+
     float timeElapsed = glfwGetTime() - timeSinceLastInput;
 
     if (key == GLFW_KEY_ENTER && action == GLFW_PRESS && !enterKeyPressed) {

@@ -9,10 +9,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     std::string outputText;
 
-    outputText =  "'k' to attack (hold the button)\\'l' to block (hold the button)\\'w' to move forward\\'d' to move backwards";
+    outputText =  "\"k\" (or \"x\" on controller) to attack (hold the button)\\\"l\" (or \"a\" on controller) to block (hold the button)\\\"w\" (or dpad_up on controller) to move forward\\\"d\" (or dpad_down on controller) to move backwards";
+    outputText += "\\try to get as close as you can to the enemy's range without getting hit, you have a slightly longer reach than them!";
     outputText += "\\if the enemy charges to attack, try to hold the attack button right      before they reach you!\\";
-    outputText += "try to get as close as you can to the enemy's range without getting hit, you have a slightly longer reach than them!\\";
-    outputText += "\\press enter to select\\";
+    outputText += "\\press enter or \"start\" to select\\";
 
     if (choice == 0)
         outputText += "\\x play game";
@@ -20,9 +20,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += "\\  play game";
 
     if (choice == 1)
-        outputText += std::string("\\\\x freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
+        outputText += std::string("\\\\x show_fps: ") + (SHOW_FPS ? "true" : "false");
     else
-        outputText += std::string("\\\\  freecam_controls_enabled: ") + (FREECAM_CONTROLS_ENABLED ? "true" : "false");
+        outputText += std::string("\\\\  show_fps: ") + (SHOW_FPS ? "true" : "false");
 
     if (choice == 2)
         outputText += std::string("\\x is_raining: ") + (IS_RAINING ? "true" : "false");
@@ -47,16 +47,19 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += std::string("\\x enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
     else
         outputText += std::string("\\  enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
+
+
     if (choice == 7)
-        outputText += std::string("\\x show_fps: ") + (SHOW_FPS ? "true" : "false");
+        outputText += std::string("\\x quit_game");
     else
-        outputText += std::string("\\  show_fps: ") + (SHOW_FPS ? "true" : "false");
+        outputText += std::string("\\  quit_game");
+
 
     renderText(t, outputText);
 
     if (enterKeyPressed){
         if (choice == 1){
-            FREECAM_CONTROLS_ENABLED = !FREECAM_CONTROLS_ENABLED;
+            SHOW_FPS = !SHOW_FPS;
             enterKeyPressed = false;
         }
         else if (choice == 2){
@@ -80,9 +83,10 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
             enterKeyPressed = false;
         }
         else if (choice == 7){
-            SHOW_FPS = !SHOW_FPS;
-            enterKeyPressed = false;
+            glfwTerminate();
+            exit(0);
         }
+
         else{
             if (HIGH_RENDER_DISTANCE){
                 VIEW_DISTANCE = 1000.0f;

@@ -458,7 +458,7 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         animationText += "\\                                     player win!\\";
     if (!playerWin)
         animationText += "\\                                     enemy win!\\";
-    animationText += "                            press backspace to play again!";
+    animationText += "                         press backspace or \"y\" to play again!";
 
     if (restartGame){
         restartGame = false;
@@ -473,11 +473,11 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         timeSinceLastEnemyWait = glfwGetTime();
 
         player[3][0] = 0.0f;
-        player[3][1] = getHeight(0.0f, -5.0f) + 10.0f;
+        player[3][1] = getHeight(0.0f, -5.0f) + 0.51f;
         player[3][2] = -3.5f;
 
         enemyGoTo = glm::vec3(0.0f, 0.0f, 0.0f);
-        enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 10.0f;
+        enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + 0.51f;
         enemy[3][0] = enemyGoTo.x;
         enemy[3][1] = enemyGoTo.y;
         enemy[3][2] = enemyGoTo.z;
