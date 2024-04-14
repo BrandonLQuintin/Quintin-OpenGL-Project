@@ -20,6 +20,7 @@ extern bool gameOver;
 
 extern sf::Music music;
 extern sf::Music winSong;
+extern sf::Sound explosionSound;
 
 extern int playerLives;
 extern int enemyLives;

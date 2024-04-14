@@ -134,6 +134,13 @@ int main(){
     winSong.openFromFile("resources/music/WinSong.wav");
     winSong.setVolume(30.0f);
 
+    sf::SoundBuffer buffer2;
+    if (!buffer2.loadFromFile("resources/sounds/explosion.wav")) {
+        return -1; // error loading file
+    }
+    explosionSound.setBuffer(buffer2);
+    explosionSound.setVolume(75.0f);
+
     // ----- INITIALIZE OBJECTS -----
 
     // initialize various sphere locations
@@ -539,6 +546,11 @@ int main(){
                 newDust.modelMatrix[3][1] = newDustPos.y;
                 newDust.modelMatrix[3][2] = newDustPos.z;
                 existingExplosions.push_back(newDust);
+                float oldDustPos = newDustPos.x;
+                if (i < 5){
+                    newDust.modelMatrix[3][1] = newDustPos.y;
+                    existingExplosions.push_back(newDust);
+                }
 
                 // generate smoke underneath each laser particle
                 if (i < 20){
@@ -546,12 +558,20 @@ int main(){
                     newDust.modelMatrix[3][0] = newDustPos.x;
                     newDust.modelMatrix[3][1] = smokeHeight + 0.5f;
                     newDust.modelMatrix[3][2] = newDustPos.z;
-                    if (smokeHeight < newDustPos.y)
+                    if (smokeHeight < newDustPos.y){
                         existingDusts.push_back(newDust);
+                        newDust.modelMatrix[3][0] = oldDustPos + 0.75f;
+                        existingDusts.push_back(newDust);
+                        newDust.modelMatrix[3][0] = oldDustPos - 0.75f;
+                        existingDusts.push_back(newDust);
+                    }
+
                 }
             }
 
             laserAttackCharge = 0.0f;
+            if (ENABLE_SOUND)
+                explosionSound.play();
         }
         // render all explosions (from laser attack)
         for (int i = 0; i < existingExplosions.size(); i++){
