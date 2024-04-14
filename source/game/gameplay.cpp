@@ -471,9 +471,11 @@ void handleHealth(){
             playerLives -=1;
             if (playerLives < 0){
                 gameOver = true;
-                music.stop();
-                winSong.play();
-                sf::sleep(sf::milliseconds(8000));
+                if (ENABLE_SOUND){
+                    music.stop();
+                    winSong.play();
+                    sf::sleep(sf::milliseconds(8000));
+                }
             }
         animationModeActivate = true;
         timeSinceAnimationActivation = glfwGetTime();
