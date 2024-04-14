@@ -5,7 +5,7 @@
 ![Screenshot 2024-03-07 212524](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/b184681c-8144-431b-b95e-373e22e6d492)
 
 # Cool Facts About The Game
-1. This game always runs above 1,000 FPS on a steam deck.
+1. This game always runs above 1,000 FPS on a steam deck (you must run in native resolution and steam proton).
 2. The total file size of the game is 25.5 MB, but without .wav music files, the game is 7.54 MB.
 3. 4,051 lines of code was written to make this game (as of release version 1.3.1).
 
