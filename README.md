@@ -1,9 +1,13 @@
-# A 3D Game Made From Scratch!
+# Can You Beat Kuro in the Ocero Fighter Game?
+![Gameplay](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/688b4c51-f43c-4059-84bf-60172a853b2a)
+
+# In a 3D Game Made From Scratch!
 ![Screenshot 2024-03-07 212524](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/b184681c-8144-431b-b95e-373e22e6d492)
 
-# Can You Beat Kuro in the Ocero Fighter Game?
-![Fighter 3](https://github.com/BrandonLQuintin/Quintin-OpenGL-Project/assets/104369655/4acfe05a-e80f-4a38-bfdf-d0161acabc34)
-
+# Cool Facts About The Game
+1. This game always runs above 1,000 FPS on a steam deck.
+2. The total file size of the game is 25.5 MB, but without .wav music files, the game is 7.54 MB.
+3. 4,051 lines of code was written to make this game (as of release version 1.3.1).
 
 # Quintin-Professional-Programming-Project
 
