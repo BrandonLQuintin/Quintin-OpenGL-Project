@@ -19,6 +19,9 @@ bool prevButtonY = false;
 bool prevButtonStart = false;
 bool prevButtonSelect = false;
 
+bool leftTriggerHeld = false;
+bool prevleftTrigger = false;
+
 
 
 GLFWwindow* createWindow(){
@@ -75,16 +78,30 @@ void processInput(GLFWwindow* window){
     float currentFrame = glfwGetTime();
     float timeElapsed = currentFrame - timeSinceLastInput;
 
+    bool playerCurrentlyChargingUp = false;
+
 
 
     if (glfwJoystickPresent(GLFW_JOYSTICK_1) == GLFW_TRUE){
         GLFWgamepadstate state;
         if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state)){
 
+            if (state.buttons[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER])
+                leftTriggerHeld = true;
+            else
+                leftTriggerHeld = false;
+
+            if (prevleftTrigger && state.buttons[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER] == GLFW_RELEASE && !enemyFightingToggle && timeElapsed > 1.0){ // on left trigger being released, execute this
+                timeSinceLastInput = glfwGetTime();
+            }
+            prevleftTrigger = state.buttons[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER] == GLFW_PRESS;
+
             if (state.buttons[GLFW_GAMEPAD_BUTTON_X])
                 buttonX = true;
             else
                 buttonX = false;
+
+
 
             if (!prevButtonX && state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS){ // initialize fighting
                 if (!enemyFightingToggle && timeElapsed > 1.0f && CONTROLS_ENABLED) {
@@ -255,6 +272,7 @@ void processInput(GLFWwindow* window){
                 cameraPos.y = (collisionLimit);
             }
         }
+
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
             cameraPos.y += (cameraSpeed);
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS){
@@ -269,8 +287,39 @@ void processInput(GLFWwindow* window){
     }
 
     if (CONTROLS_ENABLED && !FREECAM_CONTROLS_ENABLED){
+
+
+        if ((glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS || leftTriggerHeld) && !enemyFightingToggle && timeElapsed > 1.0){
+            laserAttackCharge += deltaTime * 10.0f;
+            playerCurrentlyChargingUp = true;
+            cameraPos.x = player[3][0];
+            cameraPos.y = player[3][1];
+            cameraPos.z = player[3][2] + 3.5f;
+
+            float cameraHeightAboveTerrain = getHeight(cameraPos.x, cameraPos.z);
+
+            if (cameraPos.y < cameraHeightAboveTerrain + 1.0f){
+                cameraPos.y = cameraHeightAboveTerrain + 1.0f;
+            }
+
+            if ((currentFrame - timeSinceLastSpark) > 0.05f){
+                dustEntity newSpark;
+                newSpark.modelMatrix[3][0] = player[3][0] + randomInRange(-0.8f, 0.8f);
+                newSpark.modelMatrix[3][1] = player[3][1] + randomInRange(-0.8f, 0.8f);
+                newSpark.modelMatrix[3][2] = player[3][2] + 0.1f;
+                existingSparks.push_back(newSpark);
+                timeSinceLastSpark = currentFrame;
+            }
+
+
+        }
+        if (!playerCurrentlyChargingUp && laserAttackCharge > 0.0f)
+            laserAttackCharge -= deltaTime * 3.0f;
+
+
+
         if ((glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS || buttonX) && glfwGetKey(window, GLFW_KEY_L) == !GLFW_PRESS && !enemyFightingToggle && timeElapsed > 1.0f
-            && (currentFrame - timeSinceInitializePlayerFightAnimation) < 5.0f && playerFightRangeInitializeCheck){
+            && (currentFrame - timeSinceInitializePlayerFightAnimation) < 5.0f && playerFightRangeInitializeCheck && !playerCurrentlyChargingUp){
             playerFightingToggle = true;
             if (!DISABLE_SLOW_MO){
                 SLOW_MO = true;
@@ -290,24 +339,24 @@ void processInput(GLFWwindow* window){
             adjustedDeltaTime *= SLOW_MO_MULTIPLIER;
         }
 
-        if ((glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || dPadLeft) == GLFW_PRESS && !enemyFightingToggle){
+        if ((glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || dPadLeft) == GLFW_PRESS && !enemyFightingToggle && !playerCurrentlyChargingUp){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, CAMERA_ROTATE_SPEED);
         }
-        if ((glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || dPadRight) && !enemyFightingToggle){
+        if ((glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || dPadRight) && !enemyFightingToggle && !playerCurrentlyChargingUp){
             rotateCameraAroundPoint(glm::vec3(player[3][0], player[3][1], player[3][2]),
                                          cameraPos, adjustedDeltaTime, -CAMERA_ROTATE_SPEED);
         }
-        if ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || dPadUp) && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
+        if ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || dPadUp) && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0 && !playerCurrentlyChargingUp){
             movePlayerToPoint(deltaTime, MOVEMENT_SPEED);
         }
 
-        if ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || dPadDown) && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f){
+        if ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || dPadDown) && !playerFightingToggle && !enemyFightingToggle && !playerShieldEnabled && timeElapsed > 1.0f && !playerCurrentlyChargingUp){
             if (player[3][0] < 400.0f && player[3][0] > -400.0f && player[3][2] < 400.0f && player[3][2] > -400.0f)
                 movePlayerToPoint(deltaTime, -MOVEMENT_SPEED);
         }
 
-        if ((glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS || buttonA) && !playerFightingToggle && !enemyFightingToggle && timeElapsed > 1.0f){
+        if ((glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS || buttonA) && !playerFightingToggle && !enemyFightingToggle && timeElapsed > 1.0f && !playerCurrentlyChargingUp){
             playerShieldEnabled = true;
         }
         else
@@ -360,6 +409,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         timeSinceLastInput = glfwGetTime();
     }
     if (key == GLFW_KEY_L && action == GLFW_RELEASE && !enemyFightingToggle && CONTROLS_ENABLED) {
+        timeSinceLastInput = glfwGetTime();
+    }
+
+    if (key == GLFW_KEY_J && action == GLFW_RELEASE && !enemyFightingToggle && CONTROLS_ENABLED) {
         timeSinceLastInput = glfwGetTime();
     }
 

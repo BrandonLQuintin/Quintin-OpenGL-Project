@@ -58,6 +58,8 @@ float timeSinceInitializePlayerFightAnimation = 0.0f;
 bool playerShieldEnabled = false;
 bool playerShieldToggle = false;
 bool allowPlayerTeleportation = false;
+float timeSinceLastSpark = 0.0f;
+float laserAttackCharge = 0.0f;
 
 // controls
 float timeSinceLastInput = 0.0f;
