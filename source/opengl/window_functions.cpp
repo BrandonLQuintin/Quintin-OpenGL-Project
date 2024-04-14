@@ -34,7 +34,10 @@ GLFWwindow* createWindow(){
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
 
-    GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ocero 3D Game", NULL, NULL);
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "Ocero 3D Game", monitor, NULL);
     if (window == NULL){
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -57,8 +60,6 @@ GLFWwindow* createWindow(){
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
 
-    GLFWmonitor* monitor = glfwGetPrimaryMonitor(); // fullscreens
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     if (glfwGetWindowMonitor(window) == nullptr){
         glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
         projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, VIEW_DISTANCE);
@@ -69,6 +70,8 @@ GLFWwindow* createWindow(){
         projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, VIEW_DISTANCE);
         glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
+
+    fullscreen(window);
 
     return window;
 
@@ -205,29 +208,8 @@ void processInput(GLFWwindow* window){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) { // help from chatgpt
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-
-        if (glfwGetWindowMonitor(window) == nullptr){
-            glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
-            projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, VIEW_DISTANCE);
-            glViewport(0, 0, (*mode).width, (*mode).height);
-        }
-        else{
-            glfwSetWindowMonitor(window, nullptr, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, GLFW_DONT_CARE);
-            projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, VIEW_DISTANCE);
-            glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }
-        while (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS){
-            glfwPollEvents();
-        }
-
-        if (!ENABLE_VSYNC){
-            glfwSwapInterval(0); // uncapped framerate
-        }
-        else
-            glfwSwapInterval(1);
+    if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS) {
+        fullscreen(window);
     }
 
     if (FREECAM_CONTROLS_ENABLED){
@@ -470,4 +452,29 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height){
     }
     projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, VIEW_DISTANCE);
     glViewport(0, 0, width, height);
+}
+
+void fullscreen(GLFWwindow* window){
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+        if (glfwGetWindowMonitor(window) == nullptr){
+            glfwSetWindowMonitor(window, monitor, 0, 0, (*mode).width, (*mode).height, (*mode).refreshRate);
+            projection = glm::perspective(glm::radians(fov), (float)(*mode).width / (float)(*mode).height, 0.1f, VIEW_DISTANCE);
+            glViewport(0, 0, (*mode).width, (*mode).height);
+        }
+        else{
+            glfwSetWindowMonitor(window, nullptr, 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, GLFW_DONT_CARE);
+            projection = glm::perspective(glm::radians(fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, VIEW_DISTANCE);
+            glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        }
+        while (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS){
+            glfwPollEvents();
+        }
+
+        if (!ENABLE_VSYNC){
+            glfwSwapInterval(0); // uncapped framerate
+        }
+        else
+            glfwSwapInterval(1);
 }
