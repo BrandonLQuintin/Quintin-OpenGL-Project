@@ -9,7 +9,7 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     std::string outputText;
 
-    outputText =  "\"k\" (or \"x\" on controller) to attack (hold the button)\\\"l\" (or \"a\" on controller) to block (hold the button)\\\"w\" (or dpad_up on controller) to move forward\\\"d\" (or dpad_down on controller) to move backwards";
+    outputText =  "\"k\" (or \"x\" on controller) to attack (hold the button)\\\"l\" (or \"a\" on controller) to block (hold the button)\\\"w\" (or dpad_up on controller) to move forward\\\"d\" (or dpad_down on controller) to move backwards\\\"j\" (or left_bumper) to charge an attack!";
     outputText += "\\try to get as close as you can to the enemy's range without getting hit, you have a slightly longer reach than them!";
     outputText += "\\if the enemy charges to attack, try to hold the attack button right      before they reach you!\\";
     outputText += "\\press enter or \"start\" to select\\";
@@ -20,9 +20,9 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         outputText += "\\  play game";
 
     if (choice == 1)
-        outputText += std::string("\\\\x show_fps: ") + (SHOW_FPS ? "true" : "false");
+        outputText += std::string("\\x show_fps: ") + (SHOW_FPS ? "true" : "false");
     else
-        outputText += std::string("\\\\  show_fps: ") + (SHOW_FPS ? "true" : "false");
+        outputText += std::string("\\  show_fps: ") + (SHOW_FPS ? "true" : "false");
 
     if (choice == 2)
         outputText += std::string("\\x is_raining: ") + (IS_RAINING ? "true" : "false");

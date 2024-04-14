@@ -26,6 +26,9 @@ extern bool prevButtonY;
 extern bool prevButtonStart;
 extern bool prevButtonSelect;
 
+extern bool leftTriggerHeld;
+extern bool prevleftTrigger;
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);

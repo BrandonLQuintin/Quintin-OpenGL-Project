@@ -2,6 +2,8 @@
 
 std::vector<punchEntity> existingPunches;
 std::vector<dustEntity> existingDusts;
+std::vector<dustEntity> existingSparks;
+std::vector<dustEntity> existingExplosions;
 
 void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed){ // chatGPT generated
     float angleRadians = glm::radians(rotationSpeed) * deltaTime;
@@ -282,36 +284,11 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                     else
                         if (!playerShieldToggle)
                             health -= 3.0f;
-                    normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
-                    healthVertices[10] = normalizedScore;
-                    healthVertices[15] = normalizedScore;
 
                     if (ENABLE_SOUND)
                         playSound();
 
-                    if (health >= 300 || health <= -300){
-                        if (health >= 300){
-                            enemyLives -= 1;
-                            if (enemyLives < 0){
-                                gameOver = true;
-                                music.stop();
-                                winSong.play();
-                                sf::sleep(sf::milliseconds(8000));
-                            }
-
-                            dialogue = "";
-                        }
-                        else
-                            playerLives -=1;
-                            if (playerLives < 0){
-                                gameOver = true;
-                                music.stop();
-                                winSong.play();
-                                sf::sleep(sf::milliseconds(8000));
-                            }
-                        animationModeActivate = true;
-                        timeSinceAnimationActivation = glfwGetTime();
-                    }
+                    handleHealth();
 
 
 
@@ -337,37 +314,11 @@ void handleFightAnimations(float distanceFromEnemy, float currentFrame, std::vec
                     else
                         if (!playerShieldToggle)
                             health -= 3.0f;
-                    normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
-                    healthVertices[10] = normalizedScore;
-                    healthVertices[15] = normalizedScore;
 
                     if (ENABLE_SOUND)
                         playSound();
 
-                    if (health > 300 || health < -300){
-                        if (health >= 300){
-                            enemyLives -= 1;
-                            if (enemyLives < 0){
-                                gameOver = true;
-                                music.stop();
-                                winSong.play();
-                                sf::sleep(sf::milliseconds(8000));
-                            }
-                            dialogue = "";
-                        }
-                        else
-                            playerLives -=1;
-                            if (playerLives < 0){
-                                gameOver = true;
-                                music.stop();
-                                winSong.play();
-                                sf::sleep(sf::milliseconds(8000));
-                            }
-                        animationModeActivate = true;
-                        timeSinceAnimationActivation = glfwGetTime();
-                    }
-
-
+                    handleHealth();
                     }
                     if (isPlayer)
                         playerUV = returnTextureUV(2,6);
@@ -471,6 +422,7 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         enemyLives = 3;
 
         timeSinceLastEnemyWait = glfwGetTime();
+        laserAttackCharge = 0.0f;
 
         player[3][0] = 0.0f;
         player[3][1] = getHeight(0.0f, -5.0f) + 0.51f;
@@ -494,5 +446,34 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
 
 
         music.play();
+    }
+}
+
+void handleHealth(){
+    normalizedScore = (static_cast<float>(health) / 100.0f) / 10;
+    healthVertices[10] = normalizedScore;
+    healthVertices[15] = normalizedScore;
+
+    if (health > 300 || health < -300){
+        if (health >= 300){
+            enemyLives -= 1;
+            if (enemyLives < 0){
+                gameOver = true;
+                music.stop();
+                winSong.play();
+                sf::sleep(sf::milliseconds(8000));
+            }
+            dialogue = "";
+        }
+        else
+            playerLives -=1;
+            if (playerLives < 0){
+                gameOver = true;
+                music.stop();
+                winSong.play();
+                sf::sleep(sf::milliseconds(8000));
+            }
+        animationModeActivate = true;
+        timeSinceAnimationActivation = glfwGetTime();
     }
 }

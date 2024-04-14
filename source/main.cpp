@@ -108,6 +108,14 @@ int main(){
     std::vector<float> dust2AtlasUV = returnTextureUV(14, 3);
     std::vector<float> dust3AtlasUV = returnTextureUV(15, 3);
 
+    std::vector<float> spark1AtlasUV = returnTextureUV(13, 0);
+    std::vector<float> spark2AtlasUV = returnTextureUV(14, 0);
+    std::vector<float> spark3AtlasUV = returnTextureUV(15, 0);
+
+    std::vector<float> punch1AtlasUV = returnTextureUV(13, 1);
+    std::vector<float> punch2AtlasUV = returnTextureUV(14, 1);
+    std::vector<float> punch3AtlasUV = returnTextureUV(15, 1);
+
     std::vector<float> redSquareUV = returnTextureUV(1, 1);
 
     std::vector<float> cloudAtlasUV = {0.6875f, 1.0f, 0.25f, 0.375f}; // these textures take up multiple 64x64 pixel grids so I gave it hard coded numbers.
@@ -496,6 +504,79 @@ int main(){
                 existingDusts.erase(existingDusts.begin() + i);
         }
 
+        // render all sparks
+        for (int i = 0; i < existingSparks.size(); i++){
+            float existingTime = currentFrame - existingSparks[i].timeSinceExistence;
+
+            if (existingTime < 0.05f){
+                setTextureUV(billboardShader, spark1AtlasUV, false);
+                billboardShader.setMat4("model", existingSparks[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else if (existingTime < 0.1f){
+                setTextureUV(billboardShader, spark2AtlasUV, false);
+                billboardShader.setMat4("model", existingSparks[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else if (existingTime < 0.15f){
+                setTextureUV(billboardShader, spark3AtlasUV, false);
+                billboardShader.setMat4("model", existingSparks[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else
+                existingSparks.erase(existingSparks.begin() + i);
+        }
+
+        if (laserAttackCharge > 250.0f){ // generate a laser attack!!
+            health += 350.0f;
+            handleHealth();
+            glm::vec3 enemyDir = glm::normalize(glm::vec3(player[3][0], player[3][1], player[3][2]) - glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
+            for (int i = 1; i < 100; i++){
+                dustEntity newDust;
+                glm::vec3 newDustPos = glm::vec3(player[3][0], player[3][1], player[3][2]);
+                newDustPos -= enemyDir * static_cast<float>(i) * 0.5f;
+                newDust.modelMatrix[3][0] = newDustPos.x;
+                newDust.modelMatrix[3][1] = newDustPos.y;
+                newDust.modelMatrix[3][2] = newDustPos.z;
+                existingExplosions.push_back(newDust);
+
+                // generate smoke underneath each laser particle
+                if (i < 20){
+                    float smokeHeight = getHeight(newDustPos.x, newDustPos.z);
+                    newDust.modelMatrix[3][0] = newDustPos.x;
+                    newDust.modelMatrix[3][1] = smokeHeight + 0.5f;
+                    newDust.modelMatrix[3][2] = newDustPos.z;
+                    if (smokeHeight < newDustPos.y)
+                        existingDusts.push_back(newDust);
+                }
+            }
+
+            laserAttackCharge = 0.0f;
+        }
+        // render all explosions (from laser attack)
+        for (int i = 0; i < existingExplosions.size(); i++){
+            float existingTime = currentFrame - existingExplosions[i].timeSinceExistence;
+
+            if (existingTime < 0.35f){
+                setTextureUV(billboardShader, punch1AtlasUV, false);
+                billboardShader.setMat4("model", existingExplosions[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else if (existingTime < 0.7f){
+                setTextureUV(billboardShader, punch2AtlasUV, false);
+                billboardShader.setMat4("model", existingExplosions[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else if (existingTime < 1.05f){
+                setTextureUV(billboardShader, punch3AtlasUV, false);
+                billboardShader.setMat4("model", existingExplosions[i].modelMatrix);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            }
+            else
+                existingExplosions.erase(existingExplosions.begin() + i);
+        }
+
+
         // ----- OBJECTS ------
 
         // ### TERRAIN
@@ -586,6 +667,11 @@ int main(){
         // ----- DRAW TEXT ------
         int fps = calculateAverageFPS(timeSinceLastFPSCalculation, deltaTime, fpsVector, SLOW_MO);
         //float terrainCoordBelow = getHeight(player[3][0], player[3][2]);
+        if (laserAttackCharge > 3.0f){
+            renderText(t, "\\\\\\\\\\\\                               attack charge: "
+                    + std::to_string(laserAttackCharge));
+        }
+
         std::string text =      "\\\\";
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
@@ -598,7 +684,7 @@ int main(){
                                 //}
         float waitingTime = glfwGetTime() - timeSinceLastInput;
         if (allowPlayerTeleportation){
-            text += "\\\\\\                           press space or \"b\" to teleport!";
+            text += "\\\\                           press space or \"b\" to teleport!";
         }
         if (waitingTime < 1.0f){
             if (allowPlayerTeleportation)

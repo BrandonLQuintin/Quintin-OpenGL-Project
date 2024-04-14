@@ -32,5 +32,9 @@ void handleAnimationMode(std::string &outputText);
 
 void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationText);
 
+void handleHealth();
+
 extern std::vector<punchEntity> existingPunches;
 extern std::vector<dustEntity> existingDusts;
+extern std::vector<dustEntity> existingSparks;
+extern std::vector<dustEntity> existingExplosions;

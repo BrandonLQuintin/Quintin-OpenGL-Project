@@ -68,6 +68,8 @@ extern bool punchFrameToggle;
 extern bool playerShieldEnabled;
 extern bool playerShieldToggle;
 extern bool allowPlayerTeleportation;
+extern float timeSinceLastSpark;
+extern float laserAttackCharge;
 
 // controls
 extern float timeSinceLastInput;
