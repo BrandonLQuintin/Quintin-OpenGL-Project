@@ -91,7 +91,7 @@ void processInput(GLFWwindow* window){
             else
                 leftTriggerHeld = false;
 
-            if (prevleftTrigger && state.buttons[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER] == GLFW_RELEASE && !enemyFightingToggle && timeElapsed > 1.0){ // on left trigger being released, execute this
+            if (prevleftTrigger && state.buttons[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER] == GLFW_RELEASE && !enemyFightingToggle && timeElapsed > 1.0 && !animationModeActivate){ // on left trigger being released, execute this
                 timeSinceLastInput = glfwGetTime();
             }
             prevleftTrigger = state.buttons[GLFW_GAMEPAD_BUTTON_LEFT_BUMPER] == GLFW_PRESS;
@@ -292,7 +292,6 @@ void processInput(GLFWwindow* window){
         if ((glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS || leftTriggerHeld) && !enemyFightingToggle && timeElapsed > 1.0){
             laserAttackCharge += deltaTime * 10.0f;
             playerCurrentlyChargingUp = true;
-            cameraPos.x = player[3][0];
             cameraPos.y = player[3][1];
             cameraPos.z = player[3][2] + 3.5f;
 
@@ -307,6 +306,7 @@ void processInput(GLFWwindow* window){
                 newSpark.modelMatrix[3][0] = player[3][0] + randomInRange(-0.8f, 0.8f);
                 newSpark.modelMatrix[3][1] = player[3][1] + randomInRange(-0.8f, 0.8f);
                 newSpark.modelMatrix[3][2] = player[3][2] + 0.1f;
+                cameraPos.x = player[3][0] + randomInRange(-0.05f, 0.05f);
                 existingSparks.push_back(newSpark);
                 timeSinceLastSpark = currentFrame;
             }

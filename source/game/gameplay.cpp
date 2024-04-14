@@ -459,9 +459,11 @@ void handleHealth(){
             enemyLives -= 1;
             if (enemyLives < 0){
                 gameOver = true;
-                music.stop();
-                winSong.play();
-                sf::sleep(sf::milliseconds(8000));
+                if (ENABLE_SOUND){
+                    music.stop();
+                    winSong.play();
+                    sf::sleep(sf::milliseconds(8000));
+                }
             }
             dialogue = "";
         }

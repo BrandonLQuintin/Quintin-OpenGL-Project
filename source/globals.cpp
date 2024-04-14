@@ -19,6 +19,7 @@ bool SHOW_FPS = false;
 
 sf::Music music;
 sf::Music winSong;
+sf::Sound explosionSound;
 
 bool gameOver = false;
 
