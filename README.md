@@ -6,8 +6,9 @@
 
 # Cool Facts About The Game
 1. This game always runs above 1,000 FPS on a steam deck (you must run in native resolution on an external 1080p monitor and steam proton).
-2. The total file size of the game is 25.5 MB, but without .wav music files, the game is 7.54 MB.
-3. 4,051 lines of code was written to make this game (as of release version 1.3.1).
+2. This game always runs above 2,000 FPS at the Elms College computer lab (with the RTX 2070-Super, and modern i7 processor), and often runs above 2,500 FPS.
+3. The total file size of the game is 25.5 MB, but without .wav music files, the game is 7.54 MB.
+4. 4,051 lines of code was written to make this game (as of release version 1.3.1).
 
 # Quintin-Professional-Programming-Project
 
