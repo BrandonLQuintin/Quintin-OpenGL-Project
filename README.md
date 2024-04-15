@@ -13,11 +13,13 @@
 # Quintin-Professional-Programming-Project
 
 Runs in the Code::Blocks IDE (MingW 64 bit compiler) and on Windows:
+1. Go to your cloned reposity folder
+2. Go to "source" folder -> then open "Quintin 3D Game.cbp"
+
+If running the code errors out, try this:
 1. Go to file explorer and type %appdata%
 2. Go to Roaming -> CodeBlocks
-3. Copy default.conf to CodeBlocks folder
-4. Go back to your cloned reposity folder
-5. Go to "source" folder -> then open "Quintin 3D Game.cbp"
+3. Copy default.conf (from the cloned repository) and put it into that CodeBlocks folder
 
 ## Credits
 With terrain generation and collision, I followed ThinMatrix's youtube tutorials for OpenGL (tutorial 14, 21, and 22)
