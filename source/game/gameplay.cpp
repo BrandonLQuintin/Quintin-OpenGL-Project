@@ -108,11 +108,7 @@ void moveEnemyToPoint(const glm::vec3 destinationPos, float deltaTime, float spe
 }
 
 float calculateDistance(glm::vec3 objectPos, glm::vec3 destinationPos){
-    glm::vec3 direction = glm::normalize(destinationPos - objectPos);
-
-    float distance = glm::distance(objectPos, destinationPos);
-
-    return distance;
+    return glm::distance(objectPos, destinationPos);
 }
 
 void movePlayerToPoint(float deltaTime, float speed){

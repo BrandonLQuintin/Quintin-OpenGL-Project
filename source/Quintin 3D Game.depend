@@ -2124,7 +2124,7 @@
 	<sstream>
 	<iostream>
 
-1711770166 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
+1713235690 source:c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.cpp
 	"text_render.h"
 
 1710452252 c:\users\brand\desktop\quintin-opengl-project\source\opengl\text_render.h
@@ -2210,7 +2210,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<vector>
 
-1713122385 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
+1713236539 source:c:\users\brand\desktop\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -2325,10 +2325,10 @@
 1710604348 source:c:\users\brand\desktop\quintin-opengl-project\source\game\player.cpp
 	"player.h"
 
-1713137444 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
+1713235690 source:c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.cpp
 	"gameplay.h"
 
-1713067967 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h
+1713234379 c:\users\brand\desktop\quintin-opengl-project\source\game\gameplay.h
 	<iostream>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
