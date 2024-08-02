@@ -22,10 +22,10 @@ void setRainLocation(rainEntity &rain){
 }
 
 void initializeRainLocation(rainEntity &rain){
-    rain.modelMatrix[3][0] = cameraPos.x + randomInRange(-10.0f, 10.0f);
-    rain.modelMatrix[3][1] = cameraPos.y + randomInRange(-5.0f, 15.0f);
+    rain.modelMatrix[3][0] = player[3][0] + randomInRange(-10.0f, 10.0f);
+    rain.modelMatrix[3][1] = player[3][1] + randomInRange(-5.0f, 15.0f);
     rain.speed = randomInRange(10.0f, 15.0f);
-    rain.modelMatrix[3][2] = cameraPos.z + randomInRange(-10.0f, 10.0f);
+    rain.modelMatrix[3][2] = player[3][2] + randomInRange(-10.0f, 10.0f);
 }
 // UNUSED SHADOW CODE
 /*

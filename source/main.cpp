@@ -443,7 +443,7 @@ int main(){
                         attempts += 1;
                     }
                     enemyGoTo = newEnemyPos;
-                    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + randomInRange(0.51f, 2.9f);
+                    enemyGoTo.y = getHeight(enemyGoTo.x, enemyGoTo.z) + randomInRange(0.1f, 2.3f);
                 }
 
 

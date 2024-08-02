@@ -440,8 +440,9 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         healthVertices[10] = normalizedScore;
         healthVertices[15] = normalizedScore;
 
-
-        music.play();
+        if (ENABLE_SOUND){
+            music.play();
+        }
     }
 }
 
