@@ -692,7 +692,7 @@ int main(){
                     + std::to_string(laserAttackCharge));
         }
 
-        std::string text =      "\\\\";
+        std::string text =      "ocero 3d alpha 1.0.0\\\\";
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +

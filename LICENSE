@@ -6,27 +6,27 @@ This software is proprietary and may not be copied, distributed, or modified wit
 
 ### Libraries Used
 
-This software uses the following libraries, which are subject to their respective licenses:
+Although all libraries listed below are used in their unmodified form, here are the respective licenses for each:
 
 ---
 
 **1. libgcc (GNU Compiler Collection runtime library)**
 - **License**: GNU General Public License (GPL) with GCC Runtime Library Exception
-- **License Text**: You may obtain a copy of the GNU General Public License and the GCC Runtime Library Exception at <http://www.gnu.org/licenses/>.
+- **License Text**: You may obtain a copy of the GNU General Public License and the GCC Runtime Library Exception at <https://www.gnu.org/licenses/gpl-3.0.en.html#license-text>.
 - **Source Code**: The source code for libgcc can be obtained from <https://gcc.gnu.org/>.
 
 ---
 
 **2. libstdc++ (GNU Standard C++ Library)**
 - **License**: GNU General Public License (GPL) with GCC Runtime Library Exception
-- **License Text**: You may obtain a copy of the GNU General Public License and the GCC Runtime Library Exception at <http://www.gnu.org/licenses/>.
+- **License Text**: You may obtain a copy of the GNU General Public License and the GCC Runtime Library Exception at <https://www.gnu.org/licenses/gpl-3.0.en.html#license-text>.
 - **Source Code**: The source code for libstdc++ can be obtained from <https://gcc.gnu.org/>.
 
 ---
 
 **3. libwinpthread-1**
 - **License**: GNU Lesser General Public License (LGPL)
-- **License Text**: You may obtain a copy of the GNU Lesser General Public License at <http://www.gnu.org/licenses/lgpl.html>.
+- **License Text**: You may obtain a copy of the GNU Lesser General Public License at <https://www.gnu.org/licenses/lgpl-3.0.en.html>.
 - **Source Code**: The source code for libwinpthread-1 can be obtained from <https://sourceforge.net/projects/mingw-w64/>.
 
 ---
@@ -46,3 +46,9 @@ Permission is granted to anyone to use this software for any purpose, including 
 - **Source Code**: The source code for SFML can be obtained from <https://www.sfml-dev.org/>.
 
 ---
+
+5. OpenAL (Open Audio Library)
+
+- **License**: GNU Lesser General Public License (LGPL)
+- **License Text**: You may obtain a copy of the GNU Lesser General Public License at <https://www.gnu.org/licenses/lgpl-3.0.en.html>.
+- **Source Code**: The source code for OpenAL can be obtained from <http://openal.org/>.
