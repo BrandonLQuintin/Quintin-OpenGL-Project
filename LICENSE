@@ -46,3 +46,11 @@ Permission is granted to anyone to use this software for any purpose, including 
 - **Source Code**: The source code for SFML can be obtained from <https://www.sfml-dev.org/>.
 
 ---
+
+**5. OpenAL**
+- **License**: GNU Lesser General Public License (LGPL)
+- **License Text**: You may obtain a copy of the GNU Lesser General Public License at <http://www.gnu.org/licenses/lgpl.html>.
+- **Source Code**: The source code for OpenAL can be obtained from <https://www.openal.org/>.
+- **Note**: This software dynamically links to OpenAL via `openal32.dll`. You are free to replace this DLL with a different version that complies with the LGPL.
+
+---
