@@ -60,7 +60,31 @@ std::map<char, std::vector<float>> characterUV = {
     {'[', returnTextureUV(4, 4)},
     {']', returnTextureUV(5, 4)},
     {'\'', returnTextureUV(6, 4)},
-    {'&', returnTextureUV(7, 4)}
+    {'&', returnTextureUV(7, 4)},
+
+    // Xbox buttons
+    {'\x01', returnTextureUV(0, 5)}, // A
+    {'\x02', returnTextureUV(1, 5)}, // B
+    {'\x03', returnTextureUV(2, 5)}, // X
+    {'\x04', returnTextureUV(3, 5)}, // Y
+
+    // PlayStation buttons
+    {'\x05', returnTextureUV(0, 6)}, // X
+    {'\x06', returnTextureUV(1, 6)}, // O
+    {'\x07', returnTextureUV(2, 6)}, // Square
+    {'\x08', returnTextureUV(3, 6)}, // Triangle
+
+    // D-pad
+    {'\x09', returnTextureUV(0, 7)}, // Down
+    {'\x0A', returnTextureUV(1, 7)}, // Right
+    {'\x0B', returnTextureUV(2, 7)}, // Left
+    {'\x0C', returnTextureUV(3, 7)}, // Up
+
+    // Controller Icons
+    {'`', returnTextureUV(0, 8)}, // Left Bumper
+    //{'\x0E', returnTextureUV(1, 8)}, // Right Bumper
+    //{'\x0F', returnTextureUV(2, 8)}, // Options
+    {'~', returnTextureUV(3, 8)}, // Start
 };
 
 std::map<int, std::string> textOptions = {
@@ -72,7 +96,7 @@ std::map<int, std::string> textOptions = {
 };
 
 
-void renderText(Shader shader, std::string input){ // calling this function a lot hurts performance usually by 10-30% of the fps
+void renderText(Shader shader, std::string input){ // calling this function a lot hurts performance usually by 30% of the fps
         if (!ENABLE_TEXT)
             return;
         glDisable(GL_DEPTH_TEST);

@@ -5,7 +5,7 @@ std::vector<dustEntity> existingDusts;
 std::vector<dustEntity> existingSparks;
 std::vector<dustEntity> existingExplosions;
 
-void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed){ // chatGPT generated
+void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed){
     float angleRadians = glm::radians(rotationSpeed) * deltaTime;
 
     glm::vec3 toCamera = cameraPos - player;
@@ -80,7 +80,7 @@ void rotatePlayerAroundEnemy(float deltaTime, bool isPlayer){
 
 }
 
-void moveToPoint(glm::vec3 &objectPos, const glm::vec3 &destinationPos, float deltaTime, float speed){ // chatGPT generated
+void moveToPoint(glm::vec3 &objectPos, const glm::vec3 &destinationPos, float deltaTime, float speed){
     glm::vec3 direction = glm::normalize(destinationPos - objectPos);
 
     float maxDistance = speed * deltaTime;
@@ -405,7 +405,16 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         animationText += "\\                                     player win!\\";
     if (!playerWin)
         animationText += "\\                                     enemy win!\\";
-    animationText += "                         press backspace or \"y\" to play again!";
+    if (isPlaystationController){
+        animationText += "                               press \x08 to play again!";
+    }
+    else if (controllerConnected && !isPlaystationController){
+        animationText += "                               press \x04 to play again!";
+    }
+    else{
+        animationText += "                            press backspace to play again!";
+    }
+
 
     if (restartGame){
         restartGame = false;

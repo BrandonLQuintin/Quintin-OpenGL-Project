@@ -38,7 +38,6 @@
 #include "shapes/terrain.h"
 #include "game/sound.h"
 
-
 int main(){
     GLFWwindow* window = createWindow();
     glEnable(GL_DEPTH_TEST);
@@ -250,10 +249,14 @@ int main(){
     // ----- MAIN PROGRAM -----
 
     while (!glfwWindowShouldClose(window)){
+
         while (mainMenu){
+            detectController(0);
             processMainMenu(window, t, menuChoice);
             timeSinceLastEnemyWait = glfwGetTime();
         }
+
+        //detectController(0);
 
         float currentFrame = glfwGetTime();
         std::string animationText;
@@ -645,7 +648,7 @@ int main(){
         setTextureUV(phongShader, treeAtlasUV, false);
 
         // uses binary search to insert in correct order instead of sorting every frame
-        for (int i = 0; i < trees.size(); i++) { // Adds activeTrees based on distance (before rendering) so transparency occurs correctly. chatGPT generated
+        for (int i = 0; i < trees.size(); i++) { // Adds activeTrees based on distance (before rendering) so transparency occurs correctly.
             glm::vec3 treePosition = glm::vec3(trees[i].modelMatrix[3]);
             trees[i].distanceFromCamera = renderDistanceCheck(cameraPos, treePosition);
 
@@ -692,7 +695,7 @@ int main(){
                     + std::to_string(laserAttackCharge));
         }
 
-        std::string text =      "ocero 3d alpha 1.0.0\\\\";
+        std::string text =      "ocero 3d alpha 1.0.1\\\\";
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
@@ -704,7 +707,15 @@ int main(){
                                 //}
         float waitingTime = glfwGetTime() - timeSinceLastInput;
         if (allowPlayerTeleportation){
-            text += "\\\\                           press space or \"b\" to teleport!";
+            if (isPlaystationController){
+                text += "\\\\                                press \x06 to teleport!";
+            }
+            else if (controllerConnected && !isPlaystationController){
+                text += "\\\\                                press \x02 to teleport!";
+            }
+            else{
+                text += "\\\\                               press space to teleport!";
+            }
         }
         if (waitingTime < 1.0f){
             if (allowPlayerTeleportation)
@@ -764,5 +775,3 @@ int main(){
     return 0;
 
 }
-
-

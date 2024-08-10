@@ -9,48 +9,69 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     std::string outputText;
 
-    outputText =  "\"k\" (or \"x\" on controller) to attack (hold the button)\\\"l\" (or \"a\" on controller) to block (hold the button)\\\"w\" (or dpad_up on controller) to move forward\\\"d\" (or dpad_down on controller) to move backwards\\\"j\" (or left_bumper) to charge an attack!";
-    outputText += "\\try to get as close as you can to the enemy's range without getting hit, you have a slightly longer reach than them!";
-    outputText += "\\if the enemy charges to attack, try to hold the attack button right      before they reach you!\\";
-    outputText += "\\press enter or \"start\" to select\\";
+    if (isPlaystationController){
+        outputText =  "\x07 to attack (hold the button)\\\x05 to block (hold the button)\\\x0C to move forward\\\x09 to move backwards\\\` to charge an attack!";
+    }
+    else if(controllerConnected && !isPlaystationController){
+        outputText =  "\x03 to attack (hold the button)\\\x01 to block (hold the button)\\\x0C to move forward\\\x09 to move backwards\\\` to charge an attack!";
+    }
+    else{
+        outputText =  "\"k\" to attack (hold the button)\\\"l\" to block (hold the button)\\\"w\" to move forward\\\"d\" to move backwards\\\"j\" to charge an attack!";
+    }
+
+
+
+
+    //outputText += "\\try to get as close as you can to the enemy's range without getting hit, you have a slightly longer reach than them!";
+    //outputText += "\\if the enemy charges to attack, try to hold the attack button right      before they reach you!\\";
+
+    outputText += "\\\\\\";
+
+    if (isPlaystationController || controllerConnected){
+        outputText += "\\press ~ to select\\";
+    }
+    else{
+        outputText += "\\press enter to select\\";
+    }
+
 
     if (choice == 0)
-        outputText += "\\x play game";
+        outputText += "\\* play game";
     else
         outputText += "\\  play game";
 
     if (choice == 1)
-        outputText += std::string("\\x show_fps: ") + (SHOW_FPS ? "true" : "false");
+        outputText += std::string("\\* show_fps: ") + (SHOW_FPS ? "true" : "false");
     else
         outputText += std::string("\\  show_fps: ") + (SHOW_FPS ? "true" : "false");
 
     if (choice == 2)
-        outputText += std::string("\\x is_raining: ") + (IS_RAINING ? "true" : "false");
+        outputText += std::string("\\* is_raining: ") + (IS_RAINING ? "true" : "false");
     else
         outputText += std::string("\\  is_raining: ") + (IS_RAINING ? "true" : "false");
 
     if (choice == 3)
-        outputText += std::string("\\x enable_vsync: ") + (ENABLE_VSYNC ? "true" : "false");
+        outputText += std::string("\\* enable_vsync: ") + (ENABLE_VSYNC ? "true" : "false");
     else
         outputText += std::string("\\  enable_vsync: ") + (ENABLE_VSYNC ? "true" : "false");
 
     if (choice == 4)
-        outputText += std::string("\\x disable_slow_mo: ") + (DISABLE_SLOW_MO ? "true" : "false");
+        outputText += std::string("\\* disable_slow_mo: ") + (DISABLE_SLOW_MO ? "true" : "false");
     else
         outputText += std::string("\\  disable_slow_mo: ") + (DISABLE_SLOW_MO ? "true" : "false");
 
     if (choice == 5)
-        outputText += std::string("\\x enable_text: ") + (text ? "true" : "false");
+        outputText += std::string("\\* enable_text: ") + (text ? "true" : "false");
     else
         outputText += std::string("\\  enable_text: ") + (text ? "true" : "false");
     if (choice == 6)
-        outputText += std::string("\\x enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
+        outputText += std::string("\\* enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
     else
         outputText += std::string("\\  enable_sound: ") + (ENABLE_SOUND ? "true" : "false");
 
 
     if (choice == 7)
-        outputText += std::string("\\x quit_game");
+        outputText += std::string("\\* quit_game");
     else
         outputText += std::string("\\  quit_game");
 

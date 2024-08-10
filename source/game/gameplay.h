@@ -9,6 +9,7 @@
 #include "entity.h"
 #include "../opengl/text_render.h"
 #include "sound.h"
+#include "../opengl/window_functions.h"
 
 void rotateCameraAroundPoint(const glm::vec3 &player, glm::vec3 &cameraPos, float deltaTime, float rotationSpeed);
 void rotatePlayerAroundEnemy(float deltaTime, bool isPlayer);

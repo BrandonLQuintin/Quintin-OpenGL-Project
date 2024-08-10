@@ -22,6 +22,8 @@ bool prevButtonSelect = false;
 bool leftTriggerHeld = false;
 bool prevleftTrigger = false;
 
+bool controllerConnected = false;
+bool isPlaystationController = false;
 
 
 GLFWwindow* createWindow(){
@@ -69,8 +71,7 @@ void processInput(GLFWwindow* window){
 
     bool playerCurrentlyChargingUp = false;
 
-
-
+    // controller
     if (glfwJoystickPresent(GLFW_JOYSTICK_1) == GLFW_TRUE){
         GLFWgamepadstate state;
         if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state)){
@@ -254,8 +255,8 @@ void processInput(GLFWwindow* window){
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
     }
 
+    // keyboard
     if (CONTROLS_ENABLED && !FREECAM_CONTROLS_ENABLED){
-
 
         if ((glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS || leftTriggerHeld) && !enemyFightingToggle && timeElapsed > 1.0){
             laserAttackCharge += deltaTime * 10.0f;
@@ -463,4 +464,40 @@ void fullscreen(GLFWwindow* window){
         }
         else
             glfwSwapInterval(1);
+}
+
+void detectController(int joystickId) {
+    if (glfwJoystickPresent(joystickId)) {
+        const char* name = glfwGetJoystickName(joystickId);
+        int buttonCount, axisCount;
+        const unsigned char* buttons = glfwGetJoystickButtons(joystickId, &buttonCount);
+        const float* axes = glfwGetJoystickAxes(joystickId, &axisCount);
+
+        bool isPlayStation = false;
+        bool isXbox = false;
+
+        // Print debug information
+        /*
+        std::cout << "Joystick " << joystickId << " (" << (name ? name : "Unknown") << "): "
+                  << buttonCount << " buttons, " << axisCount << " axes" << std::endl;
+        */
+
+        // Check for PlayStation-specific features
+        if (axisCount == 6 && buttonCount == 18) {
+            isPlayStation = true;
+        }
+
+        if (isPlayStation) {
+            controllerConnected = true;
+            isPlaystationController = true;
+        }
+        else {
+            controllerConnected = true;
+            isPlaystationController = false;
+        }
+    }
+    else {
+        controllerConnected = false;
+        isPlaystationController = false;
+    }
 }
