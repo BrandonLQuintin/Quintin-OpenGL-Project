@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <steam/steam_api.h>
 
 // opengl & SFML
 #include <glad/glad.h> // loads OpenGL pointers
@@ -39,6 +40,10 @@
 #include "game/sound.h"
 
 int main(){
+    if (!SteamAPI_Init()) {
+        std::cerr << "Steam API initialization failed!" << std::endl;
+    }
+
     GLFWwindow* window = createWindow();
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -251,12 +256,21 @@ int main(){
     while (!glfwWindowShouldClose(window)){
 
         while (mainMenu){
-            detectController(0);
+            if (glfwJoystickPresent(GLFW_JOYSTICK_2)) {
+                detectController(1);
+            }
+            else{
+                detectController(0);
+            }
             processMainMenu(window, t, menuChoice);
             timeSinceLastEnemyWait = glfwGetTime();
         }
-
-        //detectController(0);
+        if (glfwJoystickPresent(GLFW_JOYSTICK_2)) {
+                detectController(1);
+            }
+            else{
+                detectController(0);
+        }
 
         float currentFrame = glfwGetTime();
         std::string animationText;
@@ -576,6 +590,7 @@ int main(){
             if (ENABLE_SOUND)
                 explosionSound.play();
         }
+
         // render all explosions (from laser attack)
         for (int i = 0; i < existingExplosions.size(); i++){
             float existingTime = currentFrame - existingExplosions[i].timeSinceExistence;
@@ -631,8 +646,6 @@ int main(){
                         setRainLocation(rainDrops[i]);
                     }
                 }
-
-
 
                 billboardShader.setMat4("model", rainDrops[i].modelMatrix);
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -695,7 +708,7 @@ int main(){
                     + std::to_string(laserAttackCharge));
         }
 
-        std::string text =      "ocero 3d alpha 1.0.1\\\\";
+        std::string text =      "ocero 3d alpha 1.0.3\\\\";
                                 //"camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]\\"
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
@@ -707,11 +720,8 @@ int main(){
                                 //}
         float waitingTime = glfwGetTime() - timeSinceLastInput;
         if (allowPlayerTeleportation){
-            if (isPlaystationController){
+            if (controllerConnected){
                 text += "\\\\                                press \x06 to teleport!";
-            }
-            else if (controllerConnected && !isPlaystationController){
-                text += "\\\\                                press \x02 to teleport!";
             }
             else{
                 text += "\\\\                               press space to teleport!";
@@ -770,7 +780,7 @@ int main(){
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
+    SteamAPI_Shutdown();
     glfwTerminate();
     return 0;
 

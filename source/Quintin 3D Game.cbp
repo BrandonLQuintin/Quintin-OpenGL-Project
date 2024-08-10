@@ -52,10 +52,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="../SFML/include" />
+			<Add directory="../sdk/public" />
 		</Compiler>
 		<Linker>
 			<Add option="-static" />
+			<Add library="../sdk/redistributable_bin/win64/steam_api64.lib" />
 			<Add directory="../SFML/lib" />
+			<Add directory="../sdk/redistributable_bin" />
 		</Linker>
 		<Unit filename="game/calculate_fps.cpp" />
 		<Unit filename="game/calculate_fps.h" />

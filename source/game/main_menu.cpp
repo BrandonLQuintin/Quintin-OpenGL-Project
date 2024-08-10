@@ -9,11 +9,8 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     std::string outputText;
 
-    if (isPlaystationController){
+    if (controllerConnected){
         outputText =  "\x07 to attack (hold the button)\\\x05 to block (hold the button)\\\x0C to move forward\\\x09 to move backwards\\\` to charge an attack!";
-    }
-    else if(controllerConnected && !isPlaystationController){
-        outputText =  "\x03 to attack (hold the button)\\\x01 to block (hold the button)\\\x0C to move forward\\\x09 to move backwards\\\` to charge an attack!";
     }
     else{
         outputText =  "\"k\" to attack (hold the button)\\\"l\" to block (hold the button)\\\"w\" to move forward\\\"d\" to move backwards\\\"j\" to charge an attack!";
@@ -27,7 +24,7 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
 
     outputText += "\\\\\\";
 
-    if (isPlaystationController || controllerConnected){
+    if (controllerConnected){
         outputText += "\\press ~ to select\\";
     }
     else{

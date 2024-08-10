@@ -23,7 +23,6 @@ bool leftTriggerHeld = false;
 bool prevleftTrigger = false;
 
 bool controllerConnected = false;
-bool isPlaystationController = false;
 
 
 GLFWwindow* createWindow(){
@@ -467,37 +466,19 @@ void fullscreen(GLFWwindow* window){
 }
 
 void detectController(int joystickId) {
-    if (glfwJoystickPresent(joystickId)) {
-        const char* name = glfwGetJoystickName(joystickId);
-        int buttonCount, axisCount;
-        const unsigned char* buttons = glfwGetJoystickButtons(joystickId, &buttonCount);
-        const float* axes = glfwGetJoystickAxes(joystickId, &axisCount);
-
-        bool isPlayStation = false;
-        bool isXbox = false;
-
-        // Print debug information
-        /*
-        std::cout << "Joystick " << joystickId << " (" << (name ? name : "Unknown") << "): "
-                  << buttonCount << " buttons, " << axisCount << " axes" << std::endl;
-        */
-
-        // Check for PlayStation-specific features
-        if (axisCount == 6 && buttonCount == 18) {
-            isPlayStation = true;
-        }
-
-        if (isPlayStation) {
-            controllerConnected = true;
-            isPlaystationController = true;
-        }
-        else {
-            controllerConnected = true;
-            isPlaystationController = false;
+    bool controllerFound = false;
+    for (int jid = 0; jid <= GLFW_JOYSTICK_LAST; jid++) {
+        if (glfwJoystickPresent(jid)) {
+            if (glfwJoystickIsGamepad(jid)) {
+                const char* name = glfwGetGamepadName(jid);
+                if (name) {
+                    controllerFound = true;
+                    controllerConnected = true;
+                }
+            }
         }
     }
-    else {
+    if (!controllerFound){
         controllerConnected = false;
-        isPlaystationController = false;
     }
 }

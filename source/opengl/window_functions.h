@@ -30,7 +30,6 @@ extern bool leftTriggerHeld;
 extern bool prevleftTrigger;
 
 extern bool controllerConnected;
-extern bool isPlaystationController;
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);

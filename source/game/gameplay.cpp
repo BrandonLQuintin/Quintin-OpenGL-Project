@@ -405,11 +405,8 @@ void handleGameOver(glm::mat4 &player, glm::mat4 &enemy, std::string &animationT
         animationText += "\\                                     player win!\\";
     if (!playerWin)
         animationText += "\\                                     enemy win!\\";
-    if (isPlaystationController){
+    if (controllerConnected){
         animationText += "                               press \x08 to play again!";
-    }
-    else if (controllerConnected && !isPlaystationController){
-        animationText += "                               press \x04 to play again!";
     }
     else{
         animationText += "                            press backspace to play again!";

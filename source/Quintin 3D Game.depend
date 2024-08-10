@@ -6709,7 +6709,7 @@
 	<glm/gtc/type_ptr.hpp>
 	<glm/gtx/string_cast.hpp>
 
-1723251278 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\game\gameplay.cpp
+1723306479 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\game\gameplay.cpp
 	"gameplay.h"
 
 1723251321 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\game\gameplay.h
@@ -6776,7 +6776,7 @@
 	<iostream>
 	"../globals.h"
 
-1723252752 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\game\main_menu.cpp
+1723306498 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\game\main_menu.cpp
 	"main_menu.h"
 
 1722637803 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\game\main_menu.h
@@ -6789,7 +6789,7 @@
 	"../opengl/text_render.h"
 	"../opengl/window_functions.h"
 
-1723075422 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\window_functions.h
+1723306498 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\window_functions.h
 	<glad/glad.h>
 	<GLFW/glfw3.h>
 	"../globals.h"
@@ -6812,11 +6812,12 @@
 1723253598 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\globals.cpp
 	"globals.h"
 
-1723254271 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\main.cpp
+1723306765 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\main.cpp
 	<iostream>
 	<string>
 	<vector>
 	<cmath>
+	<steam/steam_api.h>
 	<glad/glad.h>
 	<GLFW/glfw3.h>
 	<SFML/Audio.hpp>
@@ -6854,14 +6855,14 @@
 1722637803 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\shader_functions.cpp
 	"shader_functions.h"
 
-1723250509 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\text_render.cpp
+1723303779 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\text_render.cpp
 	"text_render.h"
 
-1722637803 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\textures.cpp
+1723254846 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\textures.cpp
 	"textures.h"
 	<iostream>
 
-1723252708 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\window_functions.cpp
+1723306765 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\opengl\window_functions.cpp
 	"window_functions.h"
 	<iostream>
 
@@ -6877,4 +6878,288 @@
 
 1722637803 source:c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\source\shapes\terrain.cpp
 	"terrain.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steam_api.h
+	"steam_api_common.h"
+	"isteamclient.h"
+	"isteamuser.h"
+	"isteamfriends.h"
+	"isteamutils.h"
+	"isteammatchmaking.h"
+	"isteamuserstats.h"
+	"isteamapps.h"
+	"isteamnetworking.h"
+	"isteamremotestorage.h"
+	"isteamscreenshots.h"
+	"isteammusic.h"
+	"isteammusicremote.h"
+	"isteamhttp.h"
+	"isteamcontroller.h"
+	"isteamugc.h"
+	"isteamhtmlsurface.h"
+	"isteaminventory.h"
+	"isteamtimeline.h"
+	"isteamvideo.h"
+	"isteamparentalsettings.h"
+	"isteaminput.h"
+	"isteamremoteplay.h"
+	"isteamnetworkingmessages.h"
+	"isteamnetworkingsockets.h"
+	"isteamnetworkingutils.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steam_api_common.h
+	"steamtypes.h"
+	"steamclientpublic.h"
+	"steam_api_internal.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steamtypes.h
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steamclientpublic.h
+	"steamtypes.h"
+	"steamuniverse.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steamuniverse.h
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steam_api_internal.h
+	<string.h>
+	"../../clientdll/steam_api_callback_inspection.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamclient.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamuser.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamfriends.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamutils.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteammatchmaking.h
+	"steam_api_common.h"
+	"matchmakingtypes.h"
+	"isteamfriends.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\matchmakingtypes.h
+	<stdio.h>
+	<string.h>
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamuserstats.h
+	"steam_api_common.h"
+	"isteamremotestorage.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamremotestorage.h
+	"steam_api_common.h"
+
+1718750840 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamapps.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamnetworking.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamscreenshots.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteammusic.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteammusicremote.h
+	"steam_api_common.h"
+	"isteammusic.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamhttp.h
+	"steam_api_common.h"
+	"steamhttpenums.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steamhttpenums.h
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamcontroller.h
+	"steam_api_common.h"
+	"isteaminput.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteaminput.h
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamugc.h
+	"steam_api_common.h"
+	"isteamremotestorage.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamhtmlsurface.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteaminventory.h
+	"steam_api_common.h"
+
+1718729308 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamtimeline.h
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamvideo.h
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamparentalsettings.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamremoteplay.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamnetworkingmessages.h
+	"steamnetworkingtypes.h"
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\steamnetworkingtypes.h
+	<string.h>
+	<stdint.h>
+	"steamtypes.h"
+	"steamclientpublic.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamnetworkingsockets.h
+	"steamnetworkingtypes.h"
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\public\steam\isteamnetworkingutils.h
+	"steamnetworkingtypes.h"
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steam_api.h
+	"steam_api_common.h"
+	"isteamclient.h"
+	"isteamuser.h"
+	"isteamfriends.h"
+	"isteamutils.h"
+	"isteammatchmaking.h"
+	"isteamuserstats.h"
+	"isteamapps.h"
+	"isteamnetworking.h"
+	"isteamremotestorage.h"
+	"isteamscreenshots.h"
+	"isteammusic.h"
+	"isteammusicremote.h"
+	"isteamhttp.h"
+	"isteamcontroller.h"
+	"isteamugc.h"
+	"isteamhtmlsurface.h"
+	"isteaminventory.h"
+	"isteamtimeline.h"
+	"isteamvideo.h"
+	"isteamparentalsettings.h"
+	"isteaminput.h"
+	"isteamremoteplay.h"
+	"isteamnetworkingmessages.h"
+	"isteamnetworkingsockets.h"
+	"isteamnetworkingutils.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steam_api_common.h
+	"steamtypes.h"
+	"steamclientpublic.h"
+	"steam_api_internal.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steamtypes.h
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steamclientpublic.h
+	"steamtypes.h"
+	"steamuniverse.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steamuniverse.h
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steam_api_internal.h
+	<string.h>
+	"../../clientdll/steam_api_callback_inspection.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamclient.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamuser.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamfriends.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamutils.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteammatchmaking.h
+	"steam_api_common.h"
+	"matchmakingtypes.h"
+	"isteamfriends.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\matchmakingtypes.h
+	<stdio.h>
+	<string.h>
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamuserstats.h
+	"steam_api_common.h"
+	"isteamremotestorage.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamremotestorage.h
+	"steam_api_common.h"
+
+1718750840 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamapps.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamnetworking.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamscreenshots.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteammusic.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteammusicremote.h
+	"steam_api_common.h"
+	"isteammusic.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamhttp.h
+	"steam_api_common.h"
+	"steamhttpenums.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steamhttpenums.h
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamcontroller.h
+	"steam_api_common.h"
+	"isteaminput.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteaminput.h
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamugc.h
+	"steam_api_common.h"
+	"isteamremotestorage.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamhtmlsurface.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteaminventory.h
+	"steam_api_common.h"
+
+1718729308 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamtimeline.h
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamvideo.h
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamparentalsettings.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamremoteplay.h
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamnetworkingmessages.h
+	"steamnetworkingtypes.h"
+	"steam_api_common.h"
+
+1718730583 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\steamnetworkingtypes.h
+	<string.h>
+	<stdint.h>
+	"steamtypes.h"
+	"steamclientpublic.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamnetworkingsockets.h
+	"steamnetworkingtypes.h"
+	"steam_api_common.h"
+
+1718727907 c:\users\brand\desktop\programming\opengl programs\codeblocks opengl\quintin-opengl-project\sdk\public\steam\isteamnetworkingutils.h
+	"steamnetworkingtypes.h"
+	"steam_api_common.h"
 
