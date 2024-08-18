@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Mark all files and directories as vendored (ignored)
+* linguist-vendored
+
+# Un-vendor the 'source' directory so its contents are counted
+source/** -linguist-vendored
