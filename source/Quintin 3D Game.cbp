@@ -33,7 +33,6 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O2" />
 					<Add directory="../GLFW/include" />
 				</Compiler>
 				<Linker>
@@ -86,6 +85,8 @@
 		<Unit filename="opengl/textures.h" />
 		<Unit filename="opengl/window_functions.cpp" />
 		<Unit filename="opengl/window_functions.h" />
+		<Unit filename="resources/data/dataCollection.cpp" />
+		<Unit filename="resources/data/dataCollection.h" />
 		<Unit filename="resources/heightmap.png" />
 		<Unit filename="resources/sounds/punch.wav" />
 		<Unit filename="resources/textures/GrassTiles.png" />

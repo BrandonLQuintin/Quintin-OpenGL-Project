@@ -106,28 +106,33 @@ void processMainMenu(GLFWwindow* window, Shader t, int &choice){
         }
 
         else{
-            if (HIGH_RENDER_DISTANCE){
-                VIEW_DISTANCE = 1000.0f;
-                DESPAWN_DISTANCE = 300.0f;
-                FOG_DENSITY = 0.001f;
-            }
-            if (!ENABLE_VSYNC){
-                glfwSwapInterval(0); // uncapped framerate
-            }
-            else
-                glfwSwapInterval(1);
-            ENABLE_TEXT = text;
-            mainMenu = false;
-            if (ENABLE_SOUND)
-                music.play();
-            lastFrame = glfwGetTime();
-
-            cameraPos.x = player[3][0];
-            cameraPos.y = player[3][1];
-            cameraPos.z = player[3][2] + 3.5f;
+            initializeMainMenu();
         }
     }
 
     glfwSwapBuffers(window);
     glfwPollEvents();
+}
+
+
+void initializeMainMenu(){
+    if (HIGH_RENDER_DISTANCE){
+        VIEW_DISTANCE = 1000.0f;
+        DESPAWN_DISTANCE = 300.0f;
+        FOG_DENSITY = 0.001f;
+    }
+    if (!ENABLE_VSYNC){
+        glfwSwapInterval(0); // uncapped framerate
+    }
+    else
+        glfwSwapInterval(1);
+    ENABLE_TEXT = text;
+    mainMenu = false;
+    if (ENABLE_SOUND)
+        music.play();
+    lastFrame = glfwGetTime();
+
+    cameraPos.x = player[3][0];
+    cameraPos.y = player[3][1];
+    cameraPos.z = player[3][2] + 3.5f;
 }

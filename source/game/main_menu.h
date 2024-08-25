@@ -9,3 +9,5 @@
 #include "../opengl/window_functions.h"
 
 void processMainMenu(GLFWwindow* window, Shader t, int &choice);
+
+void initializeMainMenu();

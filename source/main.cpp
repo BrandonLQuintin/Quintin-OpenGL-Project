@@ -38,12 +38,12 @@
 #include "game/gameplay.h"
 #include "shapes/terrain.h"
 #include "game/sound.h"
+#include "resources/data/dataCollection.h"
 
 int main(){
     if (!SteamAPI_Init()) {
         std::cerr << "Steam API initialization failed!" << std::endl;
     }
-
     GLFWwindow* window = createWindow();
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -251,9 +251,21 @@ int main(){
         billboardShader.setFloat("fogDensity", FOG_DENSITY);
     }
 
-    // ----- MAIN PROGRAM -----
+    if (!mainMenu){
+        initializeMainMenu();
+        processMainMenu(window, t, menuChoice);
+        timeSinceLastEnemyWait = glfwGetTime();
+    }
 
+    // ----- MAIN PROGRAM -----
     while (!glfwWindowShouldClose(window)){
+        std::string animationText;
+
+        float currentFrame = glfwGetTime();
+
+        if (ENABLE_DATA_COLLECTION){
+            dataInputChecker(currentFrame);
+        }
 
         while (mainMenu){
             if (glfwJoystickPresent(GLFW_JOYSTICK_2)) {
@@ -271,9 +283,6 @@ int main(){
             else{
                 detectController(0);
         }
-
-        float currentFrame = glfwGetTime();
-        std::string animationText;
         if (gameOver){
             deltaTime = 0.0f;
             handleGameOver(player, enemy, animationText);
@@ -292,7 +301,6 @@ int main(){
             deltaTime = currentFrame - lastFrame;
         }
 
-
         if (SLOW_MO)
             deltaTime /= SLOW_MO_MULTIPLIER;
         lastFrame = currentFrame;
@@ -307,7 +315,6 @@ int main(){
             view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         }
 
-
         billboardShader.use();
         billboardShader.setMat4("view", view);
         billboardShader.setMat4("projection", projection);
@@ -321,6 +328,67 @@ int main(){
         // ----- DRAW PLAYER / ENEMY -----
 
         // ### PLAYER
+
+        // ----- EFFECTS ------
+
+        // NO EFFECTS USED IN ENGINE (ONLY IN GAME)
+
+        // ----- OBJECTS ------
+
+        if (availableToInput && ENABLE_DATA_COLLECTION) beginningObjectRenderingTime = glfwGetTime();
+        // ### BOXES
+        for (int i = 0; i < boxesArraySize; i++){
+            phongShader.use();
+            glBindVertexArray(phongBoxVAO);
+            setTextureUV(phongShader, boxAtlasUV, false);
+            if (i == 1){
+                setTextureUV(phongShader, oceroAtlasUV, false);
+            }
+            phongShader.setMat4("model", boxes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        // ### PYRAMIDS
+        phongShader.use();
+        glBindVertexArray(phongPyramidVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < pyramidsArraySize; i++){
+
+            phongShader.setMat4("model", pyramids[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 18);
+        }
+
+        // ### SPHERES
+        phongShader.use();
+        glBindVertexArray(phongSphereVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < spheresArraySize; i++){
+
+            phongShader.setMat4("model", spheres[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongSphereVerticesArraySize);
+        }
+
+        // ### CONES
+        phongShader.use();
+        glBindVertexArray(phongConeVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < conesArraySize; i++){
+
+            phongShader.setMat4("model", cones[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongConeVerticesArraySize);
+        }
+
+        // ### TUBES
+        phongShader.use();
+        glBindVertexArray(phongCylinderVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < tubesArraySize; i++){
+
+            phongShader.setMat4("model", tubes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
+        }
+
+        // ### BILLBOARDS
         billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
         int orientation = calculateOrientationSpriteIndex(view, glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
@@ -660,6 +728,7 @@ int main(){
         glBindVertexArray(phongBillboardVAO);
         setTextureUV(phongShader, treeAtlasUV, false);
 
+        if (availableToInput && ENABLE_DATA_COLLECTION) beginningTreeCalculationTime = glfwGetTime();
         // uses binary search to insert in correct order instead of sorting every frame
         for (int i = 0; i < trees.size(); i++) { // Adds activeTrees based on distance (before rendering) so transparency occurs correctly.
             glm::vec3 treePosition = glm::vec3(trees[i].modelMatrix[3]);
@@ -679,6 +748,10 @@ int main(){
                 }
             }
         }
+        if (availableToInput && ENABLE_DATA_COLLECTION){
+            endingTreeCalculationTime = glfwGetTime();
+            beginningTreeRenderTime = glfwGetTime();
+        }
         for (int i = 0; i < activeTrees.size(); i++) {
             if (activeTrees[i].distanceFromCamera < 5.0f){
                 phongShader.setBool("isTransparent", true);
@@ -695,8 +768,14 @@ int main(){
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             }
         }
+        if (availableToInput && ENABLE_DATA_COLLECTION) totalTreeCountCollection[currentSecondCounter] = activeTrees.size();
         activeTrees.clear();
         phongShader.setBool("isTree", false);
+
+        if (availableToInput && ENABLE_DATA_COLLECTION){
+            endingTreeRenderTime = glfwGetTime();
+            endingObjectRenderingTime = glfwGetTime();
+        }
 
         glDisable(GL_BLEND);
 
@@ -713,6 +792,8 @@ int main(){
                                 //"player coordinates: [" + std::to_string(player[3][0]) + ", "+ std::to_string(player[3][1]) + ", " + std::to_string(player[3][2]) + "]\\"
                                 //"terrain y coord (below player): " + std::to_string(terrainCoordBelow) +
                                 //+ std::to_string(calculateDistance(glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]))) +
+
+        if (availableToInput && ENABLE_DATA_COLLECTION) beginningTextCalculationTime = glfwGetTime();
         if (SHOW_FPS)
             text += "\\" + std::to_string(fps) + " fps";
                                 //if (IS_RAINING){
@@ -748,9 +829,17 @@ int main(){
         if (FREECAM_CONTROLS_ENABLED){
             text += "\\camera coordinates: [" + std::to_string(cameraPos.x) + ", "+ std::to_string(cameraPos.y) + ", " + std::to_string(cameraPos.z) + "]";
         }
+        if (dataCollected){
+            text += "\\data collected!";
+        }
+        text += "\\" + std::to_string(currentFrame);
+        text += "\\" + std::to_string(currentSecondCounter);
+        if (availableToInput && ENABLE_DATA_COLLECTION) endingTextCalculationTime = glfwGetTime();
 
+        if (availableToInput && ENABLE_DATA_COLLECTION) beginningTextRenderingTime = glfwGetTime();
         renderText(t, text);
         renderText(t, animationText);
+        if (availableToInput && ENABLE_DATA_COLLECTION) endingTextRenderingTime = glfwGetTime();
 
         // ----- HEALTH BAR ----- (code is weird because it uses the text renderer to render both text and health bar)
 
@@ -779,6 +868,35 @@ int main(){
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        // data collection
+        if (availableToInput && ENABLE_DATA_COLLECTION){
+            const float currentTime = glfwGetTime();
+            fpsCollection[currentSecondCounter] = static_cast<int>(1 / (currentTime - lastFrame));
+            averageFpsCollection[currentSecondCounter] = fps;
+            zCoordCollection[currentSecondCounter] = cameraPos.z;
+
+            // CPU + GPU
+            inputMilliseconds(currentFrame, currentTime, totalCalculationTimeCollection);
+            inputMilliseconds(beginningObjectRenderingTime, endingObjectRenderingTime, gpuCalculationTimeCollection);
+
+            // text
+            inputMilliseconds(beginningTextCalculationTime, endingTextCalculationTime, textCalculationTimeCollection);
+            inputMilliseconds(beginningTextRenderingTime, endingTextRenderingTime, textRenderTimeCollection);
+
+            // tree
+            inputMilliseconds(beginningTreeCalculationTime, endingTreeCalculationTime, treeCalculationTimeCollection);
+            inputMilliseconds(beginningTreeRenderTime, endingTreeRenderTime, treeRenderTimeCollection);
+
+
+
+            availableToInput = false;
+        }
+
+        if (ENABLE_DATA_COLLECTION && !dataCollected && currentSecondCounter == totalSeconds - 1){
+            dataCollected = true;
+            createCsv();
+        }
     }
     SteamAPI_Shutdown();
     glfwTerminate();

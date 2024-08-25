@@ -37,6 +37,7 @@ extern bool HIGH_RENDER_DISTANCE;
 extern bool ENABLE_VSYNC;
 extern bool ENABLE_TEXT;
 extern bool ENABLE_SOUND;
+extern bool ENABLE_DATA_COLLECTION;
 extern bool SHOW_FPS;
 extern bool text;
 
@@ -117,3 +118,36 @@ extern float pitch;
 // fps calculation
 extern std::vector<float> fpsVector;
 extern float timeSinceLastFPSCalculation;
+
+// data collection
+const int secondsOffset = 5; // ignore the first few seconds.
+const int totalSeconds = 300 + secondsOffset;
+extern bool dataCollected;
+extern bool availableToInput; // the flag to allow data collection.
+extern int currentSecondCounter;
+extern float fpsCollection[totalSeconds];
+extern float averageFpsCollection[totalSeconds];
+extern float zCoordCollection[totalSeconds];
+extern float totalCalculationTimeCollection[totalSeconds];
+
+extern float gpuCalculationTimeCollection[totalSeconds];
+extern float beginningObjectRenderingTime;
+extern float endingObjectRenderingTime;
+
+extern float textCalculationTimeCollection[totalSeconds];
+extern float textRenderTimeCollection[totalSeconds];
+extern float beginningTextCalculationTime;
+extern float endingTextCalculationTime;
+extern float beginningTextRenderingTime;
+extern float endingTextRenderingTime;
+
+extern float totalTreeCountCollection[totalSeconds];
+extern float treeCalculationTimeCollection[totalSeconds];
+extern float treeRenderTimeCollection[totalSeconds];
+extern float beginningTreeCalculationTime;
+extern float endingTreeCalculationTime;
+extern float beginningTreeRenderTime;
+extern float endingTreeRenderTime;
+
+
+
