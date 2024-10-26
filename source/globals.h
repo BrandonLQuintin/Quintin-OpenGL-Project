@@ -123,7 +123,7 @@ extern float timeSinceLastFPSCalculation;
 
 // data collection
 const int secondsOffset = 5; // ignore the first few seconds.
-const int totalSeconds = 10 + secondsOffset;
+const int totalSeconds = 300 + secondsOffset;
 extern bool dataCollected;
 extern bool availableToInput; // the flag to allow data collection.
 extern int currentSecondCounter;

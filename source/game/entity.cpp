@@ -1,4 +1,5 @@
 #include "entity.h"
+uint32_t globalSeed = static_cast<uint32_t>(std::time(0));
 
 void setShadowLocation(shape &shape, glm::vec3 targetPos, float groundY){
     shape.modelMatrix[3][0] = targetPos.x; // x
@@ -14,11 +15,28 @@ void setShadowLocation(shape &shape, glm::vec3 targetPos, float groundY){
     }
 }
 
+std::array<int, 6> generateRandomForRain() {
+    std::array<int, 6> randomNumbers;
+    uint32_t x = globalSeed;  // Use globalSeed
+    for (int i = 0; i < 6; ++i) {
+        x ^= x << 13;
+        x ^= x >> 17;
+        x ^= x << 5;
+        randomNumbers[i] = x;  // Store the random number directly
+    }
+    globalSeed = x;  // Update the global seed with the last generated value for next usage
+    return randomNumbers;
+}
+
 void setRainLocation(rainEntity &rain){
-    rain.modelMatrix[3][0] = player[3][0] + randomInRange(-30.0f, 30.0f);
-    rain.modelMatrix[3][1] = player[3][1] + 15;
-    rain.speed = randomInRange(10.0f, 15.0f);
-    rain.modelMatrix[3][2] = player[3][2] + randomInRange(-30.0f, 30.0f);
+    std::array<int, 6> randomNumbers = generateRandomForRain();
+    float randomXOffset = -30.0f + (randomNumbers[0] % 61); // Maps to range [-30, 30]
+    float randomZOffset = -30.0f + (randomNumbers[1] % 61); // Maps to range [-30, 30]
+    float randomSpeed = 10.0f + (randomNumbers[2] % 6);      // Maps to range [10, 15]
+    rain.modelMatrix[3][0] = cameraPos.x + randomXOffset;
+    rain.modelMatrix[3][1] = cameraPos.y + 15;
+    rain.modelMatrix[3][2] = cameraPos.z + randomZOffset;
+    rain.speed = randomSpeed;
 }
 
 void initializeRainLocation(rainEntity &rain){
