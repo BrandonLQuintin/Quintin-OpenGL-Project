@@ -82,8 +82,6 @@ std::map<char, std::vector<float>> characterUV = {
 
     // Controller Icons
     {'`', returnTextureUV(0, 8)}, // Left Bumper
-    //{'\x0E', returnTextureUV(1, 8)}, // Right Bumper
-    //{'\x0F', returnTextureUV(2, 8)}, // Options
     {'~', returnTextureUV(3, 8)}, // Start
 };
 
@@ -96,7 +94,7 @@ std::map<int, std::string> textOptions = {
 };
 
 
-void renderText(Shader shader, std::string input){ // calling this function a lot hurts performance usually by 30% of the fps
+void renderText(Shader shader, std::string input){
         if (!ENABLE_TEXT)
             return;
         glDisable(GL_DEPTH_TEST);
@@ -114,21 +112,12 @@ void renderText(Shader shader, std::string input){ // calling this function a lo
                 textXOffset = 0.023f;
                 textYOffset -= 0.1f;
             }
-            // render text shadow first
-            if (c != '\\'){
-                shader.setBool("invertColor", true);
-                shader.setFloat("textXOffset", textXOffset + 0.003f);
-                shader.setFloat("textYOffset", textYOffset - 0.003f);
-                setTextureUV(shader, characterUV[c], true);
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            }
-            // then render actual text
+            // render actual text
             if (c == '\\'){
                 textXOffset = 0.0f;
                 textYOffset -= 0.1f;
             }
             if (c != '\\'){
-                shader.setBool("invertColor", false);
                 shader.setFloat("textXOffset", textXOffset);
                 shader.setFloat("textYOffset", textYOffset);
                 setTextureUV(shader, characterUV[c], true);

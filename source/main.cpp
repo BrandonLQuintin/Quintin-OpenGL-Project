@@ -33,6 +33,7 @@
 #include "opengl/textures.h"
 #include "opengl/text_render.h"
 #include "game/entity.h"
+#include "game/trees.h"
 #include "game/calculate_fps.h"
 #include "game/main_menu.h"
 #include "game/gameplay.h"
@@ -172,28 +173,7 @@ int main(){
     shape terrains[1];
     int terrainsArraySize = sizeof(terrains) / sizeof(terrains[0]);
 
-    // 100 trees
-    tree treesArray[5000];
-    std::vector<tree> trees(std::begin(treesArray), std::end(treesArray));
-    std::vector<tree> activeTrees;
 
-
-    const float HALF_CHUNK_SIZE = CHUNK_SIZE / 2;
-    for (int i = 0; i < trees.size(); i++){
-        trees[i].modelMatrix[3][0] = cameraPos.x + randomInRange(-HALF_CHUNK_SIZE, HALF_CHUNK_SIZE);
-        trees[i].modelMatrix[3][2] = cameraPos.z + randomInRange(-HALF_CHUNK_SIZE, HALF_CHUNK_SIZE);
-        trees[i].modelMatrix[3][1] = getHeight(trees[i].modelMatrix[3][0], trees[i].modelMatrix[3][2]) + 2.3f;
-        trees[i].modelMatrix = glm::scale(trees[i].modelMatrix, glm::vec3(5.0f));
-    }
-    for (int i = 0; i < trees.size(); i++){
-        trees[i].cloneModelMatrix = trees[i].modelMatrix;
-    }
-    for (int i = 0; i < trees.size(); i++){
-        trees[i].cloneModelMatrix = glm::rotate(trees[i].cloneModelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        trees[i].cloneModelMatrix[3][0] = trees[i].modelMatrix[3][0] + 0.55f;
-        trees[i].cloneModelMatrix[3][1] = trees[i].modelMatrix[3][1];
-        trees[i].cloneModelMatrix[3][2] = trees[i].modelMatrix[3][2] + 0.55f;
-    }
 
     // 2 boxes
     shape boxes[2];
@@ -259,14 +239,6 @@ int main(){
 
     // ----- MAIN PROGRAM -----
     while (!glfwWindowShouldClose(window)){
-        std::string animationText;
-
-        float currentFrame = glfwGetTime();
-
-        if (ENABLE_DATA_COLLECTION){
-            dataInputChecker(currentFrame);
-        }
-
         while (mainMenu){
             if (glfwJoystickPresent(GLFW_JOYSTICK_2)) {
                 detectController(1);
@@ -283,6 +255,17 @@ int main(){
             else{
                 detectController(0);
         }
+
+        std::string animationText;
+
+        float currentFrame = glfwGetTime();
+
+        if (ENABLE_DATA_COLLECTION){
+            dataInputChecker(currentFrame);
+        }
+
+        deltaTime = currentFrame - lastFrame;
+
         if (gameOver){
             deltaTime = 0.0f;
             handleGameOver(player, enemy, animationText);
@@ -293,17 +276,13 @@ int main(){
         }
         else if (animationModeActivate){  // animation mode! (executes when health is less than -300 or greater than 300)
             animationDeltaTime = currentFrame - lastFrame;
-            deltaTime = currentFrame - lastFrame;
             deltaTime /= 3.0f;
             handleAnimationMode(animationText);
         }
-        else{
-            deltaTime = currentFrame - lastFrame;
-        }
-
+        lastFrame = currentFrame;
         if (SLOW_MO)
             deltaTime /= SLOW_MO_MULTIPLIER;
-        lastFrame = currentFrame;
+
         processInput(window);
 
         glClearColor(0.792f, 0.957f, 1.00f, 1.0f);
@@ -327,68 +306,8 @@ int main(){
 
         // ----- DRAW PLAYER / ENEMY -----
 
-        // ### PLAYER
-
-        // ----- EFFECTS ------
-
-        // NO EFFECTS USED IN ENGINE (ONLY IN GAME)
-
-        // ----- OBJECTS ------
-
         if (availableToInput && ENABLE_DATA_COLLECTION) beginningObjectRenderingTime = glfwGetTime();
-        // ### BOXES
-        for (int i = 0; i < boxesArraySize; i++){
-            phongShader.use();
-            glBindVertexArray(phongBoxVAO);
-            setTextureUV(phongShader, boxAtlasUV, false);
-            if (i == 1){
-                setTextureUV(phongShader, oceroAtlasUV, false);
-            }
-            phongShader.setMat4("model", boxes[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-
-        // ### PYRAMIDS
-        phongShader.use();
-        glBindVertexArray(phongPyramidVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < pyramidsArraySize; i++){
-
-            phongShader.setMat4("model", pyramids[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLES, 0, 18);
-        }
-
-        // ### SPHERES
-        phongShader.use();
-        glBindVertexArray(phongSphereVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < spheresArraySize; i++){
-
-            phongShader.setMat4("model", spheres[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongSphereVerticesArraySize);
-        }
-
-        // ### CONES
-        phongShader.use();
-        glBindVertexArray(phongConeVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < conesArraySize; i++){
-
-            phongShader.setMat4("model", cones[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongConeVerticesArraySize);
-        }
-
-        // ### TUBES
-        phongShader.use();
-        glBindVertexArray(phongCylinderVAO);
-        setTextureUV(phongShader, boxAtlasUV, false);
-        for (int i = 0; i < tubesArraySize; i++){
-
-            phongShader.setMat4("model", tubes[i].modelMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
-        }
-
-        // ### BILLBOARDS
+        // ### PLAYER
         billboardShader.use();
         glBindVertexArray(phongBillboardVAO);
         int orientation = calculateOrientationSpriteIndex(view, glm::vec3(player[3][0], player[3][1], player[3][2]), glm::vec3(enemy[3][0], enemy[3][1], enemy[3][2]));
@@ -684,6 +603,57 @@ int main(){
 
 
         // ----- OBJECTS ------
+        // ### BOXES
+        for (int i = 0; i < boxesArraySize; i++){
+            phongShader.use();
+            glBindVertexArray(phongBoxVAO);
+            setTextureUV(phongShader, boxAtlasUV, false);
+            if (i == 1){
+                setTextureUV(phongShader, oceroAtlasUV, false);
+            }
+            phongShader.setMat4("model", boxes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        // ### PYRAMIDS
+        phongShader.use();
+        glBindVertexArray(phongPyramidVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < pyramidsArraySize; i++){
+
+            phongShader.setMat4("model", pyramids[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLES, 0, 18);
+        }
+
+        // ### SPHERES
+        phongShader.use();
+        glBindVertexArray(phongSphereVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < spheresArraySize; i++){
+
+            phongShader.setMat4("model", spheres[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongSphereVerticesArraySize);
+        }
+
+        // ### CONES
+        phongShader.use();
+        glBindVertexArray(phongConeVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < conesArraySize; i++){
+
+            phongShader.setMat4("model", cones[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongConeVerticesArraySize);
+        }
+
+        // ### TUBES
+        phongShader.use();
+        glBindVertexArray(phongCylinderVAO);
+        setTextureUV(phongShader, boxAtlasUV, false);
+        for (int i = 0; i < tubesArraySize; i++){
+
+            phongShader.setMat4("model", tubes[i].modelMatrix);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, phongCylinderVerticesArraySize);
+        }
 
         // ### TERRAIN
         for (int i = 0; i < terrainsArraySize; i++){
@@ -729,25 +699,31 @@ int main(){
         setTextureUV(phongShader, treeAtlasUV, false);
 
         if (availableToInput && ENABLE_DATA_COLLECTION) beginningTreeCalculationTime = glfwGetTime();
-        // uses binary search to insert in correct order instead of sorting every frame
-        for (int i = 0; i < trees.size(); i++) { // Adds activeTrees based on distance (before rendering) so transparency occurs correctly.
-            glm::vec3 treePosition = glm::vec3(trees[i].modelMatrix[3]);
-            trees[i].distanceFromCamera = renderDistanceCheck(cameraPos, treePosition);
+        // return list of chunks to render 3x3 chunks.
+        std::array<std::pair<int, int>, 9> renderingChunks;
+        std::pair<int, int> origin = getChunkCoordinates(cameraPos.x, cameraPos.z); // origin x & y chunk
+        generateSurroundingChunks(renderingChunks, origin);
+        initializeTreeLocations(renderingChunks);
 
-            if (trees[i].distanceFromCamera < DESPAWN_DISTANCE) {
-                bool inserted = false;
-                for (std::vector<tree>::iterator it = activeTrees.begin(); it != activeTrees.end(); ++it) {
-                    if (trees[i].distanceFromCamera > it->distanceFromCamera) {
-                        activeTrees.insert(it, trees[i]);
-                        inserted = true;
-                        break;
+        for (int x = 0; x < 9; x++){
+            for (int i = 0; i < TREE_AMOUNT; i++) { // Adds activeTrees based on distance (before rendering) so transparency occurs correctly.
+                trees[x][i].distanceFromCamera = renderDistanceCheck(cameraPos, trees[x][i].modelMatrix[3]);
+                if (trees[x][i].distanceFromCamera < DESPAWN_DISTANCE) {
+                    bool inserted = false;
+                    for (std::vector<tree>::iterator it = activeTrees.begin(); it != activeTrees.end(); ++it) {
+                        if (trees[x][i].distanceFromCamera > it->distanceFromCamera) {
+                            activeTrees.insert(it, trees[x][i]);
+                            inserted = true;
+                            break;
+                        }
                     }
-                }
-                if (!inserted) {
-                    activeTrees.push_back(trees[i]);
+                    if (!inserted) {
+                        activeTrees.push_back(trees[x][i]);
+                    }
                 }
             }
         }
+
         if (availableToInput && ENABLE_DATA_COLLECTION){
             endingTreeCalculationTime = glfwGetTime();
             beginningTreeRenderTime = glfwGetTime();
@@ -768,6 +744,7 @@ int main(){
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             }
         }
+
         if (availableToInput && ENABLE_DATA_COLLECTION) totalTreeCountCollection[currentSecondCounter] = activeTrees.size();
         activeTrees.clear();
         phongShader.setBool("isTree", false);

@@ -15,5 +15,5 @@ void main()
 
     gl_Position = textPosition;
 
-    TexCoord = vec2(aTexCoord.x, aTexCoord.y);
+    TexCoord = aTexCoord;
 }

@@ -69,6 +69,8 @@
 		<Unit filename="game/main_menu.h" />
 		<Unit filename="game/sound.cpp" />
 		<Unit filename="game/sound.h" />
+		<Unit filename="game/trees.cpp" />
+		<Unit filename="game/trees.h" />
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>

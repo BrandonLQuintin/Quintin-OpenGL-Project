@@ -44,6 +44,8 @@ extern bool text;
 const float PI = 3.14159265358979323846f;
 const unsigned int POLY_RESOLUTION = 35;
 const unsigned int CHUNK_SIZE = 1000;
+const unsigned int SMALL_CHUNK_SIZE = 50;
+const unsigned int TREE_AMOUNT = 8; // per chunk
 extern float VIEW_DISTANCE;
 extern float DESPAWN_DISTANCE;
 extern float FOG_DENSITY;
@@ -121,7 +123,7 @@ extern float timeSinceLastFPSCalculation;
 
 // data collection
 const int secondsOffset = 5; // ignore the first few seconds.
-const int totalSeconds = 300 + secondsOffset;
+const int totalSeconds = 10 + secondsOffset;
 extern bool dataCollected;
 extern bool availableToInput; // the flag to allow data collection.
 extern int currentSecondCounter;
