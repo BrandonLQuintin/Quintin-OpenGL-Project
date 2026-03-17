@@ -10,24 +10,15 @@
 3. The total file size of the game is 25.5 MB, but without .wav music files, the game is 7.54 MB.
 4. 4,051 lines of code was written to make this game (as of release version 1.3.1).
 
-# Quintin-Professional-Programming-Project
+# Build & Run (Code::Blocks IDE)
 
-Runs in the Code::Blocks IDE (MingW 64 bit compiler) and on Windows:
-1. Go to your cloned reposity folder
-2. Go to "source" folder -> then open "Quintin 3D Game.cbp"
+1. Open `source/Quintin 3D Game.cbp` in Code::Blocks
+2. Build and run
 
-If running the code errors out, try this:
-1. Go to file explorer and type %appdata%
-2. Go to Roaming -> CodeBlocks
-3. Copy default.conf (from the cloned repository) and put it into that CodeBlocks folder
-
-## Credits
-With terrain generation and collision, I followed ThinMatrix's youtube tutorials for OpenGL (tutorial 14, 21, and 22)
+# Credits
+Terrain generation and collision followed ThinMatrix's OpenGL tutorials (14, 21, 22):
 - https://www.youtube.com/watch?v=yNYwZMmgTJk&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=14
 - https://www.youtube.com/watch?v=O9v6olrHPwI&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=21
 - https://www.youtube.com/watch?v=6E2zjfzMs7c&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=22
 
-This project uses code and concepts (especially in the initial commit, and also in the Phong Lighting implementation) from the [LearnOpenGL](https://learnopengl.com) website.
-- LearnOpenGL. Joey de Vries. Available at: learnopengl.com Copyright © Joey de Vries. Licensed under CC BY-NC-SA 4.0.
-- https://twitter.com/JoeyDeVriez
-- All OpenGL code have modifications from the origional tutorials, except for the shader class <shader_m.h>.
+OpenGL code and concepts from [LearnOpenGL](https://learnopengl.com) by Joey de Vries (CC BY-NC-SA 4.0).
