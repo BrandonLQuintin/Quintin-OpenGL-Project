@@ -2,3 +2,10 @@
 *.o
 *.depend
 *.csv
+sdk/
+source/resources/sounds/
+source/resources/music/
+*.wav
+*.mp3
+*.ogg
+*.flac
